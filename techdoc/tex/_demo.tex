@@ -1,0 +1,120 @@
+
+
+\begin{center}
+
+\begin{figure}[th]
+    \centering
+		%\includegraphics[width=10cm]{logo.jpg}
+	\label{fig:logo}
+\end{figure}
+
+\vspace{2cm}
+
+% There might be better solutions for the title page, giving all distances and sizes manually was simply the easiest solution
+
+{\Huge\bf\sf Template for a }
+
+\vspace{.5cm}
+
+{\Huge\bf\sf Technical Report}
+
+\vspace{.5cm}
+
+{\Huge\bf\sf to use with TeXnicCenter}
+
+\vspace{2cm}
+
+{\Large\bf\sf C. B{\"o}rensen}%as this is an english text I didn't load the german package, this would ease the use of special characters
+\vspace{2cm}
+
+{\Large\bf\sf \today} %adds the current date
+
+\vspace{\fill}
+
+cboerens@gmx.de
+
+\end{center}
+\newpage
+
+%%The following loads the picture on top of every page, the numbers in \put() define the position on the page:
+%\AddToShipoutPicture{\setlength\unitlength{0.1mm}\put(604,2522){\includegraphics[width=1.5cm]{logo.jpg}}}
+
+\pagestyle{cb} % now we want to have headers and footers
+
+\tableofcontents
+
+\newpage
+
+\section{Introduction}
+
+Mineral aerosol represents one of the largest mass fractions of the global aerosol. It consists of windblown soil and is produced mainly in the arid areas of our planet, in particular in the great deserts. Its annual production rate is estimated to be in the order of 200 to 5000 Tg. The smaller size fraction (< 20 $mu$m) may be transported over long distances  of up to 5000 km. Mineral aerosol has been considered a nonreactive, hydrophobic surface . Nevertheless, its impact on the atmospheric radiation budget and on the concentration of cloud condensation nuclei (CCN) have been discussed. Recently, its possible role as a surface for heterogeneous reactions has been taken into account. 
+\subsection{Modeling}
+For example, in a recent modeling study Dentener et. al.  calculated that in large areas more than 40\% of the total atmospheric nitrate is associated with mineral aerosol. However, their results still suffer from large uncertainties in the heterogeneous reaction rates. There is also evidence from field measurements for a correlation of the aerosol nitrate content and the aerosol mineral fraction. A correlation between the nitrate mass size distribution and the mineral aerosol distribution has also been reported . 
+\subsection{Composition}
+Mineral aerosol has a complex chemical and mineralogical composition  in which aluminum in the chemical form of alumosilicates contributes 8 \% by mass. For the present investigation alumina has been chosen as model substance. It has a defined chemical composition and mainly because of its relevance as supporting material for catalysts its surface features have been investigated by infrared spectroscopy, and ab initio calculations. Also, the heterogeneous reactions of CFC's with alumina produced by solid-fuel rocket engines have been discussed with regard to stratospheric ozone depletion .
+
+
+\section{Experimental}
+
+Vibrational spectra were recorded in the spectral range from 4000 to 600 cm?1 with a Bruker Equinox 55 FTIR Spectrometer equipped with an MCT detector and diffuse reflectance infrared Fourier transform spectroscopy optics (model DRA-2CO, Harrick Scientific Corp.). The vacuum chamber (model HVC-DR3, Harrick Scientific Corp.) was connected to a standard flow system (Figure 1). Spectra were recorded at a resolution of 4 cm$^{-1}$. 100 scans were averaged for each spectrum resulting in a time resolution of one minute. In order to improve the time resolution for experiments with high NO$_2$ concentrations during the initial phase only 50 scans were averaged.
+
+
+%\begin{landscape} %in case a table becomes to big this rotates it, uncheck also \end{landscape} and lscape package in the preferences
+	\begin{table}
+		\caption[Substrate matrix 1]{\rule[-2mm]{0mm}{0mm}{Physical properties of the tested substrate samples}}
+		\begin{tabular}{@{}*{8}l@{}} \toprule \addlinespace[0.1em]
+
+      No.  &  Supplier  &  Material  &    Sample  &    Length  &  Identifier  &      Mass  &       Mass \\
+
+           &            &            &            &       /cm  &              &      Mass  & /g$^{a)}$ \\
+
+\cmidrule{1-8} % &            &            &            &            &            &            &            \\
+
+         1 &        SST &     Galaxy &  warp unit &         15 &   \color{red}ncc1701e &     1927.6 &     1920.2 \\
+
+         2 &        SST & Constellat. &  warp unit &       14.9 &   11016910 &    ---     &    ---     \\
+
+         3 &        SST &  Prototype &        ops &         15 &  302/09     &    107.766 &    107.771 \\
+
+         4 &    KEmpire &        BoP &  warp unit &       15.1 &     c836f5 &    129.711 &    129.711 \\
+
+         5 &    KEmpire &        BoP &        ops &       15.3 &     c836f6 &     131.65 &    139.656 \\
+
+         6 &    KEmpire &  AC Mullite   &    core    &        3.2 &     c836f7 &      9.896 &      9.889 \\
+
+         7 &    REmpire &  Proptotye &       body &      ---   &   \color{blue}DHC 1703 &    ---     &    ---     \\
+
+         8 &    REmpire &  Proptotye &       body & {\it 15.2} &   DHC 1704 &    ---     &    ---     \\
+
+		\bottomrule
+		\multicolumn{8}{l}{{\footnotesize$^{a)}$After heat test at 2000°K for 5~h}}\\		
+	\end{tabular}
+	\label{tab:matrix_1}
+	\end{table}
+%\end{landscape}
+
+
+\section{Results}
+
+The results for the loss of weight are listed in table~\ref{tab:matrix_1} and in figure~\ref{fig:particle_size}.
+
+Mineral aerosol represents one of the largest mass fractions of the global aerosol. It consists of windblown soil and is produced mainly in the arid areas of our planet, in particular in the great deserts. Its annual production rate is estimated to be in the order of 200 to 5000 Tg. The smaller size fraction (< 20 $mu$m) may be transported over long distances  of up to 5000 km. Mineral aerosol has been considered a nonreactive, hydrophobic surface . Nevertheless, its impact on the atmospheric radiation budget and on the concentration of cloud condensation nuclei (CCN) have been discussed. Recently, its possible role as a surface for heterogeneous reactions has been taken into account. 
+
+\begin{figure}
+	\begin{center}
+		\includegraphics[width=13cm]{particle_size.pdf}
+	\end{center}
+	\caption{Particle size distribution for three different sources.}
+	\label{fig:particle_size}
+\end{figure}
+
+\subsection{Modeling Copy2}
+For example, in a recent modeling study Dentener et. al.  calculated that in large areas more than 40\% of the total atmospheric nitrate is associated with mineral aerosol. However, their results still suffer from large uncertainties in the heterogeneous reaction rates. There is also evidence from field measurements for a correlation of the aerosol nitrate content and the aerosol mineral fraction. A correlation between the nitrate mass size distribution and the mineral aerosol distribution has also been reported . 
+\subsubsection{Composition Copy2}
+Mineral aerosol has a complex chemical and mineralogical composition  in which aluminum in the chemical form of alumosilicates contributes 8 \% by mass. For the present investigation alumina has been chosen as model substance. It has a defined chemical composition and mainly because of its relevance as supporting material for catalysts its surface features have been investigated by infrared spectroscopy, and ab initio calculations. Also, the heterogeneous reactions of CFC's with alumina produced by solid-fuel rocket engines have been discussed with regard to stratospheric ozone depletion .
+
+Mineral aerosol represents one of the largest mass fractions of the global aerosol. It consists of windblown soil and is produced mainly in the arid areas of our planet, in particular in the great deserts. Its annual production rate is estimated to be in the order of 200 to 5000 Tg , , . The smaller size fraction (< 20 $mu$m) may be transported over long distances  of up to 5000 km. Mineral aerosol has been considered a nonreactive, hydrophobic surface . Nevertheless, its impact on the atmospheric radiation budget and on the concentration of cloud condensation nuclei (CCN) have been discussed. Recently, its possible role as a surface for heterogeneous reactions has been taken into account. 
+\subsection{Modeling Copy3}
+For example, in a recent modeling study Dentener et. al.  calculated that in large areas more than 40\% of the total atmospheric nitrate is associated with mineral aerosol. However, their results still suffer from large uncertainties in the heterogeneous reaction rates. There is also evidence from field measurements for a correlation of the aerosol nitrate content and the aerosol mineral fraction. A correlation between the nitrate mass size distribution and the mineral aerosol distribution has also been reported. 
+\subsubsection{Composition Cpoy3}
+Mineral aerosol has a complex chemical and mineralogical composition  in which aluminum in the chemical form of alumosilicates contributes 8 \% by mass. For the present investigation alumina has been chosen as model substance. It has a defined chemical composition and mainly because of its relevance as supporting material for catalysts its surface features have been investigated by infrared spectroscopy, and ab initio calculations. Also, the heterogeneous reactions of CFC's with alumina produced by solid-fuel rocket engines have been discussed with regard to stratospheric ozone depletion.
