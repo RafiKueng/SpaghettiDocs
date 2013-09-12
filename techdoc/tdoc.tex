@@ -122,21 +122,33 @@
 
 \pagestyle{plain} % on headers or footers on the first page
 \begin{document}
-\input{tex/title}
+\input{tex/0_title}
 
 \pagestyle{cb} % now we want to have headers and footers
 
 \tableofcontents
 \newpage
 
-\input{tex/intro}
+\input{tex/1_intro}
+\newpage
+\input{tex/2_setup}
+\newpage
+\input{tex/3_com}
+\newpage
+\input{tex/4_deploy}
+\newpage
+\input{tex/5_concl}
+\newpage
 
-\begin{listing}
-  \centering
-  \input{code/test3.js}
-  \label{lst:list1}
-  \caption{some caption}
-\end{listing}
+
+%\begin{listing}
+  %\centering
+  %\input{code/test3.js}
+  %\label{lst:list1}
+  %\caption{some caption}
+%\end{listing}
+%
+%\code{test3.js}{This is test 3 . js}
 
 %\input{tex/_demo}
 
