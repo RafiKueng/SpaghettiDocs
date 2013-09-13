@@ -45,9 +45,6 @@
 %\usepackage{everyshi} % these two are required to add the little picture on top of every page
 \renewcommand{\floatpagefraction}{0.7} %default:0.5 allows two big pictures on one page
 
-%********** Enybeling Hyperlinks *******
-%\usepackage[pdfborder=0,pdftex=true]{hyperref}% this enables jumping from a reference and table of content in the pdf file to its target
-\usepackage{hyperref}% this enables jumping from a reference and table of content in the pdf file to its target
 
 % ********* Table layout **************
 %\usepackage{booktabs}	  	%design of table, has an excellent documentation
@@ -107,13 +104,15 @@
 \usepackage{fancyvrb} % for the listings
 
 
+\usepackage[pdftex]{hyperref} %import last!
+
 % my macros
 \input{macros}
 
 \input{code/__style.tex}
 
 
-\newfloat{listing}{tbhp}{lst}%[section]
+\newfloat{listing}{tbhp}{lst}[section]
 \floatname{listing}{Listing}
 \newcommand{\listoflistings}{\listof{listing}{List of Listings}}
 
@@ -121,7 +120,9 @@
 %################ End Preferences, Begin Document #####################
 
 \pagestyle{plain} % on headers or footers on the first page
+
 \begin{document}
+
 \input{tex/0_title}
 
 \pagestyle{cb} % now we want to have headers and footers
