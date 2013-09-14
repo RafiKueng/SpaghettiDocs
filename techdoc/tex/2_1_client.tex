@@ -1,6 +1,15 @@
 \subsection{Client}
 \label{sec:client}
 
+\subsubsection{Overview}
+\label{sec:client_overview}
+
+
+\subsubsection{Techniques}
+\label{sec:client_techniques}
+
+
+
 In webapp programming, is basically an interactive webpage, that communicates with other components.
 
 To accive that, you need 3 technologies: html, css and javascript. This is a unique standart.
@@ -12,7 +21,10 @@ CSS defines the visuals, optics. how those elements defined by HTML are displaye
 Javascript (js) is the programming language, that runs on the client computer and thus defines the behaviour. It describes, how the elemnts interact with each other.
 
 
-\spl was designed to do as much computation as possible on the client side. This removes the load on the application server, network traffic and leads to a more natural feeling. The app responds instantaniouly to user inputs (instead of having to wait for a server response). Drawback: you have less control over data (saving snapshots) since browser are usually encapsulated from the rest of the computer, difficult to save status / data client side.
+\spl was designed to do as much computation as possible on the client side.
+This removes the load on the application server, network traffic and leads to a more natural feeling.
+The app responds instantaniouly to user inputs (instead of having to wait for a server response).
+Drawback: you have less control over data (saving snapshots) since browser are usually encapsulated from the rest of the computer, difficult to save status / data client side.
 
 
 An interactive webpage / user interface needs javascript for document object model (DOM, the tree of html attributes describing the structre of the webpage) manupulation.
@@ -58,9 +70,51 @@ Since our expected user base will origin from galaxzoo and \sw, and those sites 
 
 
 
+\subsubsection{Visual Layout}
+\label{sec:client_vis_layout}
+
+The User Interface was designed to be as simple as possible.
+It should hide away all settings that are not needed by default.
+To be self explanatory is almost impossible given the problem.
+Users will need to see a tutorial anyways.
+
+The basic degin idea was to provide a visual feedback and easy comparison between the input modelling parameter and the resulting output model.
+This is accived by putting the input area and output area side by side.
+All the functions that the user needs to manupulate the input are arranged on top of it, everything manipulating the output above the output window.
+A few general commands are arranged in a top bar.
+
+To assist the user, two systems are present: A exhaustive mouse over hoover tooltip help that pops up any relevant information for an tool / button under the cursor.
+This provides a short description of the action, and possibly a link to athe tutorial page.
+
+Additionally, there is a help bar at the bottom. This can be hidden from the toolbar.
+It also provides information about objects in the input area.
+mouse over tooltips would not function in the input area well, obstructing the users view over the model, hence this two folded helping system.
+
+For clients with a small screen, like mobile devices and possibly tables, the layout changes to only display the input or the output. The user can slide between those to sides using a slider.\footnote{Note that mobiles weren't tested and are not officially supported yet.}
 
 
-The visual design:
+\subsubsection{Programm Layout}
+\label{sec:client_prog_layout}
+
+The client side application was programmed with a strict object oriented and event driven perspective.
+Instead of a regular program that has a main loop, that runs infinitly and where subfunctions are called, a event driven program is at halt when idle, and reacts to event that can be fired by any source (example: a key press triggers a function, instead of looping infintely and checking if any key was pressed.)
+This is a very simplified abstractaion\footnote{and technically not entierly true, there is an main loop that checks if events happend and then a dispacher calls the registered function.} but describes the situation of running javascript in a browser quite well.
+
+Everything is a object. The toolbar, the model, a dialog screen.
+All objects can fire events and react to events and thus change their internal state, and/or fire a subsequent event.
+There are unique objects (like toolbar, input area) and instances of prototype objects\footnote{in other programming languages prototype objects are called classes}. There can be more than one instance of a prototype object (for example Extremal Points, Point masses...)
+
+The program is always in a certain state, defined throu the attributes of all the objects. In \spl, the state consists of the state of the model, and the state of the ui.
+
+The main part of \spl is the object lmt.events. This object registers at startup, which objects react with witch object function on what events and thus, this object defines all events possible (except a few standard events).
+
+There are basically three groups of objects that interact with each other: The user interface objects (LMT.ui, split in LMT.ui.svg, LMT.ui.out, LMT.ui.html), the comunications object (LMT.com) and the current model (LMT.model, instance of LMT.objects.model)
+
+A model consists of an array of sources, an array of external masses (instances of LMT.objects.ExternalMass) and an parameter object. Each source is represented by an tree structure of instances of extremalpoints (LMT.objects.ExtremalPoint)
+
+Additionally, there is an action stack (LMT.actionstack), LMT.datasource, LMT.datasources
+
+and some objects that only store common data / functions that needs to be accessed by multiple objects (LMT.modelData, LMT.settings, LMT.simulationResult, LMT.utils)
 
 
 
