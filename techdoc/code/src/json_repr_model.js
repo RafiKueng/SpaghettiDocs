@@ -1,0 +1,125 @@
+{
+  "__type":"model",
+  "NrOf": {
+    "__type":"counters",
+    "Sources":1,
+    "ExtremalPoints":3,
+    "Contours":2,
+    "ContourPoints":6
+  },
+  "Sources":[
+    {
+      "__type":"extpnt",
+      "idnr":0,
+      "x":471.067138671875,
+      "y":106.75992584228516,
+      "depth":0,
+      "isRoot":true,
+      "isExpanded":true,
+      "childrenInsideEachOther":true,
+      "type":"sad",
+      "wasType":"min",
+      "child1": {
+        "__type":"extpnt",
+        "idnr":1,
+        "x":454.8955993652344,
+        "y":119.63117218017578,
+        "depth":1,
+        "isRoot":false,
+        "isExpanded":false,
+        "childrenInsideEachOther":false,
+        "type":"max",
+        "wasType":"",
+        "child1":null,
+        "child2":null,
+        "contour": {
+          "__type":"contour",
+          "idnr":0,
+          "cpoints": [
+            {
+              "__type":"cpnt",
+              "idnr":0,
+              "r_fac":0.625,
+              "d_phi":1.5708
+            },
+            {
+              "__type":"cpnt",
+              "idnr":1,
+              "r_fac":0.5,
+              "d_phi":3.1416
+            },
+            {
+              "__type":"cpnt",
+              "idnr":2,
+              "r_fac":0.625,
+              "d_phi":4.7124
+            }
+          ]
+        }
+      },
+      "child2": {
+        "__type":"extpnt",
+        "idnr":2,
+        "x":436,
+        "y":129,
+        "depth":1,
+        "isRoot":false,
+        "isExpanded":false,
+        "childrenInsideEachOther":false,
+        "type":"min",
+        "wasType":"",
+        "child1":null,
+        "child2":null,
+        "contour": {
+          "__type":"contour",
+          "idnr":1,
+          "cpoints": [
+            {
+              "__type":"cpnt",
+              "idnr":3,
+              "r_fac":0.625,
+              "d_phi":1.5708
+            },
+            {
+              "__type":"cpnt",
+              "idnr":4,
+              "r_fac":0.5,
+              "d_phi":3.1416
+            },
+            {
+              
+              "__type":"cpnt",
+              "idnr":5,
+              "r_fac":0.625,
+              "d_phi":4.7124
+            }
+          ]
+        }
+      },
+      "contour":null
+    }
+  ],
+  "ExternalMasses": [
+    {
+      "__type":"ext_mass",
+      "idnr":0,
+      "x":438.39398193359375,
+      "y":100.15928649902344,
+      "r":10.193652239351335,
+      "phi":1.0636984039662916
+    }
+  ],
+  "Rulers":[],
+  "MinMmaxSwitchAngle":1.0471975511965976,
+  "Parameters": {
+    "pixrad":8,
+    "n_models":200,
+    "isSym":true,
+    "z_src":1,
+    "z_lens":0.5,
+    "orgPxScale":0.187,
+    "orgImgSize":440,
+    "svgViewportSize":500,
+    "pxScale":0.16456
+  }
+}
