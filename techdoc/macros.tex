@@ -60,32 +60,37 @@
 
 % class / object name
 \newcommand{\C}[1]{%
-{\ttfamily #1}%
+\path{#1}%
 }
 %method
 \newcommand{\M}[1]{%
-{\ttfamily #1}%
+\path{#1}%
 }
 % function
 \newcommand{\F}[1]{%
-{\ttfamily #1}%
+\path{#1}%
 }
 % some other code
 \newcommand{\T}[1]{%
-{\ttfamily #1}%
+\path{#1}%
 }
 % strings
 \newcommand{\str}[1]{%
 {\ttfamily "#1"}%
 }
+% events
+\newcommand{\evt}[2][]{%
+\path{#1}%
+}
+
 
 
 % code names
-\newcommand{\lmt}[1]{\C{LMT.}\xspace}
-\newcommand{\lmto}[1]{\C{LMT.objects.}\xspace}
+\newcommand{\lmt}[1]{\C{LMT.#1}\xspace}
+\newcommand{\lmto}[1]{\C{LMT.objects.#1}\xspace}
 
 
-
+\DeclareUrlCommand\path{\urlstyle{tt}}
 
 %%% STANDART LAENGENANGABEN %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newlength{\figwidth}

@@ -14,11 +14,13 @@ In webapp programming, is basically an interactive webpage, that communicates wi
 
 To accive that, you need 3 technologies: html, css and javascript. This is a unique standart.
 
-HTML describes the logical structre and layout of your webpage, the userinterface. That elements are on the page.
+HTML describes the logical structre and data of your webpage, the userinterface. That elements are on the page.
 
 CSS defines the visuals, optics. how those elements defined by HTML are displayed. How those elements on the page look like
 
-Javascript (js) is the programming language, that runs on the client computer and thus defines the behaviour. It describes, how the elemnts interact with each other.
+Javascript (js) is the programming language, that runs on the client computer and thus defines the behavior. It describes, how the elements interact with each other.
+
+HTML defines the structure and the data of the page, css the optics and layout, and Js the behavior.
 
 
 \spl was designed to do as much computation as possible on the client side.
@@ -50,7 +52,7 @@ It is open source and due to it's widespread use, it guarantees to be kept up to
 
 jQuery offers several addons, one of them jQuery UI, that facilitates the einheitliches design of user interfaces
 
-basically, jquery makes it easy to find, access and modify elements in the DOM, as shows \lstref{jquery_vs_js.js}.
+basically, jquery makes it easy to find, access and modify elements in the DOM, as shows \lstref{jquery_vs_js.js}. You can use CSS selectors to get DOM elements.
 
 \code{jquery_vs_js.js}{Comparing the modification of some objects, done in jQuery and pure js.}
 
@@ -80,7 +82,7 @@ Users will need to see a tutorial anyways.
 
 The basic degin idea was to provide a visual feedback and easy comparison between the input modelling parameter and the resulting output model.
 This is accived by putting the input area and output area side by side.
-All the functions that the user needs to manupulate the input are arranged on top of it, everything manipulating the output above the output window.
+All the functions that the user needs to manipulate the input are arranged on top of it, everything manipulating the output above the output window.
 A few general commands are arranged in a top bar.
 
 To assist the user, two systems are present: A exhaustive mouse over hoover tooltip help that pops up any relevant information for an tool / button under the cursor.
@@ -105,11 +107,11 @@ All objects can fire events and react to events and thus change their internal s
 
 There are unique objects (like toolbar, input area), instances of prototype objects\footnote{in other programming languages prototype objects are called classes} and plain objects, that are a collection of keys and values\footnote{would be called dict in python or map in c++}. There can be more than one instance of a prototype object (for example Extremal Points, Point masses...)
 
-The main part of \spl is the object lmt.events, \lstref{js__lmt.events_part.js} shows an excerpt. This object registers at startup, which objects react with witch object functions (event handlers) on what events and thus, this object defines all events possible (except a few standard events).
+The main part of \spl is the object \lmt{events}; \lstref{js__lmt.events_part.js} shows an excerpt. This object registers at startup, which objects react with witch object functions (event handlers) on what events and thus, \lmt{events} defines all events possible (except a few standard events).
 
 \code{js__lmt.events_part.js}{An exerpt from lmt.events.js}
 
-There are basically three groups of objects that interact with each other: The user interface objects (LMT.ui, split in LMT.ui.svg, LMT.ui.out, LMT.ui.html), the communications object (LMT.com) and the current model (LMT.model, instance of LMT.objects.model)
+There are basically three groups of objects that interact with each other: The user interface objects (\lmt{ui}, split in \lmt{ui.svg}, \lmt{ui.out}, \lmt{ui.html}), the communications object (\lmt{com}) and the current model (\lmt{model}, an instance of \lmto{model}).
 
 A model consists of an array of sources, an array of external masses (instances of \lmto{ExternalMass}) and a plain object \C{Parameters}.
 Each source is represented by an tree structure of instances of \C{ExtremalPoint} (\lmto{ExtremalPoint}).
@@ -128,7 +130,7 @@ and some plainobjects that only store common data / functions that needs to be a
 The program is always in a certain state, defined through the attributes of all the objects.
 In \spl, the state consists of the state of the model, and the state of the ui.
 
-The state of the model (and all it's dependecies) can be parsed to a JSON\footnote{javascript object notation} string using the models \M{getStateAsString()} method.
+The state of the model (and all it's dependencies) can be parsed to a JSON\footnote{javascript object notation} string using the models \M{getStateAsString()} method.
 Vice versa, such a string can be converted to a model using the models abstract \M{getModelFronJSONStr(str)} function. (followed by a call to \M{update()} and \M{paint()})
 This mechanism is used to save models states in the action stack for undo and redo purposes, and to send them to the server side for simulation.
 
@@ -139,15 +141,37 @@ The user interface \lmt{ui} consist of three subclasses \lmt{ui.html}, \lmt{ui.s
 
 The background image(s) are, once loaded by \lmt{com}, rendered onto a HTML \T{canvas}.
 Several different filter images can be blended together, and adjustments to contrast and brightness can be done.
-Once rendered, the final background image is loaded as an SVGimage element into the SVG DOM. Javascript objects representing user input like ExtremalPoints create corresponding figures in this DOM and keep them updated.
+Once rendered, the final background image is loaded as an \C{SVGimage} object into the SVG DOM. JavaScript objects representing user input like ExtremalPoints create corresponding figures in this DOM and keep them updated.
 
 The output pane \lmt{ui.out} consists of a set of HTML5 canvases lying on top of each other.
-Each image that the server generated throu simulating the model gets rendered on one.
-Image adjustments (bightness, contrast) are done on the canvas as per pixel operations. \lmt{ui.out} bringts the canvas that should be shown on top of teh others (by adjusting it's CSS z-level value).
+Each image that the server generated through simulating the model gets rendered on one.
+Image adjustments (brightness, contrast) are done on the canvas as per pixel operations. \lmt{ui.out} brings the canvas that should be shown on top of teh others (by adjusting it's CSS z-level value).
 
 \lmt{ui.html} takes care of all other things. Especially it handles all pop-up windows, dialog screens and tool bars.
-This uses heavily the features of jQuery UI, to show and hide the elements in teh HTML DOM that represent the dialog boxes.
+This uses heavily the features of jQuery UI, to show and hide the elements in the HTML DOM that represent the dialog boxes.
 
+
+
+The communication with the server is handled by the \lmt{com} object.
+This is a collection of event handler function objects, that send and get data to the server in the background using the interface described in \secref{iface_c_s}.
+
+Upon receiving data, it is stored and then the app is notified by firing the according event. Receiving data is implemented with pulling. (A web server has no means of initiating a data transfer to a particular client) Pulling describes the technique of repeatedly querying the server, if new data is around.
+
+
+Data sources modules
+
+\spl can load it's data from different data sources.
+Those data sources are implemented as member objects of the plain object \lmt{datasources}.
+Each data source object has a corresponding server side class.
+Data source objects are initialized if selected in the initial dialog.
+They are supposed to populate \lmt{datasource} with their data and can make use of \lmt{ui.html.GenericDatasourceDialog}, that gets designed by the server side template.
+
+They have to register an event handler for \evt{LensesSelected}.
+This event gets fired, when the user clicks on OK in the custom \C{GenericDatasourceDialog}.
+The event handler can be used to determine the database model id in combination with the server side part of the data source module (by either creating a new database entry or returning an existing one). This communication bypasses the \lmt{com} object and uses its own api \T{datasourceApi}.
+Once the id of the model to be loaded is determined, the data source module is expected to return control to the main app by firing \evt[models]{GetModelData}, where \str{models} is an array of model ids to load.
+
+Alternatively, this process can be skipped by starting up the web application with a known, existing model id using \T{GET} parameter \T{mid}\footnote{\T{http://spaghettilens.url/?mid=42}} or by loading an existing result using the result id \T{GET} parameter \T{rid}\footnote{\T{http://spaghettilens.url/?rid=1337}}.
 
 
 

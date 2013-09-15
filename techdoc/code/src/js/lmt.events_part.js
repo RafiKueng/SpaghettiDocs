@@ -5,7 +5,7 @@ LMT.events = {
     LMT.model.init();
     LMT.events.assignHandlers();
     //...
-    },
+  },
   
   assignHandlers: function() {
     // ...
