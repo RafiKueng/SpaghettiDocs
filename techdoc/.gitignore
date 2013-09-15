@@ -31,5 +31,6 @@
 *.xdy
 *.tdo
 *.synctex
-*.tps
-*.pdf
+
+*.*~
+/*.pdf
