@@ -98,15 +98,17 @@ For clients with a small screen, like mobile devices and possibly tables, the la
 
 The client side application was programmed with a strict object oriented and event driven perspective.
 Instead of a regular program that has a main loop, that runs infinitly and where subfunctions are called, a event driven program is at halt when idle, and reacts to event that can be fired by any source (example: a key press triggers a function, instead of looping infintely and checking if any key was pressed.)
-This is a very simplified abstractaion\footnote{and technically not entierly true, there is an main loop that checks if events happend and then a dispacher calls the registered function.} but describes the situation of running javascript in a browser quite well.
+This is a very simplified abstractaion\footnote{and technically not entirely true, there is an main loop that checks if events happend and then a dispacher calls the registered function.} but describes the situation of running JavaScript in a browser quite well.
 
-Everything is a object. The toolbar, the model, a dialog screen.
+Everything is a object. The toolbar, the model, a dialogue screen.
 All objects can fire events and react to events and thus change their internal state, and/or fire a subsequent event.
 There are unique objects (like toolbar, input area) and instances of prototype objects\footnote{in other programming languages prototype objects are called classes}. There can be more than one instance of a prototype object (for example Extremal Points, Point masses...)
 
 The program is always in a certain state, defined throu the attributes of all the objects. In \spl, the state consists of the state of the model, and the state of the ui.
 
-The main part of \spl is the object lmt.events. This object registers at startup, which objects react with witch object function on what events and thus, this object defines all events possible (except a few standard events).
+The main part of \spl is the object lmt.events, \lstref{js__lmt.events_part.js} shows an excerpt. This object registers at startup, which objects react with witch object function on what events and thus, this object defines all events possible (except a few standard events).
+
+\code{js__lmt.events_part.js}{An exerpt from lmt.events.js}
 
 There are basically three groups of objects that interact with each other: The user interface objects (LMT.ui, split in LMT.ui.svg, LMT.ui.out, LMT.ui.html), the comunications object (LMT.com) and the current model (LMT.model, instance of LMT.objects.model)
 
@@ -117,4 +119,4 @@ Additionally, there is an action stack (LMT.actionstack), LMT.datasource, LMT.da
 and some objects that only store common data / functions that needs to be accessed by multiple objects (LMT.modelData, LMT.settings, LMT.simulationResult, LMT.utils)
 
 
-
+\uml[width=0.4\textwidth]{model}{a model}
