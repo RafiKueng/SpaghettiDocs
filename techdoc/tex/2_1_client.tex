@@ -97,26 +97,57 @@ For clients with a small screen, like mobile devices and possibly tables, the la
 \label{sec:client_prog_layout}
 
 The client side application was programmed with a strict object oriented and event driven perspective.
-Instead of a regular program that has a main loop, that runs infinitly and where subfunctions are called, a event driven program is at halt when idle, and reacts to event that can be fired by any source (example: a key press triggers a function, instead of looping infintely and checking if any key was pressed.)
-This is a very simplified abstractaion\footnote{and technically not entirely true, there is an main loop that checks if events happend and then a dispacher calls the registered function.} but describes the situation of running JavaScript in a browser quite well.
+Instead of a regular program that has a main loop, that runs infinitly and where subfunctions are called, a event driven program is at halt when idle, and reacts to event that can be fired by any source (example: a key press triggers a function, instead of looping infinitely and checking if any key was pressed.)
+This is a very simplified abstraction\footnote{and technically not entirely true, there is an main loop that checks if events happend and then a dispacher calls the registered function.} but describes the situation of running JavaScript in a browser quite well.
 
 Everything is a object. The toolbar, the model, a dialogue screen.
 All objects can fire events and react to events and thus change their internal state, and/or fire a subsequent event.
-There are unique objects (like toolbar, input area) and instances of prototype objects\footnote{in other programming languages prototype objects are called classes}. There can be more than one instance of a prototype object (for example Extremal Points, Point masses...)
 
-The program is always in a certain state, defined throu the attributes of all the objects. In \spl, the state consists of the state of the model, and the state of the ui.
+There are unique objects (like toolbar, input area), instances of prototype objects\footnote{in other programming languages prototype objects are called classes} and plain objects, that are a collection of keys and values\footnote{would be called dict in python or map in c++}. There can be more than one instance of a prototype object (for example Extremal Points, Point masses...)
 
-The main part of \spl is the object lmt.events, \lstref{js__lmt.events_part.js} shows an excerpt. This object registers at startup, which objects react with witch object function on what events and thus, this object defines all events possible (except a few standard events).
+The main part of \spl is the object lmt.events, \lstref{js__lmt.events_part.js} shows an excerpt. This object registers at startup, which objects react with witch object functions (event handlers) on what events and thus, this object defines all events possible (except a few standard events).
 
 \code{js__lmt.events_part.js}{An exerpt from lmt.events.js}
 
-There are basically three groups of objects that interact with each other: The user interface objects (LMT.ui, split in LMT.ui.svg, LMT.ui.out, LMT.ui.html), the comunications object (LMT.com) and the current model (LMT.model, instance of LMT.objects.model)
+There are basically three groups of objects that interact with each other: The user interface objects (LMT.ui, split in LMT.ui.svg, LMT.ui.out, LMT.ui.html), the communications object (LMT.com) and the current model (LMT.model, instance of LMT.objects.model)
 
-A model consists of an array of sources, an array of external masses (instances of LMT.objects.ExternalMass) and an parameter object. Each source is represented by an tree structure of instances of extremalpoints (LMT.objects.ExtremalPoint)
+A model consists of an array of sources, an array of external masses (instances of \lmto{ExternalMass}) and a plain object \C{Parameters}.
+Each source is represented by an tree structure of instances of \C{ExtremalPoint} (\lmto{ExtremalPoint}).
+ExtremalPoints can be of a certain type (\str{min}, \str{max}, \str{sad}).
+They can be split up (and therefore be a saddlepoint by definition) and have two child ExtremalPoints.
+Each ExtremalPoint can have a Contourline (LMT.objects.contour) that goes around him (and therefore go through the parent ExtremalPoint).
+A contourline is modelled as a bézier curve and consits of contour points (LMT.objects.contourpoint), that represent the cotrolpoints of the bézier curve. See \umlref{model} for an overview.
 
-Additionally, there is an action stack (LMT.actionstack), LMT.datasource, LMT.datasources
+Additionally, there is an action stack (\C{LMT.actionstack}), \C{LMT.datasource}, \C{LMT.datasources}
+and some plainobjects that only store common data / functions that needs to be accessed by multiple objects (\C{LMT.modelData}, \C{LMT.settings}, \C{LMT.simulationResult}, \C{LMT.utils})
 
-and some objects that only store common data / functions that needs to be accessed by multiple objects (LMT.modelData, LMT.settings, LMT.simulationResult, LMT.utils)
+
+\uml[width=1\textwidth]{model}{Class diagram of a model. Only important attributes and methods are shown.}
 
 
-\uml[width=0.4\textwidth]{model}{a model}
+The program is always in a certain state, defined through the attributes of all the objects.
+In \spl, the state consists of the state of the model, and the state of the ui.
+
+The state of the model (and all it's dependecies) can be parsed to a JSON\footnote{javascript object notation} string using the models \M{getStateAsString()} method.
+Vice versa, such a string can be converted to a model using the models abstract \M{getModelFronJSONStr(str)} function. (followed by a call to \M{update()} and \M{paint()})
+This mechanism is used to save models states in the action stack for undo and redo purposes, and to send them to the server side for simulation.
+
+
+The user interface \lmt{ui} consist of three subclasses \lmt{ui.html}, \lmt{ui.svg}, \lmt{ui.out}.
+
+\lmt{ui.svg} handles the input window. This part is implemented in SVG\footnote{scalable vector graphics}. SVG is a markup language, simmilar to HTML, that describes how to paint an image. It's elements are stored in a DOM and can easily be equipped with event handles (like \F{onClick}) and be manipulated.
+
+The background image(s) are, once loaded by \lmt{com}, rendered onto a HTML \T{canvas}.
+Several different filter images can be blended together, and adjustments to contrast and brightness can be done.
+Once rendered, the final background image is loaded as an SVGimage element into the SVG DOM. Javascript objects representing user input like ExtremalPoints create corresponding figures in this DOM and keep them updated.
+
+The output pane \lmt{ui.out} consists of a set of HTML5 canvases lying on top of each other.
+Each image that the server generated throu simulating the model gets rendered on one.
+Image adjustments (bightness, contrast) are done on the canvas as per pixel operations. \lmt{ui.out} bringts the canvas that should be shown on top of teh others (by adjusting it's CSS z-level value).
+
+\lmt{ui.html} takes care of all other things. Especially it handles all pop-up windows, dialog screens and tool bars.
+This uses heavily the features of jQuery UI, to show and hide the elements in teh HTML DOM that represent the dialog boxes.
+
+
+
+
