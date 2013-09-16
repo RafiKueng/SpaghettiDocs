@@ -99,16 +99,18 @@
 \usepackage{amsmath}
 \usepackage{xspace}   % fixes spaces after custom commands
 \usepackage{float}    % exact placement of figures (using \begin{figure}[H])
-%\usepackage{caption}  % better captions for floats
-\usepackage{subfig}
-%\usepackage{subcaption}
+\usepackage{caption}  % better captions for floats
+%\usepackage{subfig}
+\usepackage{subcaption} % newest package
 \usepackage{fancyvrb} % for the listings
 
 
 \usepackage[pdftex]{hyperref} %import last!
 \usepackage{url}
 
-\usepackage{cleveref}
+\usepackage{cleveref} % used for ranges of refs
+
+\usepackage{pgffor} % used for for loop
 
 % my macros
 \input{macros}

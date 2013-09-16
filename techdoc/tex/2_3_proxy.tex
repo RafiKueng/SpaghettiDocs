@@ -11,3 +11,11 @@ Only if the result first needs to be rendered, it is passed on to the applicatio
 
 It is also set up to cache any requests made to \I{api}, that can be regarded as static, like getting the information about a lens.
 
+At the moment, the proxy uses the web server software nginX (``Engine X''), that is preferred over Apache because of the small memory finger print.
+This is due to the fact that nginX is event based, in opposite to Apache, which is process based.
+nginX is often used as proxy server and load balancer to serve static content infront of other server like apache, that handle the dynamic content.
+
+source:
+http://blog.webfaction.com/2008/12/a-little-holiday-present-10000-reqssec-with-nginx-2/
+
+
