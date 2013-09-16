@@ -100,12 +100,15 @@
 \usepackage{xspace}   % fixes spaces after custom commands
 \usepackage{float}    % exact placement of figures (using \begin{figure}[H])
 %\usepackage{caption}  % better captions for floats
-\usepackage{subfigure}
+\usepackage{subfig}
+%\usepackage{subcaption}
 \usepackage{fancyvrb} % for the listings
 
 
 \usepackage[pdftex]{hyperref} %import last!
 \usepackage{url}
+
+\usepackage{cleveref}
 
 % my macros
 \input{macros}
@@ -117,6 +120,34 @@
 \floatname{listing}{Listing}
 \newcommand{\listoflistings}{\listof{listing}{List of Listings}}
 
+%\newsubfloat{listing}
+
+
+
+%\makeatletter
+%\newbox\sf@box
+%\newenvironment{SubFloat}[2][]%
+%{\def\sf@one{#1}%
+%\def\sf@two{#2}%
+%\setbox\sf@box\hbox
+%\bgroup}%
+%{ \egroup
+%\ifx\@empty\sf@two\@empty\relax
+%\def\sf@two{\@empty}
+%\fi
+%\ifx\@empty\sf@one\@empty\relax
+%\subfloat[\sf@two]{\box\sf@box}%
+%\else
+%\subfloat[\sf@one][\sf@two]{\box\sf@box}%
+%\fi}
+%\makeatother
+
+
+
+%\newfloat{sublisting}{tbhp}{lst}[listing]
+%\floatname{sublisting}{MultiPageListing}
+%\newcommand{\listofmplistings}{\listof{sublisting}{List of MPListings}}
+%\newsubfloat{sublisting}
 
 %################ End Preferences, Begin Document #####################
 

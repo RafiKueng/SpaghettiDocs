@@ -23,7 +23,7 @@ NrOfObj: {
 "Parameters": {
   "pixrad": <int>,
   "n_models": <int>,
-  "isSym": <bool>,
+  "isSym": <Boolean>,
   "z_src": <int>,
   "z_lens": <float>,
   "orgPxScale": <float>,
@@ -34,9 +34,9 @@ NrOfObj: {
 
 //------------------------------------------------
 
-ExternalMassesArray: [ Extmass1, ExtMass2, ...]
+ExternalMassesArray: [ ExtMass1, ExtMass2, ...]
 
-"ExternamMassX": {
+ExtMassX: {
   "__type":"ext_mass",
   "idnr": <int>,
   "x": <float>,
@@ -55,9 +55,9 @@ ExtPntX: {
   "x": <float>,
   "y": <float>,
   "depth": <int>,
-  "isRoot": <bool>,
-  "isExpanded": <bool>,
-  "childrenInsideEachOther": <bool>,
+  "isRoot": <Boolean>,
+  "isExpanded": <Boolean>,
+  "childrenInsideEachOther": <Boolean>,
   "type": <"sad"|"min"|"max">,
   "wasType": <"sad"|"min"|"max">,
   "child1": ExtPntX1,

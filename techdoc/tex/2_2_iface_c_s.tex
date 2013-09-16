@@ -3,4 +3,86 @@
 
 interface client server
 
-%\code{json_repr_parts.js} %TODO: doesn't yet work, import error
+%\codep[0]{json_repr_parts.js}{The building blocks of a model in JSON notation} 
+%\codep[1]{json_repr_parts.js}{The building blocks of a model in JSON notation} 
+%\codep[2]{json_repr_parts.js}{The building blocks of a model in JSON notation} 
+
+%\codep{2}{json_repr_parts.js}{The building blocks of a model in JSON notation} 
+
+%\begin{listing}%
+  %\centering%
+  %\begin{SubFloat}[bla]{\label{tmp1}Capt label1}
+    %\input{code/tmp1}
+  %\end{SubFloat}
+  %
+  %
+  %
+%%  \subfloat[\label{tmp1}]{\input{code/json_repr_parts.js_p0}}%
+%%  \caption[\label{tmp1}]{}
+  %%
+    %%\label{lst:tmp1}%
+%\end{listing}%
+%
+%
+%\begin{listing}%
+  %\ContinuedFloat
+%
+  %\begin{SubFloat}[bla2]{\label{tmp2}Capt label1}
+    %\input{code/tmp2}
+  %\end{SubFloat}
+%
+%
+  %%\centering%
+  %%\subfloat[\label{tmp2}]{\input{code/tmp1}}%
+  %%\input{code/tmp2}%
+  %%\caption[\label{tmp1}]{}
+  %}%
+  %%\label{lst:tmp2}%
+%\end{listing}%
+
+
+
+%\codep[0]{json_repr_parts.js}{The building blocks of a model in JSON notation} 
+%\codep[1]{json_repr_parts.js}{The building blocks of a model in JSON notation} 
+
+
+
+%\cref{lst:json_repr_parts.js_1,lst:json_repr_parts.js_2,lst:json_repr_parts.js_3}
+
+The server offers three points to exchange data: \I{api}, \I{tools} and \I{data}.
+
+Since there is some legacy code still in the code base, there are additional, depreciated url access points to exchange data. (\I{get\_initdata}, \I{get\_modeldata}, \I{save\_model}, \I{save\_model\_final}, \I{load\_model}, \I{result})
+
+\I{api} is supposed to handle all communication with the client application.
+The client can do a HTTP POST request to \splurl[api].
+The requests body should contain at least the key \str{action} set to the value of the desired action.
+The basic transmission format is JSON based.
+Depending on the action chosen, additional key/value pairs need to be transmitted.
+Have a look at the source code files \befn{ModellerApp/views.py} and/or \fjs{com} for details.
+
+
+
+\codep[3]{json_repr_parts.js}{The building blocks of a model in JSON notation} 
+
+
+\Lstrefr[3]{json_repr_parts.js} shows the JSON communication format for sending models between client and server in a structured notation. This has the same tree like structure as is shown in \umlref{model}.
+
+
+\I{data} offers an access point, to present simulated models in an easy way.
+It answers to a basic HTTP GET request by parsing the rest of the url to a integer result id and returning a simple web page showing this result number.
+\splurl[<result-id>]\footnote{example: \splurl[1337]}
+
+
+\I{tools} offers access for advanced users and admins to tools for administering collaborative modeling, getting more detailed data ect.
+At the moment, only one tool is implemented: \I{tools/ResultDataTable}.
+This tool creates an overview table over all parameters for a set of result ids.
+The resulting table can be downloaded as a Excel file (\T{csv}) or directly shown in a browser (\T{HTML-table}).
+The query to the data base is directly composed of the HTTP GET parameters:
+\splurl[tools/ResultDataTable?6696,6904-7000\&type=html].
+For a full documentation visit the tool without any argument\footnote{\splurl[tools/ResultDataTable]}.
+
+
+
+
+
+

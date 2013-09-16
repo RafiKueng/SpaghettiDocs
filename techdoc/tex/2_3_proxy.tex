@@ -1,4 +1,13 @@
 \subsection{Proxy}
 \label{sec:proxy}
 
-proxy
+In the current setup, there is a proxy server between the application server and the internet.
+It's purpose is to reduce the load of the application server and prevent the firing up of a resource intensive\footnote{CPU time and memory size} python thread in the app server on every request.
+
+It is supposed to directly serve the client application. Further, this particular server is set up to serve \url{labs.spacewarps.com} and the \spl documentation and tutorial page in combination with a php process.\footnote{this part is still work in progress}
+
+It is setup to further intercept requests to \I{data} and return the data directly, if available.
+Only if the result first needs to be rendered, it is passed on to the application server.
+
+It is also set up to cache any requests made to \I{api}, that can be regarded as static, like getting the information about a lens.
+

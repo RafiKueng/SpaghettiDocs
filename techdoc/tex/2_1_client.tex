@@ -107,9 +107,9 @@ All objects can fire events and react to events and thus change their internal s
 
 There are unique objects (like toolbar, input area), instances of prototype objects\footnote{in other programming languages prototype objects are called classes} and plain objects, that are a collection of keys and values\footnote{would be called dict in python or map in c++}. There can be more than one instance of a prototype object (for example Extremal Points, Point masses...)
 
-The main part of \spl is the object \lmt{events}; \lstref{js__lmt.events_part.js} shows an excerpt. This object registers at startup, which objects react with witch object functions (event handlers) on what events and thus, \lmt{events} defines all events possible (except a few standard events).
+The main part of \spl is the object \lmt{events}; \lstref{js-lmt.events_part.js} shows an excerpt. This object registers at startup, which objects react with witch object functions (event handlers) on what events and thus, \lmt{events} defines all events possible (except a few standard events).
 
-\code{js__lmt.events_part.js}{An exerpt from lmt.events.js}
+\code{js-lmt.events_part.js}{An exerpt from \fjs{events}}
 
 There are basically three groups of objects that interact with each other: The user interface objects (\lmt{ui}, split in \lmt{ui.svg}, \lmt{ui.out}, \lmt{ui.html}), the communications object (\lmt{com}) and the current model (\lmt{model}, an instance of \lmto{model}).
 
@@ -171,7 +171,7 @@ This event gets fired, when the user clicks on OK in the custom \C{GenericDataso
 The event handler can be used to determine the database model id in combination with the server side part of the data source module (by either creating a new database entry or returning an existing one). This communication bypasses the \lmt{com} object and uses its own api \T{datasourceApi}.
 Once the id of the model to be loaded is determined, the data source module is expected to return control to the main app by firing \evt[models]{GetModelData}, where \str{models} is an array of model ids to load.
 
-Alternatively, this process can be skipped by starting up the web application with a known, existing model id using \T{GET} parameter \T{mid}\footnote{\T{http://spaghettilens.url/?mid=42}} or by loading an existing result using the result id \T{GET} parameter \T{rid}\footnote{\T{http://spaghettilens.url/?rid=1337}}.
+Alternatively, this process can be skipped by starting up the web application with a known, existing model id using \T{GET} parameter \T{mid}\footnote{\splurl[?mid=42]} or by loading an existing result using the result id \T{GET} parameter \T{rid}\footnote{\splurl[?rid=1337]}.
 
 
 

@@ -30,6 +30,12 @@
 \newcommand{\Lstref}[1]{Listing~\ref{lst:#1}}
 \newcommand{\Umlref}[1]{UML~Diagram~\ref{uml:#1}}
 
+% reference to ranges of listings (for multipage..)
+% \lstrefr[n_pages]{base filename}
+\newcommand{\lstrefr}[2][1]{\crefrange{lst:#2_1}{lst:#2_#1}}
+\newcommand{\Lstrefr}[2][1]{\Crefrange{lst:#2_1}{lst:#2_#1}}
+
+
 % shortcut for ASW000xxxx
 \newcommand{\asw}[1]{ASW000#1\xspace}
 
@@ -46,6 +52,68 @@
   \label{lst:#1}%
 \end{listing}%
 }
+
+\usepackage{pgffor}
+
+%\def\codep#1#2#3{%
+%%  \begin{listing}%
+  %\begin{mplist}%
+  %\foreach \index in {1, ..., #1} {%
+    %%bla \index, #1, $#2$, #3\\
+    %\subfloat[test \index]{\input{code/tmp\index}}%
+    %\newpage
+    %%\begin{subfigure}
+      %%\input{code/#2_p\index}
+      %%\caption{page \index of #1}
+    %%\end{subfigure}
+  %}%
+  %\end{mplist}%
+%}
+
+
+%\def\codep#1#2#3{%
+  %\foreach \index in {1, ..., #1} {%
+    %\code{#2_\index}{#3 (page \index\xspace of #1)}
+  %}%
+%}
+
+% insert multiple pages of code
+% \codep[npages]{base file name}{caption}
+\newcommand{\codep}[3][1]{%
+  \foreach \index in {1, ..., #1} {%
+    \code{#2_\index}{#3 (page \index\xspace of #1)}
+  }%
+}
+
+%\def\ccref#1#2{%
+  %\cref{%
+  %\foreach \index in {1, ..., #1} {%
+    %lst:#2_\index,
+  %}%
+  %}
+%}
+
+%\def\mmref#1#2{%
+  %\crefrange{#2_1}{#2_#1}%
+%}
+
+%\newcommand{\codep}[3][1]{%
+%\forloop{npg}{1}{\value{npg} < 5}{%
+  %\arabic{npg}
+%}
+
+
+
+
+%\newcommand{\codep}[3][1]{%
+  %\begin{listing}%
+    %\centering%
+    %\input{code/#2_p#1}%
+    %\caption{#3}%
+    %\label{lst:#2_p#1}%
+  %\end{listing}%
+%}
+
 
 \newcommand{\uml}[3][]{%
 \begin{figure}%
@@ -83,14 +151,32 @@
 \path{#1}%
 }
 
+% interface
+\newcommand{\I}[1]{{\ttfamily/#1/}}
 
 
 % code names
 \newcommand{\lmt}[1]{\C{LMT.#1}\xspace}
 \newcommand{\lmto}[1]{\C{LMT.objects.#1}\xspace}
 
+% file names
+\newcommand{\fjs}[1]{{\ttfamily lmt.#1.js}\xspace}
 
 \DeclareUrlCommand\path{\urlstyle{tt}}
+
+% url to spaghettilens
+\newcommand{\splurl}[1][]{\url{http://spaghettilens.url/#1}}
+
+
+% backend stuff
+
+%backend filename
+\newcommand{\befn}[1]{{\ttfamily /backend/#1}\xspace}
+
+
+
+
+
 
 %%% STANDART LAENGENANGABEN %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newlength{\figwidth}
