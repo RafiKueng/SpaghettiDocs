@@ -18,7 +18,9 @@ Further, once a model / result is simulated, the server creates figures and send
 
 \subsubsection{Techniques used}
 
-The server is implemented in Python language, using the Django framework. Django follows a model-view-controller architecture.
+The server is implemented in Python language, using the Django framework. The framework are served using gunicorn, a WSGI HTTP server implemented in Python.
+
+The framework Django follows a model-view-controller architecture.
 It defines a data model which is represented in a relational data base.
 A view is a representation of a subset of this data presented to a user (the client app in this case).
 The user can use a controller, to manipulate the data model.
@@ -30,13 +32,16 @@ Those functions get mapped to HTTP requests by \befn{lmt/urls.py}.
 They process a request and either query the model / database to return a representation of the data or update the data.
 
 For the actual storage of the data, Django relies on a external relational database.
-For \spl, the de quasi standard mySQL was chosen.
+For \spl, the de facto standard mySQL was chosen.
 
 Django offers a powerful template system, that allows to render the data in any possible form.
 Usually it's used to render html pages, but this setup uses it to return JSON data obejcts to the client app.
 The template system is used, to render the result views, that function on their own and only represent generated data.
 
-To simulate the models, the server needs to connect to the simulation software and fire it up.
+To simulate the models, the server needs to connect to the simulation software (GLASS), tell it what to do and fire it up.
+The server creates a config file for GLASS for each request, and then starts an instance of GLASS running this file.
+Since the simulation takes in the order of minutes, the server worker process should not be blocked during simulation.
+Additionally, this part should be easily scalable, since it creates the biggest server load and needs to be up scaled linearly with the amount of users that use \spl concurrently.
 This is done using a task distribution system (Celery), that gets introduced in \secref{worker}.
 
 
@@ -50,7 +55,7 @@ This is done using a task distribution system (Celery), that gets introduced in 
 
 
 
-
+\uml[width=1\textwidth]{serverapi_full}{An overview over the server API and the internal functions called. Shows the origin of requests with green background. The caching proxy with blue background. Entry points / controller definitions with yellow background. Server list of server function with white background. Lines show flow of data (function calls, HTML requests) Dashed blue and red function calls and grey functions will be removed in future versions (no valid UML notation)}
 
 
 
