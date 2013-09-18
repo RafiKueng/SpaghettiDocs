@@ -36,7 +36,7 @@ For \spl, the de facto standard mySQL was chosen.
 
 Django offers a powerful template system, that allows to render the data in any possible form.
 Usually it's used to render html pages, but this setup uses it to return JSON data obejcts to the client app.
-The template system is used, to render the result views, that function on their own and only represent generated data.
+The template system is used to render the result views\footnote{\splurl[data/<result_id>]}, which can be accessed directly by a browser to display generated models.
 
 To simulate the models, the server needs to connect to the simulation software (GLASS), tell it what to do and fire it up.
 The server creates a config file for GLASS for each request, and then starts an instance of GLASS running this file.
@@ -50,12 +50,21 @@ This is done using a task distribution system (Celery), that gets introduced in 
 
 
 
-\subsubsection{The Design}
-
-
+\subsubsection{The Design of the API}
 
 
 \uml[width=1\textwidth]{serverapi_full}{An overview over the server API and the internal functions called. Shows the origin of requests with green background. The caching proxy with blue background. Entry points / controller definitions with yellow background. Server list of server function with white background. Lines show flow of data (function calls, HTML requests) Dashed blue and red function calls and grey functions will be removed in future versions (no valid UML notation)}
 
 
 
+\Umlref{serverapi_full} shows a complete overview of the server API.
+Note that the API is currently under redesign.
+The old design paradigm stated, that each possible action of the server was exposed direcly to an url, where a client could make a HTTP request to. This assignment is confiured in \befn{lmt/urls.py}.
+It has the draw back, that those access points need to be configured on the server side in two places, in the server application, and additionally in the proxy.
+
+The new design paradigm, there are only three access points offered. this simplifies the administration of the proxy server and increases the flexibility of the application.
+
+
+
+
+\subsubsection{}

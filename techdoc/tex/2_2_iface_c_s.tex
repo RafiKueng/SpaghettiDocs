@@ -42,6 +42,6 @@ All requests to the API are supposed to return instantly.
 The problem of bidirectional communication and long running queries on the server side is taken care of using traditional polling.
 If the client expects data from the server, it does a request every few seconds whether the data is ready.
 As soon it's ready, a new connection is established, that is used to get the data from the server.
-Newer techniques like long-polling (the client starts a request, the server doesn't send a response until it has data ready), COMET (the client starts a request, the server sends an answer, but doesn't close the connection and resues it for additional data packes) or HTML5 websocket API (definition of a persitent connection between server and client) are either non standard hacks and require major modification and configuration of web server (the former two) or not (yet) supported by server and browser software.
+Newer techniques like long-polling (the client starts a request, the server doesn't send a response until it has data ready), COMET (the client starts a request, the server sends an answer, but doesn't close the connection and resues it for additional data packes) or HTML5 websocket API (definition of a persistent connection between server and client) are either non standard hacks and require major modification and configuration of web server (the former two) or not (yet) supported by server and browser software.
 
 
