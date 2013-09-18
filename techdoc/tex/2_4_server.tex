@@ -99,7 +99,7 @@ This is done in \befn{ModellerApp/utils.py}, using the class \C{EvalAndSaveJSON}
 This function parses the JSON model string to a python dict containing Python objects.
 The parameters of the uploaded model are then, after a sanity check, written over the default values.
 
-In a second step, \F{EvalAndSaveJSON.orderPoints2()} reorders the tree like structure of extremal points provided by the client to a list of images ordered by their expected arrival time. This also converts all the measurements from \spl pixels to actual arcsecs.
+In a second step, \F{EvalAndSaveJSON.orderPoints2()} reorders the tree like structure of extremal points provided by the client to a list of images ordered by their expected arrival time. It determins the center of the lensing galaxy (assumed to be the maximum) This also converts all the measurements from \spl pixels to actual arcsecs and makes them reative to the center of the lens.
 
 The third step \F{EvalAndSaveJSON.createModellingResult()} creates the database entry in \dbtable{ModellingResult}.
 At the end, the last step \F{EvalAndSaveJSON.createConfigFile()} creates the GLASS config file to be supplied to the modelling software.
