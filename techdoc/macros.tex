@@ -103,12 +103,12 @@
 \newcommand{\I}[1]{{\ttfamily/#1/}}
 
 
-% code names
+% code names, LMT obejcts and classes
 \newcommand{\lmt}[1]{\C{LMT.#1}\xspace}
 \newcommand{\lmto}[1]{\C{LMT.objects.#1}\xspace}
 
 % file names
-\newcommand{\fjs}[1]{{\ttfamily lmt.#1.js}\xspace}
+\newcommand{\fjs}[1]{\protect\path{lmt.#1.js}\xspace}
 
 \DeclareUrlCommand\path{\urlstyle{tt}}
 
@@ -119,7 +119,7 @@
 % backend stuff
 
 %backend filename
-\newcommand{\befn}[1]{{\ttfamily /backend/#1}\xspace}
+\newcommand{\befn}[1]{\path{/backend/#1}\xspace}
 
 %database table
 \newcommand{\dbtable}[1]{{\ttfamily #1}\xspace}
