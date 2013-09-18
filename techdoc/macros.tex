@@ -63,7 +63,7 @@
   }%
 }
 
-\newcommand{\uml}[3][]{%
+\newcommand{\uml}[3][width=\textwidth]{%
 \begin{figure}[ht]%
   \centering%
   \includegraphics[#1]{uml/#2.pdf}%
@@ -121,6 +121,9 @@
 %backend filename
 \newcommand{\befn}[1]{{\ttfamily /backend/#1}\xspace}
 
+%database table
+\newcommand{\dbtable}[1]{{\ttfamily #1}\xspace}
+\newcommand{\dbfield}[1]{{\ttfamily #1}\xspace}
 
 
 
