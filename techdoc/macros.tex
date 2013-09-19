@@ -76,19 +76,19 @@
 
 % class / object name
 \newcommand{\C}[1]{%
-\path{#1}%
+\protect\path{#1}%
 }
 %method
 \newcommand{\M}[1]{%
-\path{#1}%
+\protect\path{#1}%
 }
 % function
 \newcommand{\F}[1]{%
-\path{#1}%
+\protect\path{#1}%
 }
 % some other code
 \newcommand{\T}[1]{%
-\path{#1}%
+\protect\path{#1}%
 }
 % strings
 \newcommand{\str}[1]{%
@@ -119,7 +119,7 @@
 % backend stuff
 
 %backend filename
-\newcommand{\befn}[1]{\path{/backend/#1}\xspace}
+\newcommand{\befn}[1]{\protect\path{/backend/#1}\xspace}
 
 %database table
 \newcommand{\dbtable}[1]{{\ttfamily #1}\xspace}
