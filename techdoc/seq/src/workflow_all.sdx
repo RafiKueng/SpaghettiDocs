@@ -1,101 +1,143 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <diagram>
-<source><![CDATA[client:Actor[p] "User"
-ui:Browser[p] "Browser/UI"
-static:Server[p] "NgineX"
-backend:Thread[a] "urls.py"
-view:Views[a] "views.py"
-tasks:Tasks "tasks.py"
-worker:Worker[a] "WorkerNode"
-db0:Database "LensData-db"
-dbR:Database "Result-db"
-db1:Database "castles"
-db2:Database "masterlens"
+<source><![CDATA[user:Actor[p] "User"
+browser:Browser[a] "Client (Browser)"
+proxy:Server[a] "Proxy (ngineX)"
+urls:Thread[a] "Server (urls.py)"
+views:Views[a] "Server (views.py)"
+utils:Views[a] "Server (utils.py)"
+ds-sw:Thread[a] "Server (datasources/spacewarps.py)"
+tasks:Tasks "Server (tasks.py)"
+broker:Tasks "Broker (RabbitMQ)"
+worker:Worker[a] "Worker (GLASS)"
+db0:Database "Database (MySQL)"
+db_sw:Database "SpaceWarps"
+db_ml:Database "MasterLens"
+disk:HDD "Filesystem"
+#dbR:Database "Database Celery Results"
 
-client:ui.loadPage()
-ui:static.GET(get_initdata)
-static:backend[be0].GET(get_initdata)
-backend:data=view[v0].getInitData()
-view:db0.Catalog.objects.values("id", "name", "descr")
-view:db0.BasicLensData.objects.values("id", "name", "catalog")&
-view:db1.BasicLensData.objects.values("id", "name", "catalog")&
-view:db2.BasicLensData.objects.values("id", "name", "catalog")&
-backend[be0]:ui.data
-backend[be0]:stop
-ui:client.showLensSelectionDialog()
 
-client:ui.selectLens(id, catid)
-ui:static.POST(get_modeldata, id[], cat_id)
-static:backend.POST(get_modeldata, id[], cat_id)
-backend:data=view.getModelData(id[], cat_id)
-view:json(LensdataObject)=view._getNextFromList()
-view:LensDataObject=db0.BasiclensData.objects.filter()
-backend:ui.data
-backend:stop
+user:browser.visit("mite.phsyik.uzh.ch")
+browser:lmt.html=proxy.GET('/index.html', ...)
+browser:los=proxy.api({action='getSrcList'})
+proxy:los=urls.api({action='getSrcList'})
+urls:los=views[v0].api({action='getSrcList'})
+views[v0]:ListOfSources=views._getSrcList()
+browser:user.Show list of Datasources
+browser:stop
+#[c]
+*1 proxy
+Proxy neglected where
+not important
+*1
+*2 urls
+urls.py translation omitted if 1:1
+*2
 
-ui:db1.GET(url_to_img)
-db1:ui.img
-db1:stop
-ui:db1.GET(url_to_img)
-db1:ui.img
-db1:stop
-ui:client.displayModellingUI()
+user:browser.select_ds()
+browser:dialogHTML=views.api({action:'selectSource', id:3})
+views:html=ds-sw.getDialog()
+browser:user.Show Datasource Dialog
+browser:stop
 
-client:ui.identifyImages()
-ui:client.enableModelButton()
+user:browser.Fetch SWID
+browser:resp=views.api({action='datasourceApi', src_id=3, do='fetch', *args})
+views:resp=ds-sw.api({do='fetch', swid='ASW000XXX'})
+ds-sw:resp={status='ok', list=lenses}=ds-sw._fetch(swid)
+ds-sw:lenses=[{swid, metaid, im_url}]=db_sw.*getInfo()
+browser:user.show lens data
+browser:stop
 
-client:ui.model
-ui:static.POST(save_model)
+user:browser.confirm and continue
+browser:List<ModelId>=views.api({action='datasourceApi', do='createObj', data=[swid,]})
+views:ds-sw.api({do='createObj', lenses=[swid,]})
+ds-sw:List<ModelID>=ds-sw._createObj(lenses)
+[c:LOOP for each <swid> in <lenses>]
+ds-sw:model_id=db0.*getOrCreate(swid)
+[/c]
+browser:modelData={model_id, url, *args}=views.POST('/get_modeldata/', {action='init', models=[<model_id>,]})
+views:modelData=db0.*getEntry(Modelm <model_id>)
+browser:image=db_sw.get(image_url)
+browser:user.show main UI
+browser:stop
 
-ui:static.GET(result/<model_id>.json)
-static:backend.GET(result/model_id)
-backend:status=view.getSimulationJSON(request, result_id)
-view:status=dbR.checkStatus()
-view:tasks.delay(task)
-tasks:>worker[w].delay(task)
-worker[w]:dbR.setStatus(started)&
-backend:ui.status=started, but not ready; retry
-backend:stop
+[c]
 
-[c:loop while status == retry OR 5 minutes passed]
-  ui:static.GET(result/<model_id>.json)
-  static:backend.GET(result/model_id)
-  backend:status=view.getSimulationJSON(request, result_id)
-  view:status=dbR.checkStatus()
-  backend:ui.status: started, not ready; retry
-  backend:stop
+user:browser.create model
+browser:stop
+
+user:browser.simulate model
+browser:resp=urls.POST('/save_model/', {model_id, model_str})
+urls:resp={status='ok', result_id}=views.saveModel({model_id, model_str})
+views:resultObject=utils[u0].EvalAndSaveJSON
+utils[u0]:self.jsonObj=utils[u01].evalModelString()
+utils[u0]:(self.points, self.ext_masses)=utils[u02].orderPoints2()
+utils[u0]:utils[u02].creteModellingResult()
+utils[u02]:self.result_id=db0.*createEntry(ModellingResult, *data)
+utils[u0]:utils[u02].createConfigfile()
+utils[u02]:disk.create('<result_id>/config.gls')
+
+browser:{result_id, status='STARTED' }=urls.GET('/result/<result_id>.json')
+urls:views.getSimulationJSON(result_id)
+views:task=tasks.calculateModel.apply_async(result_id)
+tasks:broker[b0].createTask()
+broker[b0]:>broker[b1].addToQueue(task)
+#broker[0]:>tasks.
+#tasks:stop
+
+views:db0.modifyEntry(ModellingResult, result_id, task.task_id)&
+views:_
+urls:_
+browser:_
+
+
+broker[b1]:>worker[w0].delegateTask(task_id)
+broker[b1]:stop
+worker[w0]:db0.modifyEntry(Task, taskid, status\=started)
+worker[w0]:file=disk.read(<result_id>/config.gls) [SSH]
+worker[w0]:worker[w1].call_glass()
+
+[c:UNTIL status='READY' ]
+browser:{result_id, status='PENDING' }=views.GET('/result/<result_id>.json')
+views:result.task_id=db0.getEntry(ModellingResult, result_id)&
+views:task={task_status=PENDING]=db0.getEntry(Task, task_id)&
+views:_
+browser:_
 [/c]
 
-worker[w]:dbR.setStatus(finished)&
-worker[w]:stop
+# finish task
+worker[w0]:disk.write(<output_files>) [SSH]
+worker[w0]:db0.modifyEntry(Task, taskid, status\=finished)
+worker[w0]:stop
 
-ui:static.GET(result/<model_id>.json)
-static:backend.GET(result/model_id)
-backend:status=view.getSimulationJSON(request, result_id)
-view:status=dbR.checkStatus()
-backend:ui.status: finished: url to results
-backend:stop
+#check a thrid time
+browser:{result_id, status='READY', imgs=[<url1>, <url2>...] }=views.GET('/result/<result_id>.json')
+views:result.task_id=db0.getEntry(ModellingResult, result_id)&
+views:task={task_status=SUCCESS]=db0.getEntry(Task, task_id)&
+views:result.task_id=db0.modifyEntry(ModellingResult, result_id, isRendered\=True)&
 
-ui:static.GET(result/<model_id>/imgX.png)
-static:ui.imgX.png
+browser:image=proxy.GET('/result/<result_id>/<image>')
+proxy:image=disk.read('/result/<result_id>/<image>')
+browser:user.display results images
+browser:stop
 
-ui:client.displayModellingResults
-
-client:ui.finlasave
-ui:static.POST(save_model_final/)
-
+user:browser.save result
+browser:urls.POST('/save_model_final/', *args)
+urls:views.saveModelFinal()
+views:result_id=db0.ModellingResult.modifyEntry(result_id, {is_final\=True})&
+browser:user.display link to result page
 ]]></source>
 <configuration>
 <property name="activationBarBorderThickness" value="1"/>
 <property name="actorWidth" value="25"/>
 <property name="arrowColor" value="-14803256"/>
 <property name="arrowSize" value="6"/>
-<property name="arrowThickness" value="1"/>
+<property name="arrowThickness" value="3"/>
 <property name="colorizeThreads" value="true"/>
 <property name="destructorWidth" value="30"/>
 <property name="explicitReturns" value="false"/>
 <property family="Dialog" name="font" size="12" style="0"/>
-<property name="fragmentBorderThickness" value="2"/>
+<property name="fragmentBorderThickness" value="3"/>
 <property name="fragmentEdgeColor" value="-16751616"/>
 <property name="fragmentLabelBgColor" value="-36"/>
 <property name="fragmentMargin" value="8"/>
@@ -105,42 +147,42 @@ ui:static.POST(save_model_final/)
 <property name="headHeight" value="35"/>
 <property name="headLabelPadding" value="5"/>
 <property name="headWidth" value="100"/>
-<property name="initialSpace" value="10"/>
+<property name="initialSpace" value="20"/>
 <property name="labeledBoxBgColor" value="-76"/>
 <property name="leftMargin" value="5"/>
-<property name="lifelineThickness" value="1"/>
-<property name="lineWrap" value="false"/>
+<property name="lifelineThickness" value="3"/>
+<property name="lineWrap" value="true"/>
 <property name="lowerMargin" value="5"/>
 <property name="mainLifelineWidth" value="8"/>
 <property name="messageLabelSpace" value="3"/>
-<property name="messagePadding" value="6"/>
+<property name="messagePadding" value="5"/>
 <property name="noteBgColor" value="-76"/>
 <property name="noteBorderThickness" value="1"/>
 <property name="noteMargin" value="6"/>
-<property name="notePadding" value="6"/>
+<property name="notePadding" value="8"/>
 <property name="opaqueMessageText" value="false"/>
 <property name="returnArrowVisible" value="true"/>
 <property name="rightMargin" value="5"/>
-<property name="selfMessageHorizontalSpace" value="15"/>
+<property name="selfMessageHorizontalSpace" value="10"/>
 <property name="separatorBottomMargin" value="8"/>
 <property name="separatorTopMargin" value="15"/>
 <property name="shouldShadowParticipants" value="true"/>
 <property name="slackMode" value="false"/>
-<property name="spaceBeforeActivation" value="2"/>
-<property name="spaceBeforeAnswerToSelf" value="10"/>
+<property name="spaceBeforeActivation" value="4"/>
+<property name="spaceBeforeAnswerToSelf" value="20"/>
 <property name="spaceBeforeConstruction" value="6"/>
-<property name="spaceBeforeSelfMessage" value="7"/>
-<property name="subLifelineWidth" value="6"/>
-<property name="tc0" value="-1118482"/>
+<property name="spaceBeforeSelfMessage" value="11"/>
+<property name="subLifelineWidth" value="8"/>
+<property name="tc0" value="-10027264"/>
 <property name="tc1" value="-256"/>
 <property name="tc2" value="-65536"/>
 <property name="tc3" value="-16776961"/>
-<property name="tc4" value="-16711936"/>
-<property name="tc5" value="-4144960"/>
+<property name="tc4" value="-6750004"/>
+<property name="tc5" value="-16711681"/>
 <property name="tc6" value="-65281"/>
 <property name="tc7" value="-14336"/>
 <property name="tc8" value="-20561"/>
-<property name="tc9" value="-12566464"/>
+<property name="tc9" value="-6711040"/>
 <property name="threadNumbersVisible" value="false"/>
 <property name="threaded" value="true"/>
 <property name="upperMargin" value="5"/>

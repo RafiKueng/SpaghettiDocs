@@ -58,7 +58,7 @@ This is done using a shell script using \T{wget} for download and \T{scp} for up
 
 \subsubsection{The result backend}
 Since the worker generates files as results that get uploaded to the file server by the task itself, a result backend is only needed to keep track of the states of the tasks.
-This implies, that there is no big load on the result backend, and thus the same database as Django is using can be used, simplyfing the setup.
+This implies, that there is no big load on the result backend, and thus the same database as Django is using can be used, simplifying the setup.
 One just has to make sure, that external workers not running on the server machine can reach the database server\footnote{default mySQL configuration restricts access to connections from \T{localhost}}.
 
 
