@@ -4,9 +4,9 @@ Version=4
 
 [ProjectInfo]
 MainFile=tdoc.tex
-UseBibTeX=0
+UseBibTeX=1
 UseMakeIndex=0
-ActiveProfile=LaTeX + render > PDF (sumatra)
+ActiveProfile=LaTeX > PDF (sumatra)
 ProjectLanguage=en
 ProjectDialect=US
 

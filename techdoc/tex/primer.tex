@@ -5,42 +5,109 @@ It introduces the concept of
 
 
 \subsection{HyperText Markup Language (HTML)}
-The HyperText Markup Language (HTML) is the markup language used as a format to exchange semantically structured information on the internet.
+The HyperText Markup Language (HTML) is the standardized markup language used as a format to exchange semantically structured information on the internet.
 It is a textual language describing the building blocks of a web site.
-Those building blocks are called tags.
-They are enclosed in angle brackets and consist of opening tag, a set of attributes like id, class and additional depending on the tag type, and an closing tag, see \lstref{atag.html}
+Those building blocks are called tags and can have a set of key-value pairs, called attributes.
+They are enclosed in angle brackets and consist of opening tag, the attributes like \T{id}, \T{class} and additional depending on the tag type, and an closing tag.
+A tag can enclose any content, data to be displayed or other tags.
 
-\code{atag.html}{Example HTML tag.}
+\code{doc.html}{Example of a HTML5 document.}
 
-This tags can enclose any content, data to be displayed or other tags. This results in an document tree, that can be accessed using the interface ``Document Object Model'' (DOM). Often, the document tree itself is called DOM\footnote{DOM describes actually an interface, not a model.}.
+\subsubsection{The Document Object Model (DOM)}
+This results in an document tree, that can be accessed using the interface Document Object Model (DOM).
+Often, the document tree itself is called DOM\footnote{DOM describes actually an interface, not a model.}.
+See \lstref{doc.html} for an Example HTML document.
 
+\subsubsection{HTML4 vs HTML5}
+
+There are a few versions and variants of standardized HTML around. The actual standard is ISO/IEC 15445:2000\cite{isohtml}, based on HTML 4.01, published by W3C in May, 2001.
+
+The new version, HTML5 is not yet finalized.
+The first working draft was published 2008\cite{html5_draft}.
+It offers many new features, including the \T{canvas} (discussed in \secref{canvas}) element and the integration of \T{SVG} (\secref{svg}).
 
 
 \subsection{Cascading Style Sheets (CSS)}
+\label{sec:css}
+
+Cascading Style Sheets (CSS) is a language to describe the layout of structured semantic documents, like HTML.
+It allows the identification of elements of a document by tag name, id, class name, or (relative) position in the document and apply key / value pairs to define the optics and layout of the selection.
+
+\code{doc.css}{Example CSS file. Operating on \lstref{doc.html}}
+
+The current version is CSS 2.1\cite{css_spec}, defined in June 2011. While the work on CSS 3 is advanced\cite{css_stat} and many features of CSS 3 can already be used\cite{caniuse_css}, no browser correctly implements even version 2.1.
+
 
 \subsection{ECMAScript (aka JavaScript JS)}
+\label{sec:js}
+JavaScript (JS) is an interpreted, prototype based multi-paradigm scripting language.
+It usually runs client side in the browser and allows to alter the DOM, react to the user and interact with a server.
 
-\subsection{Dynamic HTML (DHTML)}
+\code{doc.js}{JS code modifying the above HTML file \lstref{doc.html}. Makes the first element clickable. If the user clicks on the first element, the third elements text is changed to ``Don't leave yet!'' and made green.}
 
-\subsection{Server side scripts}
+\subsubsection{jQuery library}
+\label{sec:jquery}
+jQuery is an open source library, that simplifies the access to and manipulation of DOM elements.
+It allows the use of CSS selectors to easily select and modify a extended set of DOM elements, an extended event system, animations and effects and Ajax functions, among others.
+It simplifies the writing of JavaScript code by offering shorter syntax and browser-independent high level functions.
+Compare \lstref{doc.js} to \lstref{jdoc.js}.
+It is used by about two third of the top 10'000 internet sites\cite{jquery_usage}.
 
-\subsection{Asynchronous JavaScript and XML (AJAX)}
+\code{jdoc.js}{The same functionality as in \lstref{doc.js}, using jQuery JavaScript library.}
 
-\subsection{Server communication}
+\subsubsection{Security}
+JavaScript code can potentially be harmful to a user.
+To prevent exploits, JS is usually run encapsulated in a sand box by the browser.
+This sand box prevents access to all local resources, including the file system\footnote{Except for cookies, where a few bytes can be saved}, and other open web pages.
+That implies, that users manipulating data in an web app can't save states on their local machine easily.
+Web browser further impose strict security restriction on content that gets loaded by JS from sites that don't have the same origin as the currently displayed web site.
+
+
+\subsection{Web based applications (web app)}
+\subsubsection{Dynamic HTML (DHTML)}
+\label{DHTML}
+
+A regular, static HTML web page gets loaded by the browser from the server to displays data to the user and offer links, that lead to other web sites, triggering a new load-render-display cycle.
+The umbrella term DHTML describes web design techniques that allow a web page to modify its display based on user input, without a reload.
+This requires JS to modify the DOM, if an user event happens.
+A change in the DOM triggers an re rendering of the page, but no reload.
+
+This techniques allow a web page to become a dynamic application, that maintains an internal state that can be changed by user applications.
+
+
+\subsubsection{Server side scripts}
+\label{sec:serverside}
+
+
+
+
+\subsubsection{Asynchronous JavaScript and XML (AJAX)}
+
+\subsubsection{Server communication}
+
+
 
 \subsection{Graphics -- HTML images vs HTML5 canvas vs Scalable Vector Graphics (SVG)}
+\label{sec:graphics}
+
 To produce a webapp, often a custom user interface and output display is needed.
 HTML in combination with CSS and static images offer only very limited abilities, to design a custom dynamic screen elements.
 Scalable Vector graphics (SVG) and HTML5 canvas offer more powerful techniques to create dynamic screen content.
 
+
 \subsubsection{HTML images}
+\label{sec:htmlimg}
+
 All HTML DOM elements are rectangles and can be placed anywhere on the screen using CSS.
 This includes the image tag \T{<img>}, that allows a set of images to be composed to an interface.
 JS can be used to change the position of DOM elements, or change the image file they display.
 But HTML4 offers no abilities to change the contents of a particualr image, meaning you have to create all the images that possibly could be displayed.
 This is fine for simple setup like a menu, but for an advanced user interface, this is not practical.
 
+
 \subsubsection{HTML5 canvas}
+\label{sec:canvas}
+
 The HTML5 specification defines a new tag, called Canvas \T{<canvas>}.
 It allows pixel based image manipulation, by offering a canvas that consists of a discrete, rasterized 2D array of pixels.
 By using JS, each pixel of this image grid can be accessed and it's color can be changed dynamically.
@@ -54,7 +121,10 @@ If one element changes its position, the canvas needs to be deleted and all obje
 The canvas offers JS callbacks for user actions like click, returning the coordinates of the pixel that was clicked on.
 The programmer has to implement a scene graph himself if he wants to know what object / element was clicked on.
 
+
 \subsubsection{Scalable Vector Graphics (SVG)}
+\label{sec:svg}
+
 Scalable Vector Graphics (SVG) is a vector image format standard, using a markup language (similar to HTML, based on XML).
 SVG defines a continuous coordinate system, on which mathematical constructs are defined on.
 This mathematical constructs are objects like paths, basic shapes, test, raster graphics, that are directly stored as a SVG tag in the SVG file.

@@ -1,0 +1,56 @@
+% This file was created with JabRef 2.9.2.
+% Encoding: UTF8
+
+@ONLINE{css_stat,
+  author = {Bert Bos},
+  title = {CSS Specifications},
+  month = {08},
+  year = {2013},
+  url = {http://www.w3.org/Style/CSS/current-work},
+  owner = {RafiK},
+  timestamp = {2013.09.21}
+}
+
+@ONLINE{css_spec,
+  author = {Bert Bos and Tantek Çelik and Ian Hickson and Håkon Wium Lie},
+  title = {Cascading Style Sheets, level 2 revision 1 -- CSS 2.1 Specification},
+  month = {08},
+  year = {2002},
+  url = {http://www.w3.org/TR/2002/WD-CSS21-20020802/},
+  owner = {RafiK},
+  timestamp = {2013.09.21}
+}
+
+@ONLINE{caniuse_css,
+  author = {Alexis Deveria},
+  title = {Can I use...},
+  month = {09},
+  year = {2013},
+  url = {http://caniuse.com/#cats=CSS,PNG,DOM,CSS3,CSS2,Canvas},
+  owner = {RafiK},
+  timestamp = {2013.09.21}
+}
+
+@ONLINE{html5_draft,
+  author = {Hickson, Ian and  Hyatt, David},
+  title = {HTML 5 -- A vocabulary and associated APIs for HTML and XHTML},
+  month = {01},
+  year = {2008},
+  url = {http://www.w3.org/TR/2008/WD-html5-20080122/},
+  owner = {RafiK},
+  timestamp = {2013.09.21}
+}
+
+@ONLINE{isohtml,
+  author = {ISO/IEC},
+  title = {Information technology -- Document description and processing languages
+	-- HyperText Markup Language (HTML)},
+  month = {07},
+  year = {2012},
+  url = {http://www.iso.org/iso/iso_catalogue/catalogue_tc/catalogue_detail.htm?csnumber=27688},
+  owner = {RafiK},
+  timestamp = {2013.09.21}
+}
+
+@comment{jabref-entrytype: Online: req[author;title;month;year;url] opt[]}
+

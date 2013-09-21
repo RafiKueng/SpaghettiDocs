@@ -31,6 +31,8 @@
 *.xdy
 *.tdo
 *.synctex
+*.bcf
+*.run.xml
 
 *.*~
 /*.pdf

@@ -115,6 +115,10 @@
 
 \usepackage{pgffor} % used for for loop
 
+\usepackage{csquotes}
+\usepackage[backend=biber]{biblatex}
+\addbibresource{bib/bibi.bib}
+
 % my macros
 
 \input{macros}
@@ -181,17 +185,9 @@
 \input{tex/5_concl}
 \clearpage
 
+\printbibliography
 
-%\begin{listing}
-  %\centering
-  %\input{code/test3.js}
-  %\label{lst:list1}
-  %\caption{some caption}
-%\end{listing}
-%
-%\code{test3.js}{This is test 3 . js}
-
-%\input{tex/_demo}
+\input{tex/appendix}
 
 \end{document}
 

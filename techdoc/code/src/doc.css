@@ -1,0 +1,12 @@
+span { /* select by tag */
+  font-weight: bold;
+}
+#id3 { /* select by id */
+  border: 1px solid black;
+}
+.class1 { /* select by class */
+  display: block;
+}
+p.class2{ /* select element with 'p' tag AND class 'class2' */
+  font-color: green;
+}
