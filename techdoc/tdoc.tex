@@ -28,12 +28,15 @@
 
 % ********* Font definiton ************
 \usepackage[T1]{fontenc}
+%\usepackage[scaled=.83]{beramono}
+\usepackage{lmodern}
 \usepackage[utf8]{inputenc} % as usual
 \usepackage[english]{babel}
 
+
 % FONTS
 %\usepackage{lmodern} %Type1-Schriftart für nicht-englische Texte
-\usepackage{mathptmx}  	%mathematical fonts for use with times, I encountered some problems using this package togather with pdftex, which I was not able to resolve
+%\usepackage{mathptmx}  	%mathematical fonts for use with times, I encountered some problems using this package togather with pdftex, which I was not able to resolve
 
 \setkomafont{disposition}{\bfseries} % chagne koma headings back
 
@@ -113,6 +116,7 @@
 \usepackage{pgffor} % used for for loop
 
 % my macros
+
 \input{macros}
 
 \input{code/__style.tex}
@@ -165,6 +169,8 @@
 \newpage
 
 \input{tex/1_intro}
+\clearpage
+\input{tex/primer}
 \clearpage
 \input{tex/2_setup}
 \clearpage

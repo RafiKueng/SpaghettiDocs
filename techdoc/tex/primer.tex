@@ -1,0 +1,79 @@
+\section{Primer in Web Technologies}
+
+This section gives a short overview over the techniques and standards used in web development.
+It introduces the concept of 
+
+
+\subsection{HyperText Markup Language (HTML)}
+The HyperText Markup Language (HTML) is the markup language used as a format to exchange semantically structured information on the internet.
+It is a textual language describing the building blocks of a web site.
+Those building blocks are called tags.
+They are enclosed in angle brackets and consist of opening tag, a set of attributes like id, class and additional depending on the tag type, and an closing tag, see \lstref{atag.html}
+
+\code{atag.html}{Example HTML tag.}
+
+This tags can enclose any content, data to be displayed or other tags. This results in an document tree, that can be accessed using the interface ``Document Object Model'' (DOM). Often, the document tree itself is called DOM\footnote{DOM describes actually an interface, not a model.}.
+
+
+
+\subsection{Cascading Style Sheets (CSS)}
+
+\subsection{ECMAScript (aka JavaScript JS)}
+
+\subsection{Dynamic HTML (DHTML)}
+
+\subsection{Server side scripts}
+
+\subsection{Asynchronous JavaScript and XML (AJAX)}
+
+\subsection{Server communication}
+
+\subsection{Graphics -- HTML images vs HTML5 canvas vs Scalable Vector Graphics (SVG)}
+To produce a webapp, often a custom user interface and output display is needed.
+HTML in combination with CSS and static images offer only very limited abilities, to design a custom dynamic screen elements.
+Scalable Vector graphics (SVG) and HTML5 canvas offer more powerful techniques to create dynamic screen content.
+
+\subsubsection{HTML images}
+All HTML DOM elements are rectangles and can be placed anywhere on the screen using CSS.
+This includes the image tag \T{<img>}, that allows a set of images to be composed to an interface.
+JS can be used to change the position of DOM elements, or change the image file they display.
+But HTML4 offers no abilities to change the contents of a particualr image, meaning you have to create all the images that possibly could be displayed.
+This is fine for simple setup like a menu, but for an advanced user interface, this is not practical.
+
+\subsubsection{HTML5 canvas}
+The HTML5 specification defines a new tag, called Canvas \T{<canvas>}.
+It allows pixel based image manipulation, by offering a canvas that consists of a discrete, rasterized 2D array of pixels.
+By using JS, each pixel of this image grid can be accessed and it's color can be changed dynamically.
+There are helper functions that allow the drawing of lines, shapes, paths and images.
+
+Canvas offers fast, low level pixel wise image manipulation.
+It is ideal for image manipulation on a per pixel basis like blending.
+
+It offers no scene graph, that keeps track of which structures and shapes were used to draw on the canvas.
+If one element changes its position, the canvas needs to be deleted and all objects need to be painted again.
+The canvas offers JS callbacks for user actions like click, returning the coordinates of the pixel that was clicked on.
+The programmer has to implement a scene graph himself if he wants to know what object / element was clicked on.
+
+\subsubsection{Scalable Vector Graphics (SVG)}
+Scalable Vector Graphics (SVG) is a vector image format standard, using a markup language (similar to HTML, based on XML).
+SVG defines a continuous coordinate system, on which mathematical constructs are defined on.
+This mathematical constructs are objects like paths, basic shapes, test, raster graphics, that are directly stored as a SVG tag in the SVG file.
+Since SVG is an XML language, it is comparable with HTML.
+CSS can be used to define styles for the SVG objects and JS can be used to manipulate properties.
+
+SVG files offer high level access to graphics, based on shapes.
+The direct access to shapes with JS makes it easy to dynamically modify elements or add new shapes.
+The SVG DOM can be directly included in the HTML DOM, offering unified access from JS to all HTML and SVG objects.
+JS events get fired like in regular HTML.
+For example each shape fires an \T{onClick} event if clicked on.
+
+
+By design, SVG is slower as canvas, because it first needs to rasterized by the browser in order to be drawn on the screen.
+Additionally, there was put a lot of effort in Canvas optimization and hardware acceleration lately, whereas SVG hardware support is only minimal.
+Due to the lack of hardware optimization, pixel based operations like filters operate slowly.
+
+
+
+
+
+

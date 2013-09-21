@@ -12,18 +12,19 @@ broker:Tasks "Broker (RabbitMQ)"
 worker:Worker[a] "Worker (GLASS)"
 db0:Database "Database (MySQL)"
 db_sw:Database "SpaceWarps"
-db_ml:Database "MasterLens"
 disk:HDD "Filesystem"
+#db_ml:Database "MasterLens"
 #dbR:Database "Database Celery Results"
 
 
-user:browser.visit("mite.phsyik.uzh.ch")
-browser:lmt.html=proxy.GET('/index.html', ...)
-browser:los=proxy.api({action='getSrcList'})
-proxy:los=urls.api({action='getSrcList'})
-urls:los=views[v0].api({action='getSrcList'})
-views[v0]:ListOfSources=views._getSrcList()
-browser:user.Show list of Datasources
+user:browser.Visit "mite.phsyik.uzh.ch"
+browser:<webapp>=proxy.GET('/index.html', ...)
+proxy:<webapp>=disk.read(*.html, *.js, *.css)
+browser:listOfSources=proxy.POST('/api/', {action='getSrcList'})
+proxy:listOfSources=urls.POST('/api/', {action='getSrcList'})
+urls:listOfSources=views[v0].api({action='getSrcList'})
+views[v0]:listOfSources=[..., {id=3, name='spacewarps',...}, ...]=views._getSrcList()
+browser:user.Show list of datasources
 browser:stop
 #[c]
 *1 proxy
@@ -34,48 +35,47 @@ not important
 urls.py translation omitted if 1:1
 *2
 
-user:browser.select_ds()
+user:browser.Select datasource
 browser:dialogHTML=views.api({action:'selectSource', id:3})
 views:html=ds-sw.getDialog()
-browser:user.Show Datasource Dialog
+browser:user.Show datasource dialog
 browser:stop
 
-user:browser.Fetch SWID
+user:browser.Enter swid
 browser:resp=views.api({action='datasourceApi', src_id=3, do='fetch', *args})
 views:resp=ds-sw.api({do='fetch', swid='ASW000XXX'})
 ds-sw:resp={status='ok', list=lenses}=ds-sw._fetch(swid)
-ds-sw:lenses=[{swid, metaid, im_url}]=db_sw.*getInfo()
-browser:user.show lens data
+ds-sw:lenses=[{swid, metaid, img_urls}]=db_sw.*getInfo()
+browser:user.Show lens data
 browser:stop
 
-user:browser.confirm and continue
+user:browser.Confirm and continue
 browser:List<ModelId>=views.api({action='datasourceApi', do='createObj', data=[swid,]})
 views:ds-sw.api({do='createObj', lenses=[swid,]})
 ds-sw:List<ModelID>=ds-sw._createObj(lenses)
 [c:LOOP for each <swid> in <lenses>]
-ds-sw:model_id=db0.*getOrCreate(swid)
+  ds-sw:model_id=db0.LensData.getOrCreateEntry(swid)
 [/c]
 browser:modelData={model_id, url, *args}=views.POST('/get_modeldata/', {action='init', models=[<model_id>,]})
-views:modelData=db0.*getEntry(Modelm <model_id>)
-browser:image=db_sw.get(image_url)
-browser:user.show main UI
+views:model=db0.LensData.getEntry(model_id)
+browser:image=db_sw.GET(<images>)
+browser:user.Show main UI
 browser:stop
 
-[c]
 
-user:browser.create model
+user:browser.Create model
 browser:stop
 
-user:browser.simulate model
+user:browser.Simulate model
 browser:resp=urls.POST('/save_model/', {model_id, model_str})
 urls:resp={status='ok', result_id}=views.saveModel({model_id, model_str})
 views:resultObject=utils[u0].EvalAndSaveJSON
 utils[u0]:self.jsonObj=utils[u01].evalModelString()
 utils[u0]:(self.points, self.ext_masses)=utils[u02].orderPoints2()
 utils[u0]:utils[u02].creteModellingResult()
-utils[u02]:self.result_id=db0.*createEntry(ModellingResult, *data)
+utils[u02]:self.result_id=db0.ModellingResult.create(*data)
 utils[u0]:utils[u02].createConfigfile()
-utils[u02]:disk.create('<result_id>/config.gls')
+utils[u02]:disk.write('<result_id>/config.gls') [LOCAL]
 
 browser:{result_id, status='STARTED' }=urls.GET('/result/<result_id>.json')
 urls:views.getSimulationJSON(result_id)
@@ -85,7 +85,7 @@ broker[b0]:>broker[b1].addToQueue(task)
 #broker[0]:>tasks.
 #tasks:stop
 
-views:db0.modifyEntry(ModellingResult, result_id, task.task_id)&
+views:db0.ModellingResults.modifyEntry(result_id, {task_id\=task.task_id})&
 views:_
 urls:_
 browser:_
@@ -93,39 +93,50 @@ browser:_
 
 broker[b1]:>worker[w0].delegateTask(task_id)
 broker[b1]:stop
-worker[w0]:db0.modifyEntry(Task, taskid, status\=started)
+worker[w0]:db0.Tasks.modifyEntry(taskid, {status\='started'})
 worker[w0]:file=disk.read(<result_id>/config.gls) [SSH]
 worker[w0]:worker[w1].call_glass()
 
-[c:UNTIL status='READY' ]
-browser:{result_id, status='PENDING' }=views.GET('/result/<result_id>.json')
-views:result.task_id=db0.getEntry(ModellingResult, result_id)&
-views:task={task_status=PENDING]=db0.getEntry(Task, task_id)&
-views:_
-browser:_
+[c:UNTIL status='READY' or TIMEOUT]
+  browser:{result_id, status='PENDING' }=views.GET('/result/<result_id>.json')
+  views:task_id=db0.ModellingResults.getEntry(result_id).task_id&
+  views:task_status='PENDING'=db0.Tasks.getEntry(task_id).task_status&
+  views:_
+  browser:_
 [/c]
 
 # finish task
 worker[w0]:disk.write(<output_files>) [SSH]
-worker[w0]:db0.modifyEntry(Task, taskid, status\=finished)
+worker[w0]:db0.Tasks.modifyEntry(taskid, {status\='finished'})
 worker[w0]:stop
 
 #check a thrid time
 browser:{result_id, status='READY', imgs=[<url1>, <url2>...] }=views.GET('/result/<result_id>.json')
-views:result.task_id=db0.getEntry(ModellingResult, result_id)&
-views:task={task_status=SUCCESS]=db0.getEntry(Task, task_id)&
-views:result.task_id=db0.modifyEntry(ModellingResult, result_id, isRendered\=True)&
+views:task_id=db0.ModellingResult.getEntry(result_id).task_id&
+views:task=task_status='finished'=db0.Tasks.getEntry(task_id).task_status&
+views:result.task_id=db0.ModellingResults.modifyEntry(result_id, {isRendered\=True})&
 
 browser:image=proxy.GET('/result/<result_id>/<image>')
-proxy:image=disk.read('/result/<result_id>/<image>')
-browser:user.display results images
+proxy:image=disk.read('/result/<result_id>/<image>') [LOCAL]
+browser:user.Display results images
 browser:stop
 
-user:browser.save result
+user:browser.Save result
 browser:urls.POST('/save_model_final/', *args)
 urls:views.saveModelFinal()
 views:result_id=db0.ModellingResult.modifyEntry(result_id, {is_final\=True})&
-browser:user.display link to result page
+browser:user.Display link to result page
+browser:stop
+
+user:browser.Visit results page
+browser:<resultpage>=urls.GET('/data/<result_id>')
+urls:views.getData(result_id)
+views:result=db0.ModellingResult.getEntry(result_id)&
+views:<resultpage>=views.renderUsingTemplate(result)
+browser:user.Show result page
+browser:stop
+
+
 ]]></source>
 <configuration>
 <property name="activationBarBorderThickness" value="1"/>
