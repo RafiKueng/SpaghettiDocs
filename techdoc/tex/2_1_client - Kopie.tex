@@ -2,61 +2,28 @@
 \label{sec:client}
 
 The client-side application (client) was programmed using a modular, strict object oriented, event driven approach.
-The four main parts of the client application are the Engine Core (engine), the User Interface (UI), the Application State (state) and the Communication Interface (com).
-\Figref{client} shows the clients modules and according JS object namespaces.
+\Figref{client} shows the clients modules and according JS objects.
 
-\fig{client}{Modules of the client-side application and according JS namespaces}
 
-The object oriented paradigm states, that each actor and data object is represented as an JS object.
-Any data is stored inside a JS object, that offers methods to access and manipulate the internal state.
 
-Event driven paradigm implies that the program flow is established using messages, called events.
-Those can be fired by any object, called the event source (the UI\footnote{click on button} or the com\footnote{received data}).
-Event handlers (also known as listener, receiver, observer) are objects that react to a certain event.
-The main loop of the program, the event engine, takes care of detecting events and calling assigned handlers.
-Any object can be event source and handler at the same time.
+
+
+\fig{client}{Modules of the client-side application}
 
 
 \subsubsection{Engine}
-\label{sec:engine}
-
-Since JS running in a browser is by design event driven, the main loop and some rudimentary features are already available.
-jQuery enhances this capabilities and allows easy registration of event handlers and firing of events.
-
-The engine of \spl, the object \lmt{events}, defines all possible events the application reacts on by registering all event handlers at start up.
-It further initializes all data objects defining the state of the programm, see \secref{state}.
-\Lstref{js-lmt.events_part.js} shows an excerpt.
-
-\code{js-lmt.events_part.js}{An exerpt from \fjs{events}}
 
 
-\subsubsection{User Interface (UI)}
-\label{sec:ui}
+\subsubsection{User Interface}
+
+
+\subsubsection{User Interface Layout}
 
 \fig{ui}{User Interface. Depicting input area (yellow dashed left), output area (orange dashed right), general input (toolbar, green dotted) and two help areas (magenta dot dashed, top mouse-over help, bottom static help window).}
-
-The basic degin idea for the User Interface (UI) was to provide a visual feedback for the modelling process.
-\Figref{ui} shows a screenshot of the UI.
-It allows for easy comparison between the model parameters in the input area (on the left hand side, yellow dashed line) and several resulting images generated from the simulated model on the output screen (right hand side, orange dashed line).
-All tools needed to create and manipulate the input are arranged on top of it.
-Tools manipulating the simulation process and output view above the right hand side.
-A few general commands are arranged in a top bar. (all marked with green dottet line.)
-
-To assist the user, two helping systems are present (marked by magenta dash-dotted line).
-A exhaustive mouse over hoover tool-tip help, popping up any relevant information for tools / buttons under the cursor including links to a tutorial page where available.
-To not distract the user while working on a model, the tooltips are disabled for elements in the input area.
-
-Additionally, there is a static help bar at the bottom, providin information about the element the cursor is currently pointing at.
-Advanced users can hide the static help using the toolbar.
-
-For clients with a small screen, like mobile devices, the layout changes to only display the input or the output.
-The user can slide between those to sides using a slider on the side\footnote{Note that mobile support is currently broken.}.
-
 
 
 
 \subsubsection{State}
-\label{sec:state}
 
 \subsubsection{Com}
 
@@ -64,18 +31,111 @@ The user can slide between those to sides using a slider on the side\footnote{No
 
 
 
-%\code{jquery_vs_js.js}{Comparing the modification of some objects, done in jQuery and pure js.}
+\code{jquery_vs_js.js}{Comparing the modification of some objects, done in jQuery and pure js.}
 
+\code{js-lmt.events_part.js}{An exerpt from \fjs{events}}
 
 \uml[width=1\textwidth]{model}{Class diagram of a model. Only important attributes and methods are shown.}
 
 
 
+
+%
+%\section{OLD CHAPT}
+%
+%\subsection{Client-side Apllication (Client)}
+%\label{sec:client}
+%
+%
+%
+%\subsubsection{Techniques}
+%\label{sec:client_techniques}
+%
+%
+%
+%In webapp programming, is basically an interactive webpage, that communicates with other components.
+%
+%To accive that, you need 3 technologies: html, css and javascript. This is a unique standart.
+%
+%HTML describes the logical structre and data of your webpage, the userinterface. That elements are on the page.
+%
+%CSS defines the visuals, optics. how those elements defined by HTML are displayed. How those elements on the page look like
+%
+%Javascript (js) is the programming language, that runs on the client computer and thus defines the behavior. It describes, how the elements interact with each other.
+%
+%HTML defines the structure and the data of the page, css the optics and layout, and Js the behavior.
+%
+%
+%\spl was designed to do as much computation as possible on the client side.
+%This removes the load on the application server, network traffic and leads to a more natural feeling.
+%The app responds instantaniouly to user inputs (instead of having to wait for a server response).
+%Drawback: you have less control over data (saving snapshots) since browser are usually encapsulated from the rest of the computer, difficult to save status / data client side.
+%
+%
+%An interactive webpage / user interface needs javascript for document object model (DOM, the tree of html attributes describing the structre of the webpage) manupulation.
+%\spl consists of a single website.
+%In opposite to most classical websites, where you click a link and load another page to react to user input, \spl is only one single page, that updates it's strucrte live as the user interacts with the page (called DHTML, dynamic HTML).
+%Thus a dhtml webpage resembles more a classical desktop application than a classical website.
+%
+%If your DHTML site needs to exchange information with a server (e.g. to do some heavy calculations, store and retrieve data from a central database) you get Ajax (Asynchronous JavaScript and XML).
+%
+%
+%
+%
+%ECMAScript (aka JavaScript)
+%
+%
+%The modern webapp has thus 4 components: user input, output, intelligence, communications.
+%All of which is programmed in javascript.
+%Since this is a very common task, there are several libraries implemented in javascript, that facilitate the DOM manipulation (and thus creating a user interface).
+%
+%For \spl the the most common one was chosen, jQuery.
+%It is used by two thirds of the top 10'000 webpages.
+%It is open source and due to it's widespread use, it guarantees to be kept up to date and get often bugfixes.
+%
+%jQuery offers several addons, one of them jQuery UI, that facilitates the einheitliches design of user interfaces
+%
+%basically, jquery makes it easy to find, access and modify elements in the DOM, as shows \lstref{jquery_vs_js.js}. You can use CSS selectors to get DOM elements.
+%
+%\code{jquery_vs_js.js}{Comparing the modification of some objects, done in jQuery and pure js.}
+%
+%
+%
+%
+%HTML
+%
+%There are two versions of html: the actual version 4.01, which almost anything that is connected to the internet is compatible to, probably even you toaster. Version 4 is around since Dec. 1998.
+%
+%And the next generation HTML5, that is currently in developpent (First working draft from Jan 2008).
+%It offers many new features, for audio, video and graphics (canvas), communications (websockets), local storage.
+%But is only supported by newer Web Browser and thus a smaller user base.
+%
+%Never the less we decided to go for html5. Because if offers the canvas and svg, two essential techniques explaned later for a web app.
+%Since our expected user base will origin from galaxzoo and \sw, and those sites are also programmed in HTML5, we could expect our users to have up to date browsers.
+%
+%
 %
 %\subsubsection{Visual Layout}
 %\label{sec:client_vis_layout}
 %
-
+%The User Interface was designed to be as simple as possible.
+%It should hide away all settings that are not needed by default.
+%To be self explanatory is almost impossible given the problem.
+%Users will need to see a tutorial anyways.
+%
+%The basic degin idea was to provide a visual feedback and easy comparison between the input modelling parameter and the resulting output model.
+%This is accived by putting the input area and output area side by side.
+%All the functions that the user needs to manipulate the input are arranged on top of it, everything manipulating the output above the output window.
+%A few general commands are arranged in a top bar.
+%
+%To assist the user, two systems are present: A exhaustive mouse over hoover tooltip help that pops up any relevant information for an tool / button under the cursor.
+%This provides a short description of the action, and possibly a link to athe tutorial page.
+%
+%Additionally, there is a help bar at the bottom. This can be hidden from the toolbar.
+%It also provides information about objects in the input area.
+%mouse over tooltips would not function in the input area well, obstructing the users view over the model, hence this two folded helping system.
+%
+%For clients with a small screen, like mobile devices and possibly tables, the layout changes to only display the input or the output. The user can slide between those to sides using a slider.\footnote{Note that mobiles weren't tested and are not officially supported yet.}
 %
 %
 %\subsubsection{Programm Layout}
