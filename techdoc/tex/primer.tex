@@ -182,6 +182,8 @@ If one element changes its position, the canvas needs to be deleted and all obje
 The canvas offers JS callbacks for user actions like click, returning the coordinates of the pixel that was clicked on.
 The programmer has to implement a scene graph himself if he wants to know what object / element was clicked on.
 
+A rendered canvas can be converted to a pixel image using the implemented \F{.toDataURL()} function, given the Canvas was not tainted.
+A Canvas gets tainted if any external resource gets drawn in the Canvas, offending the same origin policy described in \secref{webapp_security}.
 
 \subsubsection{Scalable Vector Graphics (SVG)}
 \label{sec:svg}
@@ -203,7 +205,7 @@ By design, SVG is slower as canvas, because it first needs to rasterized by the 
 Additionally, there was put a lot of effort in Canvas optimization and hardware acceleration lately, whereas SVG hardware support is only minimal.
 Due to the lack of hardware optimization, pixel based operations like filters operate slowly.
 
-
+SVG graphics can be rendered to a canvas using the external JS library \T{canvg.js}\footnote{Developped by Gabe Lerner with contributions to the CSS engine by Rafael Küng.}.
 
 
 
