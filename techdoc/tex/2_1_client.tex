@@ -27,15 +27,35 @@ The engine of \spl, the object \lmt{events}, defines all possible events the app
 It further initializes all data objects defining the state of the programm, see \secref{state}.
 \Lstref{js-lmt.events_part.js} shows an excerpt.
 
-\code{js-lmt.events_part.js}{An exerpt from \fjs{events}}
+\code{js-lmt.events_part.js}{The Engine \lmt{events}. An excerpt from \fjs{events}.}
 
 
-\subsubsection{User Interface (UI)}
-\label{sec:ui}
+\subsubsection{User Interface (UI) -- Visual Design}
+\label{sec:ui-vis}
 
-\fig{ui}{User Interface. Depicting input area (yellow dashed left), output area (orange dashed right), general input (toolbar, green dotted) and two help areas (magenta dot dashed, top mouse-over help, bottom static help window).}
+\fig[width=\textwidth]{ui}{User Interface. Depicting input area (yellow dashed left), output area (orange dashed right), general input (toolbar, green dotted) and two help areas (magenta dot dashed, top mouse-over help, bottom static help window). Toolbar buttons:
+(g1) Load previous lens in catalog
+(g2) Save and upload the model
+(g3) Load next lens in catalog
+(g4) Log in / create user account
+(g5) Toggle static help bar
+(i1) Undo
+(i2) Redo
+(i3) Change brightness / contrast of input background image
+(i4) Change display settings
+(i5) Point mass identification mode
+(i6) Lensed image identification mode
+(i7) Ruler tool
+(i8) Simulate current model
+(o1) Show a synthetic image (interpolated)
+(o2) Show contour lines
+(o3) Show the mass distribution
+(o4) Show the original synthetic image
+(o5) Change brightness / contrast of output background image
+(o6) Change advanced simulation parameters
+}
 
-The basic degin idea for the User Interface (UI) was to provide a visual feedback for the modelling process.
+The basic design idea for the User Interface (UI) was to provide a visual feedback for the modeling process.
 \Figref{ui} shows a screenshot of the UI.
 It allows for easy comparison between the model parameters in the input area (on the left hand side, yellow dashed line) and several resulting images generated from the simulated model on the output screen (right hand side, orange dashed line).
 All tools needed to create and manipulate the input are arranged on top of it.
@@ -44,117 +64,118 @@ A few general commands are arranged in a top bar. (all marked with green dottet 
 
 To assist the user, two helping systems are present (marked by magenta dash-dotted line).
 A exhaustive mouse over hoover tool-tip help, popping up any relevant information for tools / buttons under the cursor including links to a tutorial page where available.
-To not distract the user while working on a model, the tooltips are disabled for elements in the input area.
+To not distract the user while working on a model, the tool tips are disabled for elements in the input area.
 
-Additionally, there is a static help bar at the bottom, providin information about the element the cursor is currently pointing at.
+Additionally, there is a static help bar at the bottom, providing information about the element the cursor is currently pointing at.
 Advanced users can hide the static help using the toolbar.
 
 For clients with a small screen, like mobile devices, the layout changes to only display the input or the output.
 The user can slide between those to sides using a slider on the side\footnote{Note that mobile support is currently broken.}.
 
+The input area was designed to show a moveable and zoom able image from the survey (using click and drag and the mouse wheel).
+Besides the zoom functionality utilizing the mouse wheel, all other actions on the input area are triggered by simple click or click and drag, avoiding double clicks and any key combinations.
+This allows the input area to be easily used with devices featuring touch interface and allows for a more natural and easy to use UI \cite{ui-ms, ui-mac}.
+
+The user has to identify lensed images and order them in respect to arrival time.
+To assist the user in creating valid configurations, input is restricted.
+User have to start with one point and expand the existing figure if necessary by clicking on existing points.
+While this is counter intuitive and needs explanation\footnote{A tutorial is needed anyways}, trials show that users get the grip quickly.
+The advantage of always creating logically valid input that is consistent with the theoretical background of gravitational lenses enhances the understanding.
+
+The user has tree tools available, one is always active.
+The identification tool (i5) using to mark the lensed images.
+The point mass tool (i4) used to mark external point masses and the ruler tool (i6), that allows to quickly estimate distances.
+
+
+
+\subsubsection{User Interface (UI) -- Implementation}
+\label{sec:ui-impl}
+
+The user interface implementation \lmt{ui} is split up in three sub objects \lmt{ui.html}, \lmt{ui.svg} and \lmt{ui.out}, as is the design.
+
+\lmt{ui.svg} handles the input window.
+The input area is implemented as a dynamic SVG image.
+The DOM of the SVG image is directly embedded in the HTML DOM.
+
+The SVG DOM is organized as a tree of layers, where the UI elements get painted on.
+The root layer containing all the others defines the visible area by setting the \T{transform} attribute.
+The root tree has tree child trees, the first containing the background raster image.
+The second all the SVG elements representing the point masses.
+The last contains all elements representing the model, like extremal points, contour lines and so on.
+
+The background image(s) are, once loaded by \lmt{com}, handled bt \lmt{ui.svg.bg}.
+They are rendered onto an invisible HTML \T{canvas}.
+On this canvas, pixel based image operations can be applied to the input image.
+This step allows adjusting brightness, contrast and the composing of multiple input images (originating from multiple band filter) in the future.
+As soon as the canvas is finished rendering, the image data is extracted using the \M{.toDataURL()} function. The resulting object it then put in the SVG DOM, on the background layer as a \C{SVGimage}.
+
+JS objects representing user input (like contour lines, consult \secref{state}) create their corresponding visual representation themselves as SVG elements in the SVG DOM on the according layer and keep them updated.
+
+\lmt{ui.svg.events} implements user event handling on all the actions that happen on any SVG element.
+
+The function \lmt{ui.svg.ConvertToPNG()} triggers a rendering pass of the canvas, resulting in a rasterized image file to be used as a preview image for the model.
+
+
+The output pane \lmt{ui.out} consists of a set of HTML5 canvases lying on top of each other.
+\lmt{ui.out} listens for the event that a simulated model was received.
+Each received image gets rendered on a separate canvas.
+Image adjustments (like brightness and contrast) are applied.
+\lmt{ui.out} fades in the canvas that should be shown by adjusting it's CSS \T{z-level} value.
+
+\lmt{ui.html} manages pop-up windows, dialog screens and tool bars event fireing and handling.
+\lmt{ui.html} uses heavily the features of jQuery, to show and hide the elements in the HTML DOM that represent the dialog boxes.
 
 
 
 \subsubsection{State}
 \label{sec:state}
 
-\subsubsection{Com}
+There are many objects, defining the current state, the application is in.
+The most important ones are listed here.
 
+The model \lmt{Model} consists of an array of sources, an array of external masses (instances of \lmto{ExternalMass}) and a plain object \C{Parameters}.
+Each source is represented by an tree structure of instances of \C{ExtremalPoint} (\lmto{ExtremalPoint}).
+ExtremalPoints can be of a certain type (\str{min}, \str{max}, \str{sad}).
+They can be split up (and therefore be a saddlepoint by definition) and have two child ExtremalPoints.
+Each ExtremalPoint can have a Contourline (\lmto{contour}) that goes around him (and therefore go through the parent \C{ExtremalPoint}).
+A contourline is modelled as a bézier curve and consits of contour points (\lmto{contourpoint}), that represent the control points of the bézier curve. See \umlref{model} for an overview.
 
-
-
-
-%\code{jquery_vs_js.js}{Comparing the modification of some objects, done in jQuery and pure js.}
+Additionally, there is an action stack (\lmt{actionstack}), \lmt{datasource}, \lmt{datasources}
+and some plainobjects that only store common data / functions that needs to be accessed by multiple objects (\lmt{modelData}, \C{LMT.settings}, \lmt{simulationResult}, \lmt{utils})
 
 
 \uml[width=1\textwidth]{model}{Class diagram of a model. Only important attributes and methods are shown.}
 
 
+The program is always in a certain state, defined through the attributes of all the objects.
+In \spl, the state consists of the state of the model, and the state of the ui.
+The state of the model (and all it's dependencies) can be parsed to a JSON string using the models \M{getStateAsString()} method.
+Vice versa, such a string can be converted to a model using the models abstract \M{getModelFronJSONStr(str)} function. (followed by a call to \M{update()} and \M{paint()})
+This mechanism is used to save models states in the action stack for undo and redo purposes, and to send them to the server side for simulation.
 
-%
-%\subsubsection{Visual Layout}
-%\label{sec:client_vis_layout}
-%
 
-%
-%
-%\subsubsection{Programm Layout}
-%\label{sec:client_prog_layout}
-%
-%The client side application was programmed with a strict object oriented and event driven perspective.
-%Instead of a regular program that has a main loop, that runs infinitly and where subfunctions are called, a event driven program is at halt when idle, and reacts to event that can be fired by any source (example: a key press triggers a function, instead of looping infinitely and checking if any key was pressed.)
-%This is a very simplified abstraction\footnote{and technically not entirely true, there is an main loop that checks if events happend and then a dispacher calls the registered function.} but describes the situation of running JavaScript in a browser quite well.
-%
-%Everything is a object. The toolbar, the model, a dialogue screen.
-%All objects can fire events and react to events and thus change their internal state, and/or fire a subsequent event.
-%
-%There are unique objects (like toolbar, input area), instances of prototype objects\footnote{in other programming languages prototype objects are called classes} and plain objects, that are a collection of keys and values\footnote{would be called dict in python or map in c++}. There can be more than one instance of a prototype object (for example Extremal Points, Point masses...)
-%
-%The main part of \spl is the object \lmt{events}; \lstref{js-lmt.events_part.js} shows an excerpt. This object registers at startup, which objects react with witch object functions (event handlers) on what events and thus, \lmt{events} defines all events possible (except a few standard events).
-%
-%\code{js-lmt.events_part.js}{An exerpt from \fjs{events}}
-%
-%There are basically three groups of objects that interact with each other: The user interface objects (\lmt{ui}, split in \lmt{ui.svg}, \lmt{ui.out}, \lmt{ui.html}), the communications object (\lmt{com}) and the current model (\lmt{model}, an instance of \lmto{model}).
-%
-%A model consists of an array of sources, an array of external masses (instances of \lmto{ExternalMass}) and a plain object \C{Parameters}.
-%Each source is represented by an tree structure of instances of \C{ExtremalPoint} (\lmto{ExtremalPoint}).
-%ExtremalPoints can be of a certain type (\str{min}, \str{max}, \str{sad}).
-%They can be split up (and therefore be a saddlepoint by definition) and have two child ExtremalPoints.
-%Each ExtremalPoint can have a Contourline (LMT.objects.contour) that goes around him (and therefore go through the parent ExtremalPoint).
-%A contourline is modelled as a bézier curve and consits of contour points (LMT.objects.contourpoint), that represent the cotrolpoints of the bézier curve. See \umlref{model} for an overview.
-%
-%Additionally, there is an action stack (\lmt{actionstack}), \lmt{datasource}, \lmt{datasources}
-%and some plainobjects that only store common data / functions that needs to be accessed by multiple objects (\lmt{modelData}, \C{LMT.settings}, \lmt{simulationResult}, \lmt{utils})
-%
-%
-%\uml[width=1\textwidth]{model}{Class diagram of a model. Only important attributes and methods are shown.}
-%
-%
-%The program is always in a certain state, defined through the attributes of all the objects.
-%In \spl, the state consists of the state of the model, and the state of the ui.
-%
-%The state of the model (and all it's dependencies) can be parsed to a JSON\footnote{javascript object notation} string using the models \M{getStateAsString()} method.
-%Vice versa, such a string can be converted to a model using the models abstract \M{getModelFronJSONStr(str)} function. (followed by a call to \M{update()} and \M{paint()})
-%This mechanism is used to save models states in the action stack for undo and redo purposes, and to send them to the server side for simulation.
-%
-%
-%The user interface \lmt{ui} consist of three subclasses \lmt{ui.html}, \lmt{ui.svg}, \lmt{ui.out}.
-%
-%\lmt{ui.svg} handles the input window. This part is implemented in SVG\footnote{scalable vector graphics}. SVG is a markup language, simmilar to HTML, that describes how to paint an image. It's elements are stored in a DOM and can easily be equipped with event handles (like \F{onClick}) and be manipulated.
-%
-%The background image(s) are, once loaded by \lmt{com}, rendered onto a HTML \T{canvas}.
-%Several different filter images can be blended together, and adjustments to contrast and brightness can be done.
-%Once rendered, the final background image is loaded as an \C{SVGimage} object into the SVG DOM. JavaScript objects representing user input like ExtremalPoints create corresponding figures in this DOM and keep them updated.
-%
-%The output pane \lmt{ui.out} consists of a set of HTML5 canvases lying on top of each other.
-%Each image that the server generated through simulating the model gets rendered on one.
-%Image adjustments (brightness, contrast) are done on the canvas as per pixel operations. \lmt{ui.out} brings the canvas that should be shown on top of teh others (by adjusting it's CSS z-level value).
-%
-%\lmt{ui.html} takes care of all other things. Especially it handles all pop-up windows, dialog screens and tool bars.
-%This uses heavily the features of jQuery UI, to show and hide the elements in the HTML DOM that represent the dialog boxes.
-%
-%
-%
-%The communication with the server is handled by the \lmt{com} object.
-%This is a collection of event handler function objects, that send and get data to the server in the background using the interface described in \secref{iface_c_s}.
-%
-%Upon receiving data, it is stored and then the app is notified by firing the according event. Receiving data is implemented with pulling. (A web server has no means of initiating a data transfer to a particular client) Pulling describes the technique of repeatedly querying the server, if new data is around.
-%
-%
-%Data sources modules
-%
-%\spl can load it's data from different data sources.
-%Those data sources are implemented as member objects of the plain object \lmt{datasources}.
-%Each data source object has a corresponding server side class.
-%Data source objects are initialized if selected in the initial dialog.
-%They are supposed to populate \lmt{datasource} with their data and can make use of \lmt{ui.html.GenericDatasourceDialog}, that gets designed by the server side template.
-%
-%They have to register an event handler for \evt{LensesSelected}.
-%This event gets fired, when the user clicks on OK in the custom \C{GenericDatasourceDialog}.
-%The event handler can be used to determine the database model id in combination with the server side part of the data source module (by either creating a new database entry or returning an existing one). This communication bypasses the \lmt{com} object and uses its own api \T{datasourceApi}.
-%Once the id of the model to be loaded is determined, the data source module is expected to return control to the main app by firing \evt[models]{GetModelData}, where \str{models} is an array of model ids to load.
-%
-%Alternatively, this process can be skipped by starting up the web application with a known, existing model id using \T{GET} parameter \T{mid}\footnote{\splurl[?mid=42]} or by loading an existing result using the result id \T{GET} parameter \T{rid}\footnote{\splurl[?rid=1337]}.
-%
-%
-%
+
+\subsubsection{Com}
+The communication with the server is handled by the \lmt{com} object.
+This is a collection of event handler function objects, that send and get data to the server in the background using the interface described in \secref{iface_c_s}.
+
+Upon receiving data, it is stored and then the app is notified by firing the according event. Receiving data is implemented with pulling.
+
+
+\subsubsection{Data sources modules}
+
+\spl can load it's data from different data sources.
+Those data sources are implemented as member objects of the plain object \lmt{datasources}.
+Each data source object has a corresponding server side class.
+Data source objects are initialized if selected in the initial dialog.
+They are supposed to populate \lmt{datasource} with their data and can make use of \lmt{ui.html.GenericDatasourceDialog}, that gets designed by the server side template.
+
+They have to register an event handler for \evt{LensesSelected}.
+This event gets fired, when the user clicks on OK in the custom \C{GenericDatasourceDialog}.
+The event handler can be used to determine the database model id in combination with the server side part of the data source module (by either creating a new database entry or returning an existing one). This communication bypasses the \lmt{com} object and uses its own api \T{datasourceApi}.
+Once the id of the model to be loaded is determined, the data source module is expected to return control to the main app by firing \evt[models]{GetModelData}, where \str{models} is an array of model ids to load.
+
+Alternatively, this process can be skipped by starting up the web application with a known, existing model id using \T{GET} parameter \T{mid}\footnote{\splurl[?mid=42]} or by loading an existing result using the result id \T{GET} parameter \T{rid}\footnote{\splurl[?rid=1337]}.
+
+
+
