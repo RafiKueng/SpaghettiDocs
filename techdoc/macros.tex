@@ -72,6 +72,17 @@
 \end{figure}%
 }
 
+
+\newcommand{\fig}[3][width=\figwidth]{%
+\begin{figure}[ht]%
+  \centering%
+  \includegraphics[#1]{fig/#2.pdf}%
+  \caption{#3}%
+  \label{fig:#2}%
+\end{figure}%
+}
+
+
 % small code fragments
 
 % class / object name

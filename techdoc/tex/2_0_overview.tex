@@ -14,7 +14,8 @@ It consists of several modules communication through defined APIs.
 
 %This section elaborates the implementation of \spl by explaining design consideration and implementation details for all the modules.
 \Figref{whole_setup} shows all modules used in the current setup as an web application at \splurl.
-Other setups are possible, \spl could also run as a native desktop application using less modules set up differently.
+The client, server and worker modules are the core modules, needed to run \spl.
+Other setups are possible, \spl could also run as a native desktop application using only the core modules set up differently.
 
 One advantage of this modularized approach is the scalability of the application.
 Each module can possibly run on it's own hardware, in case the use of the application increases.
