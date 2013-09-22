@@ -9,16 +9,16 @@ MinPos.x=-1
 MinPos.y=-1
 MaxPos.x=-1
 MaxPos.y=-1
-NormalPos.left=4
+NormalPos.left=931
 NormalPos.top=23
-NormalPos.right=893
+NormalPos.right=1593
 NormalPos.bottom=612
 Class=LaTeXView
-Document=tex\2_1_client.tex
+Document=tdoc.tex
 
 [Frame0_View0,0]
-TopLine=192
-Cursor=10566
+TopLine=109
+Cursor=5250
 
 [Frame1]
 Flags=0
@@ -27,16 +27,16 @@ MinPos.x=-1
 MinPos.y=-1
 MaxPos.x=-1
 MaxPos.y=-1
-NormalPos.left=902
+NormalPos.left=4
 NormalPos.top=23
-NormalPos.right=1593
+NormalPos.right=922
 NormalPos.bottom=612
 Class=LaTeXView
-Document=tdoc.tex
+Document=tex\primer.tex
 
 [Frame1_View0,0]
-TopLine=141
-Cursor=5433
+TopLine=187
+Cursor=10295
 
 [Frame2]
 Flags=0
@@ -47,14 +47,14 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=23
-NormalPos.right=893
+NormalPos.right=922
 NormalPos.bottom=612
 Class=LaTeXView
-Document=tex\primer.tex
+Document=tex\2_1_client.tex
 
 [Frame2_View0,0]
-TopLine=15
-Cursor=1438
+TopLine=102
+Cursor=11295
 
 [Frame3]
 Flags=0
@@ -65,7 +65,7 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=23
-NormalPos.right=893
+NormalPos.right=922
 NormalPos.bottom=612
 Class=LaTeXView
 Document=tex\appendix.tex
@@ -83,7 +83,7 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=23
-NormalPos.right=893
+NormalPos.right=922
 NormalPos.bottom=612
 Class=LaTeXView
 Document=tex\2_0_overview.tex
@@ -101,7 +101,7 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=23
-NormalPos.right=893
+NormalPos.right=922
 NormalPos.bottom=612
 Class=LaTeXView
 Document=tex\2_6_worker.tex
@@ -119,7 +119,7 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=23
-NormalPos.right=893
+NormalPos.right=922
 NormalPos.bottom=612
 Class=LaTeXView
 Document=tex\2_setup.tex
@@ -137,7 +137,7 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=23
-NormalPos.right=893
+NormalPos.right=922
 NormalPos.bottom=612
 Class=LaTeXView
 Document=macros.tex
@@ -155,7 +155,7 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=23
-NormalPos.right=893
+NormalPos.right=922
 NormalPos.bottom=612
 Class=LaTeXView
 Document=tex\2_5_iface_s_w.tex
@@ -173,13 +173,13 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=23
-NormalPos.right=893
+NormalPos.right=922
 NormalPos.bottom=612
 Class=LaTeXView
 Document=tex\2_4_server.tex
 
 [Frame9_View0,0]
-TopLine=101
+TopLine=97
 Cursor=7604
 
 [Frame10]
@@ -191,7 +191,7 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=23
-NormalPos.right=893
+NormalPos.right=922
 NormalPos.bottom=612
 Class=LaTeXView
 Document=tex\2_3_proxy.tex
@@ -209,7 +209,7 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=23
-NormalPos.right=893
+NormalPos.right=922
 NormalPos.bottom=612
 Class=LaTeXView
 Document=tex\0_title.tex
@@ -227,7 +227,7 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=23
-NormalPos.right=893
+NormalPos.right=922
 NormalPos.bottom=612
 Class=LaTeXView
 Document=tex\2_2_iface_c_s.tex
@@ -245,7 +245,7 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=23
-NormalPos.right=893
+NormalPos.right=922
 NormalPos.bottom=612
 Class=LaTeXView
 Document=tex\5_concl.tex
@@ -263,7 +263,7 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=23
-NormalPos.right=893
+NormalPos.right=922
 NormalPos.bottom=612
 Class=LaTeXView
 Document=tex\1_intro.tex
@@ -281,7 +281,7 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=23
-NormalPos.right=893
+NormalPos.right=922
 NormalPos.bottom=612
 Class=LaTeXView
 Document=tex\3_com.tex
@@ -299,7 +299,7 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=23
-NormalPos.right=893
+NormalPos.right=922
 NormalPos.bottom=612
 Class=LaTeXView
 Document=tex\4_deploy.tex
@@ -317,16 +317,16 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=23
-NormalPos.right=893
+NormalPos.right=922
 NormalPos.bottom=612
 Class=LaTeXView
 Document=tex\_demo.tex
 
 [Frame17_View0,0]
-TopLine=22
+TopLine=23
 Cursor=1018
 
 [SessionInfo]
 FrameCount=18
-ActiveFrame=-1
+ActiveFrame=1
 

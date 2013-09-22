@@ -21,6 +21,16 @@
   timestamp = {2013.09.21}
 }
 
+@ONLINE{jquery_usage,
+  author = {{builtWith.com}},
+  title = {jQuery Usage Statistics},
+  month = {09},
+  year = {2013},
+  url = {http://trends.builtwith.com/javascript/jQuery},
+  owner = {RafiK},
+  timestamp = {2013.09.22}
+}
+
 @ONLINE{caniuse_css,
   author = {Alexis Deveria},
   title = {Can I use...},
@@ -50,6 +60,16 @@
   url = {http://www.iso.org/iso/iso_catalogue/catalogue_tc/catalogue_detail.htm?csnumber=27688},
   owner = {RafiK},
   timestamp = {2013.09.21}
+}
+
+@ONLINE{js_iso,
+  author = {{ISO/IEC}},
+  title = {ECMAScript language specification},
+  month = {06},
+  year = {2011},
+  url = {http://standards.iso.org/ittf/PubliclyAvailableStandards/c055755_ISO_IEC_16262_2011(E).zip},
+  owner = {RafiK},
+  timestamp = {2013.09.22}
 }
 
 @comment{jabref-entrytype: Online: req[author;title;month;year;url] opt[]}

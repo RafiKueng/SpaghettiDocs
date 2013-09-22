@@ -1,11 +1,12 @@
 \section{Primer in Web Technologies}
 
 This section gives a short overview over the techniques and standards used in web development.
-It introduces the concept of 
+It introduces all the concept needed to develop an dynamic web application like \spl.
+
 
 
 \subsection{HyperText Markup Language (HTML)}
-The HyperText Markup Language (HTML) is the standardized markup language used as a format to exchange semantically structured information on the internet.
+The HyperText Markup Language (HTML) is the standardized markup language used as a format to exchange semantically structured information on the internet using the HyperText transfer protocol (HTTP).
 It is a textual language describing the building blocks of a web site.
 Those building blocks are called tags and can have a set of key-value pairs, called attributes.
 They are enclosed in angle brackets and consist of opening tag, the attributes like \T{id}, \T{class} and additional depending on the tag type, and an closing tag.
@@ -43,6 +44,8 @@ The current version is CSS 2.1\cite{css_spec}, defined in June 2011. While the w
 JavaScript (JS) is an interpreted, prototype based multi-paradigm scripting language.
 It usually runs client side in the browser and allows to alter the DOM, react to the user and interact with a server.
 
+The core components of JavaScript are standardized as ECMAScript (ECMA 262 \cite{js_std}), ISO/IEC 16262 \cite{js_iso}.
+
 \code{doc.js}{JS code modifying the above HTML file \lstref{doc.html}. Makes the first element clickable. If the user clicks on the first element, the third elements text is changed to ``Don't leave yet!'' and made green.}
 
 \subsubsection{jQuery library}
@@ -63,7 +66,8 @@ That implies, that users manipulating data in an web app can't save states on th
 Web browser further impose strict security restriction on content that gets loaded by JS from sites that don't have the same origin as the currently displayed web site.
 
 
-\subsection{Web based applications (web app)}
+\subsection{Dynamic web based applications (web apps)}
+\label{sec:webapps}
 \subsubsection{Dynamic HTML (DHTML)}
 \label{DHTML}
 
@@ -75,16 +79,73 @@ A change in the DOM triggers an re rendering of the page, but no reload.
 This techniques allow a web page to become a dynamic application, that maintains an internal state that can be changed by user applications.
 
 
-\subsubsection{Server side scripts}
+\subsubsection{Server Side Scripts}
 \label{sec:serverside}
 
+Using HTML a web server can only serve static data to any client.
+Usually, there is a need of a client to get dynamically data from a server side data source like a data base and to put manipulated data back in.
+Server side scripts provide an interface to those data sources to client applications.
+When the user makes a request for a resource like an HTML file, this scripts are run on the server, produce the desired data on the fly, accessing the data sources needed and send back the rendered data.
+
+A server side script can be written in any programming or scripting language, that can compile and run on the server operating system and interact with the web server software.
+There are many server side scripting languages available, proprietary and open source.
+Some of the most popular ones are Active Server Pages (ASP, proprietary), Java Server Pages (JSP), Perl, PHP: Hypertext Preprocessor (PHP), Python (using Framework Django) and Ruby on Rails (all open source).
+
+\Lstref{doc.php} shows a HTML document with embedded server side script code in PHP.
+A client calling this page will trigger the server side rendering of this page, resulting in \lstref{phpdoc.html}, that is then being sent to the client.
+
+\code{doc.php}{Example server side script in PHP}
+\code{phpdoc.html}{Result of server side script \ref{lst:doc.php} if rendered on a Sunday.}
 
 
+\subsubsection{Client to Server communication}
+\label{sec:servercom}
 
-\subsubsection{Asynchronous JavaScript and XML (AJAX)}
+Basic data transfer on the internet is handled using HyperText Transfer Protocol (HTTP).
+A client (browser) always initiates a TCP connection, requesting a resource identified by an URI\footnote{Uniform Resource Identifier}.
+The server sends an answer using the same connection and closes it.
+If the request was successful, the client renders and displays the body of the answer, the HTML document. Not only HTML documents are transmitted. The same technique is used to transmit CSS, JS, image or any other type of file, text or data.
 
-\subsubsection{Server communication}
+There are different types of requests possible, the most important ones are GET and POST.
+Basic GET requests are used to request resources from a server.
+They can also be used to send data to the server, attaching key / value pairs to the URI\footnote{\T{www.url.net/index.html?key1=value1&key2=value2}}. The amount of data that can be transferred with GET is restricted to about 255 bytes.
+A \T{POST} request message consists, in opposite to a GET request, of a header and a body.
+The message body contains the data to be sent and it thus of unrestricted size.
 
+To be able to combine server side scripts and DHTML, the web browser has to expose an API, that allows javascripts to send HTTP requests and get the response, without triggering an automatic rendering and update of the screen.
+This API is called XMLHttpRequest (XHR). Despite the name, any text based data format can be sent and received with XHRs: JSON, HTML, XML, or plain text.
+
+JavaScript Object Notation (JSON) is a simple plain text data format used for easy exchange of data. It represents a JS objects key / value pair, written down using JS syntax. Refer to \lstref{json.js} for an example.
+
+\code{json.js}{A simple JSON object.}
+
+
+\subsubsection{Asynchronous Javascript And XML (AJAX)}
+\label{sec:ajax}
+
+Combining all the described techniques in \secref{webapps}, results in the concept of Asynchronous Javascript And XML (AJAX).
+AJAX applications feature a client side JS engine that decouples user interaction with the client side application (DOM manipulation) and the communication of the client and the server, which happens in the background.
+The resulting web app thus feels as fluent as a native desktop application.
+
+The JS engine does most of the data processing on the client side, while asynchronously sending and loading data to the server in the background using XHR.
+
+
+\subsubsection{Security and Restrictions}
+\label{sec:webapp_security}
+
+Since web servers can not establish a connection to a client, the only way for a client to get asynchronous events from the server is by repeatedly sending requests to check for new server side events.
+This technique is called polling.
+There are workarounds to implement a push functionality.
+One being long polling, where the client sends a request that the server does not answer instantaneously.
+Therefore the connection is kept open, to be used to send data when available.
+Such setups are possible, but are not standard compliant and often involve some modification / hacks of web servers.
+The coming HTML5 standard proposes mechanisms implementing push features, like Server Sent Events and the WebSocket API. These mechanisms are still experimental and not widely implemented.
+
+A major restriction is the ``same-origin security policy''.
+The policy prohibits JS and XHR access to content that is not hosted on the same server.
+For example, a client application can not use XHR to load images from a web site other than the applications origin.
+There are workarounds for this issue. Set up a server side script that acts as proxy for access to external resources. This increases the load on the server.
+Using the standardized mechanism of Cross-Origin Resource Sharing (CORS), a web server admin can allow foreign XHR requests to his page.
 
 
 \subsection{Graphics -- HTML images vs HTML5 canvas vs Scalable Vector Graphics (SVG)}
@@ -101,7 +162,7 @@ Scalable Vector graphics (SVG) and HTML5 canvas offer more powerful techniques t
 All HTML DOM elements are rectangles and can be placed anywhere on the screen using CSS.
 This includes the image tag \T{<img>}, that allows a set of images to be composed to an interface.
 JS can be used to change the position of DOM elements, or change the image file they display.
-But HTML4 offers no abilities to change the contents of a particualr image, meaning you have to create all the images that possibly could be displayed.
+But HTML4 offers no abilities to change the contents of a particular image, meaning you have to create all the images that possibly could be displayed.
 This is fine for simple setup like a menu, but for an advanced user interface, this is not practical.
 
 
