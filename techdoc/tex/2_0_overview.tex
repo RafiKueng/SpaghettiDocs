@@ -1,25 +1,42 @@
 
 
-This section elaborates the details of the design of \spl.
-It cover the techniques / technology used and give detailed information about the layout of the parts.
-
-The whole system is composed of modules, that communicate with each other.
-\Figref{whole_setup} shows an overview of all the modules \spl consists of.
+\spl applies the concept of an AJAX web application, as described in \secref{ajax}.
+It consists of several modules communication through defined APIs.
+\figref{whole_setup} shows an overview of the implemented modules and their communication channel.
 
 \begin{figure}[htbp]
   \centering
-    \includegraphics[width=\figwidth]{fig/whole_setup.pdf}
-  \caption{\spl setup. The modules and their communicaion.}
+    \includegraphics[width=\textwidth]{fig/whole_setup.pdf}
+  \caption{\spl setup. The modules and their communication.}
   \label{fig:whole_setup}
 \end{figure}
 
-The setup shown here is the most extended setup.
 
-The basic element needed for an webapp is a client side software (compare to a User Interface in traditional programming) and a server side software (compare to the business intelligence of an application.)
+%This section elaborates the implementation of \spl by explaining design consideration and implementation details for all the modules.
+\Figref{whole_setup} shows all modules used in the current setup as an web application at \splurl.
+Other setups are possible, \spl could also run as a native desktop application using less modules set up differently.
 
+One advantage of this modularized approach is the scalability of the application.
+Each module can possibly run on it's own hardware, in case the use of the application increases.
 
-For other use cases like local installation, several parts can be removed.
+The application features a simple flow of data.
+After the loading of a Lens into the client application on the browser (client), the user creates a model, represented as a JSON string.
+This model is sent to the server side application, there the model and all according parameters are saved in a data base.
+Additionally, the server creates a configuration file (\T{.cfg} file) stored in the file system for the simulation application (worker) to run on.
+The worker runs the simulation and the resulting set of models is saved to the file system as a State file (\T{.state}).
+A second worker type (renderer) then loads this state file and creates the resulting images (mediafiles) and saves them to the file system.
+In the current implementation, the simulation and the rendering are done by the same worker.
+Future development will feature a separate renderer, to allow the creation of arbitrary plots from already simulated data.
+In a last step, the client loads the rendered images to give the user a visual feedback of the model created.
+\Figref{dataflow} shows this high level view of data flow.
+The sections in this chapter elaborate the interfaces for this data flow, as well as the mechanics and implementation of the modules.
 
+\begin{figure}[htbp]
+  \centering
+    \includegraphics[width=\figwidth]{fig/dataflow.pdf}
+  \caption{High level view of flow of data involved in creating a model and data objects saved.}
+  \label{fig:dataflow}
+\end{figure}
 
 
 
