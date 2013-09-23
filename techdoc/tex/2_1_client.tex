@@ -179,17 +179,18 @@ General settings influencing the aappearance of the UI not connected to the mode
 
 
 
-\subsubsection{Com}
+\subsubsection{Communication Interface (COM)}
 The communication with the server is handled by the \lmt{com} object.
-This is a collection of event handler function objects, that send and get data to the server in the background using the interface described in \secref{iface_c_s}.
+This is a collection of event handler functions, that send and get data to the server in the background using the interface described in \secref{iface_c_s}.
+Upon receiving data, it is stored and then the app is notified by firing the according event.
 
-Upon receiving data, it is stored and then the app is notified by firing the according event. Receiving data is implemented with pulling.
+If the client expects data from the server, a polling loop is started in the background, as described in \secref{webapp_security}.
 
 
 \subsubsection{Data sources modules}
 
-\spl can load it's data from different data sources.
-Those data sources are implemented as member objects of the plain object \lmt{datasources}.
+\spl can load data from different data sources.
+Those data sources are implemented as member objects of the object \lmt{datasources}.
 Each data source object has a corresponding server side class.
 Data source objects are initialized if selected in the initial dialog.
 They are supposed to populate \lmt{datasource} with their data and can make use of \lmt{ui.html.GenericDatasourceDialog}, that gets designed by the server side template.
@@ -200,6 +201,8 @@ The event handler can be used to determine the database model id in combination 
 Once the id of the model to be loaded is determined, the data source module is expected to return control to the main app by firing \E[models]{GetModelData}, where \str{models} is an array of model ids to load.
 
 Alternatively, this process can be skipped by starting up the web application with a known, existing model id using \T{GET} parameter \T{mid}\footnote{\splurl[?mid=42]} or by loading an existing result using the result id \T{GET} parameter \T{rid}\footnote{\splurl[?rid=1337]}.
+
+This rather complicated setup of client and server side data source modules allows to circumvent any ``same origin policy'' issues, that can not be solved using CORS, as explained in \secref{webapp_security}.
 
 
 
