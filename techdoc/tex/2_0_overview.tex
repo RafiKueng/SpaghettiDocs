@@ -14,7 +14,7 @@ It consists of several modules communication through defined APIs.
 
 %This section elaborates the implementation of \spl by explaining design consideration and implementation details for all the modules.
 \Figref{whole_setup} shows all modules used in the current setup as an web application at \splurl.
-The client, server and worker modules are the core modules, needed to run \spl.
+The client, server and worker modules are the core components, needed to run \spl.
 Other setups are possible, \spl could also run as a native desktop application using only the core modules set up differently.
 
 One advantage of this modularized approach is the scalability of the application.
@@ -30,7 +30,8 @@ In the current implementation, the simulation and the rendering are done by the 
 Future development will feature a separate renderer, to allow the creation of arbitrary plots from already simulated data.
 In a last step, the client loads the rendered images to give the user a visual feedback of the model created.
 \Figref{dataflow} shows this high level view of data flow.
-The sections in this chapter elaborate the interfaces for this data flow, as well as the mechanics and implementation of the modules.
+The sections in this chapter elaborate the interfaces for this data flow, the design of according data structures, as well as the mechanics and implementation of the modules.
+\Secref{pd_flow} shows the program and data flows more detailed.
 
 \begin{figure}[htbp]
   \centering

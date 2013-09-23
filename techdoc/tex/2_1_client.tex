@@ -91,67 +91,91 @@ The point mass tool (i4) used to mark external point masses and the ruler tool (
 \subsubsection{User Interface (UI) -- Implementation}
 \label{sec:ui-impl}
 
-The user interface implementation \lmt{ui} is split up in three sub objects \lmt{ui.html}, \lmt{ui.svg} and \lmt{ui.out}, as is the design.
+The user interface implementation (JS object \lmt{ui}) is split up in three parts \lmt{ui.html}, \lmt{ui.svg} and \lmt{ui.out}, as is the layout of the application.
 
-\lmt{ui.svg} handles the input window.
-The input area is implemented as a dynamic SVG image.
-The DOM of the SVG image is directly embedded in the HTML DOM.
+All the user input for creating a model is handled by \lmt{ui.svg}, as is the display of the input pane.
+The input area is implemented as a dynamic SVG image. This SVG image gets created on the fly when \lmt{ui.svg.init()} is called and it's DOM is directly embedded in the HTML DOM.
 
-The SVG DOM is organized as a tree of layers, where the UI elements get painted on.
+The SVG DOM is organized as a tree of layers, where UI elements get painted on.
 The root layer containing all the others defines the visible area by setting the \T{transform} attribute.
-The root tree has tree child trees, the first containing the background raster image.
+The root layer has four child layers, the first containing the background raster image.
 The second all the SVG elements representing the point masses.
-The last contains all elements representing the model, like extremal points, contour lines and so on.
+The third contains all elements representing the model, like extremal points, contour lines and so on.
+The last is used to draw the temporary UI elements for the rulers on.
 
-The background image(s) are, once loaded by \lmt{com}, handled bt \lmt{ui.svg.bg}.
-They are rendered onto an invisible HTML \T{canvas}.
+The background image(s), once loaded by \lmt{com} during the start up, are handled by \lmt{ui.svg.bg}.
+They are first rendered onto an invisible HTML \T{canvas}.
 On this canvas, pixel based image operations can be applied to the input image.
 This step allows adjusting brightness, contrast and the composing of multiple input images (originating from multiple band filter) in the future.
-As soon as the canvas is finished rendering, the image data is extracted using the \M{.toDataURL()} function. The resulting object it then put in the SVG DOM, on the background layer as a \C{SVGimage}.
+As soon as the canvas has finished rendering the images, the composed image data is extracted using the \M{.toDataURL()} function.
+The resulting object it then put in the SVG DOM, on the background layer as a \C{SVGimage}.
 
-JS objects representing user input (like contour lines, consult \secref{state}) create their corresponding visual representation themselves as SVG elements in the SVG DOM on the according layer and keep them updated.
+All other layers are populated by their according JS object instances from the model, saved in \lmt{Model} (consult \secref{state}).
+Each existing instance creates, manages and destroys it's visual representation, the according SVG DOM elements, themselves and place it on the SVG layer.
 
-\lmt{ui.svg.events} implements user event handling on all the actions that happen on any SVG element.
+User event handling is implemented by \lmt{ui.svg.events}.
+This event manager catches standard low level user interface events on the SVG image and fires the according high level application event.
 
-The function \lmt{ui.svg.ConvertToPNG()} triggers a rendering pass of the canvas, resulting in a rasterized image file to be used as a preview image for the model.
+The function \lmt{ui.svg.ConvertToPNG()} triggers a rendering pass of the canvas, resulting in a rasterized image file to be saved and used as a preview image for the model.
 
 
 The output pane \lmt{ui.out} consists of a set of HTML5 canvases lying on top of each other.
-\lmt{ui.out} listens for the event that a simulated model was received.
-Each received image gets rendered on a separate canvas.
+If a simulated model was received, the event \E{ReceivedSimulation} gets fired.
+This calls the event handler \lmt{ui.out.load()}, that renders each received image to a separate canvas.
 Image adjustments (like brightness and contrast) are applied.
-\lmt{ui.out} fades in the canvas that should be shown by adjusting it's CSS \T{z-level} value.
+The canvases are hidden by default, using CSS properties.
+The event \E[Nr]{DisplayOutputSlide} tiggers \lmt{ui.out.show()}.
+The canvas to be shown is first hidden, then placed on top of all canvases using CSS \T{zIndex} property.
+Finally, jQuery is used to fade in this canvas.
 
-\lmt{ui.html} manages pop-up windows, dialog screens and tool bars event fireing and handling.
-\lmt{ui.html} uses heavily the features of jQuery, to show and hide the elements in the HTML DOM that represent the dialog boxes.
+
+General user interface actions like showing dialog screens or tooltips is handled by \lmt{ui.html}.
+Standard low level evens like \E{onClick} on buttons are listened for and the according high level event is fired.
+The module \lmt{ui.html} makes use of the features of jQuery\footnote{and it's plugin jQuery UI}, to show and style the elements in the HTML DOM that represent the dialog boxes, buttons and so on.
 
 
 
-\subsubsection{State}
+\subsubsection{Data model and application state}
 \label{sec:state}
 
-There are many objects, defining the current state, the application is in.
-The most important ones are listed here.
+The program is always in a certain state, defined through the attributes of all the objects used for data storage.
+In \spl, the data storage is distributed among several objects.
+The state of the application can be split up in the state of the model, and the state of the UI.
 
+The state of the model is saved in \lmt{Model}, an instance of type \lmto{model}.
 The model \lmt{Model} consists of an array of sources, an array of external masses (instances of \lmto{ExternalMass}) and a plain object \C{Parameters}.
-Each source is represented by an tree structure of instances of \C{ExtremalPoint} (\lmto{ExtremalPoint}).
-ExtremalPoints can be of a certain type (\str{min}, \str{max}, \str{sad}).
-They can be split up (and therefore be a saddlepoint by definition) and have two child ExtremalPoints.
-Each ExtremalPoint can have a Contourline (\lmto{contour}) that goes around him (and therefore go through the parent \C{ExtremalPoint}).
-A contourline is modelled as a bézier curve and consits of contour points (\lmto{contourpoint}), that represent the control points of the bézier curve. See \umlref{model} for an overview.
+Each source is represented by a binary tree structure\footnote{Binary tree: each parent element can have two children} of instances of \C{ExtremalPoint} (\lmto{ExtremalPoint}).
+ExtremalPoints are of a certain type, minima (\str{min}), maxima (\str{max}) or saddle point (\str{sad}).
+They can be a leaf node of the tree (and thus be either represent a \str{min} or \str{max}) or be the parent of exactly two child nodes (and therefore be a \str{sad} by definition) and have two child ExtremalPoints.
+The root node of this tree is always a \str{min}.
+If two child nodes come close together, they and their parent represent a limaçon configuration, where the two child nodes are of opposite type.
+Otherwise it is a lemniscate configuration\footnote{figure of eight}, where the child nodes are of the same type.
+The angle that triggers the switching from limaçon to lemniscate is stored in \lmt{model.Parameters.MinMaxSwitchAngle}.
 
-Additionally, there is an action stack (\lmt{actionstack}), \lmt{datasource}, \lmt{datasources}
-and some plainobjects that only store common data / functions that needs to be accessed by multiple objects (\lmt{modelData}, \C{LMT.settings}, \lmt{simulationResult}, \lmt{utils})
-
+This tree structure guarantees that the odd number theorem is satisfied.
+It allows iteratively refine a model by adding smaller order perturbations as you expand the tree structure downwards.
 
 \uml[width=1\textwidth]{model}{Class diagram of a model. Only important attributes and methods are shown.}
 
+For each \C{ExtremalPoint} (except the root node) only the inner most self intersecting, enclosing contour line is drawn on the UI.
+This contour line intersects itself at the parent saddle point and are one half of a limaçon or lemniscate curve.
+Contour lines are instances of \lmto{contour} and are implemented as a sequence of bézier curves.
+A contour consists of contour points (instances of \lmto{contourpoint}), a variable number of points that represent end points of the bézier curve segments.
 
-The program is always in a certain state, defined through the attributes of all the objects.
-In \spl, the state consists of the state of the model, and the state of the ui.
+\umlref{model} gives an overview of all objects representing a model.
+
 The state of the model (and all it's dependencies) can be parsed to a JSON string using the models \M{getStateAsString()} method.
-Vice versa, such a string can be converted to a model using the models abstract \M{getModelFronJSONStr(str)} function. (followed by a call to \M{update()} and \M{paint()})
-This mechanism is used to save models states in the action stack for undo and redo purposes, and to send them to the server side for simulation.
+Vice versa, such a string can be converted to a model using the abstract method \lmto{model.getModelFronJSONStr(str)}, followed by a call to \M{update()} and \M{paint()} to initialize the internal data structures and paint the model on the SVG interface.
+This mechanism is used to save model states in the action stack for undo and redo purposes, and to send them to the server side for simulation.
+Refer to \secref{iface_c_s} for more details on the layout of this string representation.
+
+
+Besides the action stack, implemented in \lmt{actionstack}, there are further objects representing the state of the UI.
+The object \lmt{datasource} keeps track of information related to the origin of the lens image.
+The object \lmt{modelData} saves the server side database entry for the current lens.
+The database entries for a simulated model (\C{ModellingResult}) are saved in \lmt{simulationResult}.
+General settings influencing the aappearance of the UI not connected to the modelling process are stored in \C{LMT.settings}.
+
 
 
 
@@ -170,10 +194,10 @@ Each data source object has a corresponding server side class.
 Data source objects are initialized if selected in the initial dialog.
 They are supposed to populate \lmt{datasource} with their data and can make use of \lmt{ui.html.GenericDatasourceDialog}, that gets designed by the server side template.
 
-They have to register an event handler for \evt{LensesSelected}.
+They have to register an event handler for \E{LensesSelected}.
 This event gets fired, when the user clicks on OK in the custom \C{GenericDatasourceDialog}.
 The event handler can be used to determine the database model id in combination with the server side part of the data source module (by either creating a new database entry or returning an existing one). This communication bypasses the \lmt{com} object and uses its own api \T{datasourceApi}.
-Once the id of the model to be loaded is determined, the data source module is expected to return control to the main app by firing \evt[models]{GetModelData}, where \str{models} is an array of model ids to load.
+Once the id of the model to be loaded is determined, the data source module is expected to return control to the main app by firing \E[models]{GetModelData}, where \str{models} is an array of model ids to load.
 
 Alternatively, this process can be skipped by starting up the web application with a known, existing model id using \T{GET} parameter \T{mid}\footnote{\splurl[?mid=42]} or by loading an existing result using the result id \T{GET} parameter \T{rid}\footnote{\splurl[?rid=1337]}.
 
