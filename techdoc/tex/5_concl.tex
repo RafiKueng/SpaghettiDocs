@@ -1,4 +1,51 @@
-\section{Conclusions}
-\label{sec:conclusions}
+\section{Conclusions and Outlook}
+\label{sec:outlook}
 
-Some conclusions
+This section concludes with a (personal) evaluation of the development process, states a few open problems still to be fixed and feature requests by the users to further improve \spl.
+
+\subsection{Retrospect}
+
+The strict modular design of \spl did pay off so far.
+It involves more work at the beginning, but offers much more flexibility for development of such a large and complex project.
+It helps, or even forces the developer to be clear which part has what tasks.
+You have to define APIs and protocols, best in advance, but for a project of a certain size, this is needs to be done anyways.
+
+During early stages of development, a lot of new features where used, especially in the client application.
+This posed a problem later, due to poor browser support or bad performance.
+For example first the blending of the background image was done entirely in SVG, using SVG native filters and blending algorithms.
+It turned out, that those filters are not optimized by most of even recent browser.
+If only a small part of the picture changed, a full re rendering was triggered, in opposite of only re rendering the affected area. that lead to a huge performance impact that made the UI almost unusable.
+It is suggested, that you use new features as conservatively and as little a possible.
+If you use an experimental feature, you should run exhaustive tests first.
+
+The modularization of the application would allow to apply the development concept of unit tests.
+This was not applied in this project, but with increasing size and module count, this would have been a good strategy.
+I would recommend using unit tests for a project of this size.
+I have the impression, that the overhead of writing unit tests will be recovered easily when implementing new features or changing existing modules.
+
+
+\subsection{Outlook}
+
+Since the project is rather huge (almost 50'000 lines of code) and already in operation (more than 9700 models for more than 850 different lenses created), quite a few bugs show up from time to time.
+But also quite a few feature requests are coming in.
+
+The most pressing new feature to fix / fully implement is the ability to get multiple background images and merge them. While the basic program structures all already present, the interface to \sw does not yet allow to get the single band images.
+
+With the ``collaborative modeling of '' currently running, I see a demand for more advanced tools to actually manage models produced. In fact, it would be great to have an interface for scientists to easily upload one or a set of models and create a challenge, that keeps track and visualizes all results and their relation ship.
+
+This would also be helpful for modelers, to get an overview what has already been done, and to continue the work on branch of the tree of the created models.
+
+Scientists certainly would love to be able to compute more data and figures for selected models.
+This will be implemented while the next overhaul of the task system.
+
+The client side event system for the input pane is a bit of a mess and could require a clean up, as does the API definition.
+This should be done some time, but is not important, since everything is actually working fine so far.
+
+
+\subsection{Concluding Remarks}
+
+I would like to thank Dr Prasenjit Saha (University of Zuerich) for offering me this exciting Masters thesis, all the support and motivation. Dr Jonathan Coles (Université de Versailles Saint-Quentin-en-Yvelines) for providing the simulation backend GLASS.
+
+Further I'd like to also thank the other scientists involved with \sw, Dr. Phil Marshall (SLAC, Stanford University), PhD Anupreeta More (Kavli IPMU, University of Tokyo) and Aprajita Verma (University of Oxford).
+
+Last but not least all the \sw moderators and volunteers, that used and tested \spl with great enthusiasm and a lot of patience. Elisabeth Baeten, Claude Cornen, Christine Macmillan and Julianne Wilcox.

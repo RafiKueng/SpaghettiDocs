@@ -1,17 +1,96 @@
 \section{Program and Data Flow}
 \label{sec:pd_flow}
 
-This section gives an overview over the program flow over all components for three situation that involves a lot of communication. 
-The first two show the start up process.
+This section gives an overview over the program and data flow over the major components for three non trivial cases using UML sequence diagrams.
+Sequence diagrams show which components of a application are active at a given time.
+They abstract internal processes in modules and depicts simplified function calls and return values.
 
 
-\subsection{Application Initialization}
-\seq{init}{Inittt}
+
+\subsection{Selection of a Data Source}
+
+The application start up involves two processes.
+The user first has to choose a data source, followed by selecting a lens to work on.
+This section shows the first process, until the display of the dialog to select a lens to work on.
+The next section elaborates the continuation.
+
+In a first step, all static content like HTML, CSS and JS files are loaded from the server.
+This files are directly served by the proxy server.
+Internally, the client application now starts the initialization routines, as soon as the JS files are loaded.
+
+In a next step, the client application needs to know, what data sources are implemented on the server, to display a dialog to the user to select from.
+
+The last step is to display the data source specific dialog, that allows the user to browse and select lenses, that are in the data sources data base.
+The functionality of this dialog is implemented by the data source module selected and can vary among data sources.
+The data source module generates the HTML markup used to generate the dialog in the client application.
+
+\seq{init}{The two step initialization of \spl. First step loads the data selection dialog, followed by the data source specific lens selection dialog.}
 
 
-\subsection{Receiving a Lens Image}
-\seq{dsinit}{datasource intiatisation}
+\subsection{Selection of a Lens}
+
+The second step at the start up of the application is the selection of a lens to work on.
+This process differs depending on the selected data source in detail, but the overall idea is the same for all sources.
+\seqref{dsinit} shows this process for the \sw module.
+Note that the proxy server is not shown in this dialog, because it passes all the request on to the server.
+Further, the server modules \befn{urls.py} and \befn{views.py} are combined, to simplify the diagram.
+
+\seq{dsinit}{The selection and loading of a lens. First step (green) depicts the last action \seqref{init}; the selected id is validated in step two (yellow); validated lens data base entry is loaded or created if not available and the UI initialized (red).}
+
+
+It involves to offer the user a selection for a lens.
+This can be done for example using drop down fields or a simple text field.
+The data source module has to guarantee that this selection is valid.
+Otherwise, the user should not be able to continue.
+
+The \sw data source offers a simple text filed for entering a \sw image id.
+It then checks the \sw data base, whether this id exists.
+If it does, it fetches additional information, displays it to the user and enables the button to continue.
+Otherwise a error message is shown.
+\seqref{dsinit} shows this part, colored in yellow.
+
+The last step, colored in red in \seqref{dsinit}, involves three parts.
+The data source module has to return a \T{model_id}, representing the selected lenses in the server side database.
+It has to guarantee the uniqueness of each lens in the database.
+It first needs to check if the selected lens(es) already exist in the database.
+If it does, this id is returned. Otherwise a new entry is creating and returned.
+
+In the second part, the main part of the client application now queries the data base for the lens to be shown next.
+The response includes at least one URL to the actual image, that gets loaded in the third part and then rendered to the screen.
+
+This concludes the start up procedure and hides all dialog pop ups, allowing the user to begin modeling.
+
+Alternatively, the user could load \spl passing a GET argument \T{mid} or \T{rid}.
+This start up skips all the parts involving the data source modules and directly queries the server data base for the lens information and loads it.
+If a result is loaded using \T{rid}, an additional query to the data base is done, returning the JSON string representing the model.
+After loading the lens data, the model data is loaded and shown.
+
 
 
 \subsection{Simulation}
-\seq{simulate}{sim}
+
+After the user created a model, it can be sent to the server to get simulated and once finished, retrieve the resulting figures. \seqref{simulate} shows the whole process.
+
+\seq{simulate}{Asynchronous simulation of a model. Shows the client polling for results until they are ready (green); the task queue (yellow) and worker process executing a task (red).}
+
+In a first step, the model JSON string is parsed, validated and evaluated.
+It is saved to the data base as a new entry and the resulting id is returned to the client.
+Additionally, a configuration file for the simulation back end is written to disk. 
+
+Then the client asks for the location of the results of this model.
+Since there are no results yet, the server creates a new simulation task and hands it over to the broker, that puts it in the task queue (\seqref{simulate}, yellow).
+A reference to this task and the fact, that the simulation has started is saved in the data base and sent to the client.
+
+As soon as a worker is idle, it consumes the next task in the queue and executes it (\seqref{simulate}, red).
+A task consist of getting the configuration file, running GLASS, producing the output figures and uploading those back to the server file system.
+The worker keeps track of the state of the task in the database.
+
+Meanwhile, the client repeatedly checks with the server, whether the task has been completed.
+If so, the server sends back links to the generated figures, that the client then loads and displays to the user.
+
+
+
+
+
+
+
