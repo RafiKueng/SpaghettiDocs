@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram>
+<source><![CDATA[user:Actor[p] "User"
+browser:Browser[a] "Client (Browser)"
+server:Thread[a] "Server (urls & views)"
+utils:Views[a] "Server (utils.py)"
+broker:Tasks "Broker (RabbitMQ)"
+worker:Worker[a] "Worker (GLASS)"
+db0:Database "Database (MySQL)"
+disk:HDD "Filesystem"
+
+user:browser.Simulate model
+browser:resp=server.POST('/save_model/', {model_id, model_str})
+server:resp={'ok', result_id}=server.views.saveModel({model_id, model_str})
+server:resultObject=utils[u0].EvalAndSaveJSON()
+utils:self.jsonObj=utils[u01].evalModelString()
+utils[u0]:(self.points, self.ext_masses)=utils[u02].orderPoints2()
+utils[u0]:utils[u02].createModellingResult()
+utils[u02]:self.result_id=db0.ModellingResult.create(*data)
+utils[u0]:utils[u02].createConfigfile()
+utils[u02]:disk.write('<result_id>/config.gls')
+
+browser:{result_id, status='STARTED' }=server.GET('/result/<result_id>.json')
+server:server.views.getSimulationJSON(result_id)
+server:task=server.tasks.calculateModel()&
+server:broker[b0].task.apply_async(result_id)
+broker[b0]:>broker[b1].broker.addToQueue(task)
+
+server:db0.ModellingResults.modifyEntry(result_id, task_id)&
+server:_
+server:_
+browser:_
+
+
+broker[b1]:>worker[w0].worker.consumeTask(task_id)
+broker[b1]:stop
+worker[w0]:db0.Tasks.modifyEntry(taskid, 'started')
+worker[w0]:file=disk.read(<result_id>/config.gls) [SSH]
+worker[w0]:worker[w1].call_glass()
+
+[c:UNTIL status=='READY']
+  browser:{result_id, status='PENDING' }=server.GET('/result/<result_id>.json')
+  server:{result_id, status='PENDING' }=server.views.getSimulationJSON(<result_id>)
+  server:task_id=db0.ModellingResults.getEntry(result_id).task_id&
+  server:task_status='PENDING'=db0.Tasks.getEntry(task_id).task_status&
+  server:_
+  browser:_
+[/c]
+
+# finish task
+worker[w0]:disk.write(<output_files>) [SSH]
+worker[w0]:db0.Tasks.modifyEntry(taskid, 'finished')
+worker[w0]:stop
+
+#check a thrid time
+browser:{result_id, 'READY', [<url1>,...] }=server.GET('/result/<result_id>.json')
+server:{result_id, 'READY', [<url1>,...] }=server.views.getSimulationJSON(<result_id>)
+server:task_id=db0.ModellingResult.getEntry(result_id).task_id&
+server:task=task_status='finished'=db0.Tasks.getEntry(task_id).task_status&
+server:result.task_id=db0.ModellingResults.modifyEntry(result_id, isRendered)&
+
+]]></source>
+<configuration>
+<property name="activationBarBorderThickness" value="3"/>
+<property name="actorWidth" value="30"/>
+<property name="arrowColor" value="-14803256"/>
+<property name="arrowSize" value="6"/>
+<property name="arrowThickness" value="3"/>
+<property name="colorizeThreads" value="true"/>
+<property name="destructorWidth" value="30"/>
+<property name="explicitReturns" value="false"/>
+<property family="DejaVu Serif Condensed" name="font" size="12" style="0"/>
+<property name="fragmentBorderThickness" value="2"/>
+<property name="fragmentEdgeColor" value="-16751616"/>
+<property name="fragmentLabelBgColor" value="-36"/>
+<property name="fragmentMargin" value="8"/>
+<property name="fragmentPadding" value="10"/>
+<property name="fragmentTextPadding" value="3"/>
+<property name="glue" value="0"/>
+<property name="headHeight" value="40"/>
+<property name="headLabelPadding" value="10"/>
+<property name="headWidth" value="70"/>
+<property name="initialSpace" value="10"/>
+<property name="labeledBoxBgColor" value="-76"/>
+<property name="leftMargin" value="5"/>
+<property name="lifelineThickness" value="3"/>
+<property name="lineWrap" value="true"/>
+<property name="lowerMargin" value="5"/>
+<property name="mainLifelineWidth" value="10"/>
+<property name="messageLabelSpace" value="3"/>
+<property name="messagePadding" value="4"/>
+<property name="noteBgColor" value="-76"/>
+<property name="noteBorderThickness" value="1"/>
+<property name="noteMargin" value="6"/>
+<property name="notePadding" value="8"/>
+<property name="opaqueMessageText" value="false"/>
+<property name="returnArrowVisible" value="true"/>
+<property name="rightMargin" value="5"/>
+<property name="selfMessageHorizontalSpace" value="10"/>
+<property name="separatorBottomMargin" value="8"/>
+<property name="separatorTopMargin" value="15"/>
+<property name="shouldShadowParticipants" value="true"/>
+<property name="slackMode" value="false"/>
+<property name="spaceBeforeActivation" value="8"/>
+<property name="spaceBeforeAnswerToSelf" value="10"/>
+<property name="spaceBeforeConstruction" value="5"/>
+<property name="spaceBeforeSelfMessage" value="8"/>
+<property name="subLifelineWidth" value="10"/>
+<property name="tc0" value="-10027264"/>
+<property name="tc1" value="-256"/>
+<property name="tc2" value="-65536"/>
+<property name="tc3" value="-3342337"/>
+<property name="tc4" value="-6750004"/>
+<property name="tc5" value="-16711681"/>
+<property name="tc6" value="-65281"/>
+<property name="tc7" value="-14336"/>
+<property name="tc8" value="-20561"/>
+<property name="tc9" value="-6711040"/>
+<property name="threadNumbersVisible" value="false"/>
+<property name="threaded" value="true"/>
+<property name="upperMargin" value="5"/>
+<property name="verticallySplit" value="true"/>
+</configuration>
+</diagram>

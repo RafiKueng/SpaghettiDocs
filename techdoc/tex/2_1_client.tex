@@ -7,12 +7,13 @@ The four main parts of the client application are the Engine Core (engine), the 
 
 \fig{client}{Modules of the client-side application and according JS namespaces}
 
-The object oriented paradigm states, that each actor and data object is represented as an JS object.
-Any data is stored inside a JS object, that offers methods to access and manipulate the internal state.
+The object oriented paradigm states that all data and actions that affect similar structures should be grouped together to a functional unit, named an object.
+Such an object has internal data representing the objects state.
+Further, it offers function called methods that allow other objects to get or change the internal state of the object.
 
 Event driven paradigm implies that the program flow is established using messages, called events.
 Those can be fired by any object, called the event source (the UI\footnote{click on button} or the com\footnote{received data}).
-Event handlers (also known as listener, receiver, observer) are objects that react to a certain event.
+Event handlers (also known as listener, receiver or observer) are objects that react to a certain event.
 The main loop of the program, the event engine, takes care of detecting events and calling assigned handlers.
 Any object can be event source and handler at the same time.
 
@@ -20,7 +21,7 @@ Any object can be event source and handler at the same time.
 \subsubsection{Engine}
 \label{sec:engine}
 
-Since JS running in a browser is by design event driven, the main loop and some rudimentary features are already available.
+Since JS running in a browser is by deafult event driven, the main loop and some rudimentary features are implemented by the browser.
 jQuery enhances this capabilities and allows easy registration of event handlers and firing of events.
 
 The engine of \spl, the object \lmt{events}, defines all possible events the application reacts on by registering all event handlers at start up.
@@ -167,10 +168,12 @@ A contour consists of contour points (instances of \lmto{contourpoint}), a varia
 The state of the model (and all it's dependencies) can be parsed to a JSON string using the models \M{getStateAsString()} method.
 Vice versa, such a string can be converted to a model using the abstract method \lmto{model.getModelFronJSONStr(str)}, followed by a call to \M{update()} and \M{paint()} to initialize the internal data structures and paint the model on the SVG interface.
 This mechanism is used to save model states in the action stack for undo and redo purposes, and to send them to the server side for simulation.
-Refer to \secref{iface_c_s} for more details on the layout of this string representation.
+The \lstref{json_repr_parts.js_1} and \ref{lst:json_repr_parts.js_2} show the elements, that this JSON string is composed of, in a structured notation.
+
+\codep[2]{json_repr_parts.js}{The building blocks of a model in JSON notation} 
 
 
-Besides the action stack, implemented in \lmt{actionstack}, there are further objects representing the state of the UI.
+Besides the action stack, implemented in \lmt{actionstack} as an instance of \lmto{ActionStack}, there are further objects representing the state of the UI.
 The object \lmt{datasource} keeps track of information related to the origin of the lens image.
 The object \lmt{modelData} saves the server side database entry for the current lens.
 The database entries for a simulated model (\C{ModellingResult}) are saved in \lmt{simulationResult}.

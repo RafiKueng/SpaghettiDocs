@@ -6,7 +6,7 @@
   title = {OS X Human Interface Guidelines},
   month = {07},
   year = {2012},
-  url = {https://developer.apple.com/library/mac/documentation/userexperience/conceptual/applehiguidelines/Intro/Intro.html#//apple_ref/doc/uid/TP30000894-TP6},
+  url = {https://developer.apple.com/library/mac/documentation/userexperience/conceptual/applehiguidelines/Intro/Intro.html},
   owner = {RafiK},
   timestamp = {2013.09.22}
 }
@@ -61,6 +61,26 @@
   timestamp = {2013.09.22}
 }
 
+@ARTICLE{Fielding:2002:PDM:514183.514185,
+  author = {Fielding, Roy T. and Taylor, Richard N.},
+  title = {Principled design of the modern Web architecture},
+  journal = {ACM Trans. Internet Technol.},
+  year = {2002},
+  volume = {2},
+  number = {2},
+  month = may,
+  pages = {115--150},
+  issn = {1533-5399},
+  doi = {10.1145/514183.514185},
+  url = {http://doi.acm.org/10.1145/514183.514185},
+  acmid = {514185},
+  address = {New York, NY, USA},
+  issue_date = {May 2002},
+  keywords = {Network-based applications, REST, World Wide Web},
+  numpages = {36},
+  publisher = {ACM}
+}
+
 @ONLINE{html5_draft,
   author = {Hickson, Ian and Hyatt, David},
   title = {HTML 5 -- A vocabulary and associated APIs for HTML and XHTML},
@@ -100,6 +120,37 @@
   url = {http://msdn.microsoft.com/en-us/library/windows/desktop/aa511436.aspx},
   owner = {RafiK},
   timestamp = {2013.09.22}
+}
+
+@INPROCEEDINGS{Pautasso:2008:RWS:1367497.1367606,
+  author = {Pautasso, Cesare and Zimmermann, Olaf and Leymann, Frank},
+  title = {Restful web services vs. "big"' web services: making the right architectural
+	decision},
+  booktitle = {Proceedings of the 17th international conference on World Wide Web},
+  year = {2008},
+  series = {WWW '08},
+  pages = {805--814},
+  address = {New York, NY, USA},
+  publisher = {ACM},
+  acmid = {1367606},
+  doi = {10.1145/1367497.1367606},
+  isbn = {978-1-60558-085-2},
+  keywords = {HTTP, REST, SOAP, WS-* vs. REST, WSDL, architectural decision modeling,
+	resource oriented architectures, service oriented architectures,
+	technology comparison, web services},
+  location = {Beijing, China},
+  numpages = {10},
+  url = {http://doi.acm.org/10.1145/1367497.1367606}
+}
+
+@ONLINE{dbranking,
+  author = {{solid IT}},
+  title = {DB-Engines Ranking},
+  month = {09},
+  year = {2013},
+  url = {http://db-engines.com/en/ranking},
+  owner = {RafiK},
+  timestamp = {2013.09.23}
 }
 
 @comment{jabref-entrytype: Online: req[author;title;month;year;url] opt[]}

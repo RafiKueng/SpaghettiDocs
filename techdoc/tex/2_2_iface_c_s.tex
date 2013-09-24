@@ -1,47 +1,43 @@
 \subsection{Interface Client Server}
 \label{sec:iface_c_s}
 
+This section explains the protocol used for the communication between the client and the sever application.
+Technically, this protocol uses HTTP to send JSON strings with defined content.
+All requests are supposed to return immediately, as the original HTTP specification requests.
+Server to client communication is achieved using polling.
+
 The server offers three points to exchange data: \I{api}, \I{tools} and \I{data}.
-
-Since there is some legacy code still in the code base, there are additional, depreciated url access points to exchange data. (\I{get\_initdata}, \I{get\_modeldata}, \I{save\_model}, \I{save\_model\_final}, \I{load\_model}, \I{result})
-
-\I{api} is supposed to handle all communication with the client application.
-The client can do a HTTP POST request to \splurl[api].
-The requests body should contain at least the key \str{action} set to the value of the desired action.
-The basic transmission format is JSON based.
-Depending on the action chosen, additional key/value pairs need to be transmitted.
-Have a look at the source code files \befn{ModellerApp/views.py} and/or \fjs{com} for details.
+Since there is some legacy code still in the code base, there are additional, depreciated url access points to exchange data (\I{get\_initdata}, \I{get\_modeldata}, \I{save\_model}, \I{save\_model\_final}, \I{load\_model}, \I{result}).
+\umlref{interface_c_s} depicts an overview of all access points, their supported HTTP request types and the according client side functions that access this points.
+Whereas requests to \I{api} should never be cached, the other interfaces represent static URI to static content and should be aggressively cached, once available. This implements the idea of a RESTful API as proposed by \cite{Fielding:2002:PDM:514183.514185}.
 
 
-
-\codep[2]{json_repr_parts.js}{The building blocks of a model in JSON notation} 
-
-
-\Lstrefr[2]{json_repr_parts.js} shows the JSON communication format for sending models between client and server in a structured notation. This has the same tree like structure as is shown in \umlref{model}.
+\uml[width=1\textwidth]{interface_c_s}{An overview over the interface client -- server. Shows the origin of requests with green background. The caching proxy with blue background. Entry points / controller definitions with yellow background. (no valid UML notation)}
 
 
-\I{data} offers an access point, to present simulated models in an easy way.
-It answers to a basic HTTP GET request by parsing the rest of the url to a integer result id and returning a simple web page showing this result number.
-\splurl[<result-id>]\footnote{example: \splurl[1337]}
+The interface \I{api} is supposed to handle all bidirectional, dynamic communication with the client application.
+Clients are required to do HTTP POST requests to \splurl[api] having a JSON string as message body.
+The JSON object is required to have at least the parameter \str{action} set to the value of the desired action.
+On the server side, the value of the action field is evaluated and the corresponding server side function is called, using the other fields as key value arguments for the function.
+The source code files \befn{ModellerApp/views.py}, \fjs{com} and \umlref{serverapi_full} provide further details about the implementation.
+
+A common task, to upload a model, requires the JS objects the model consists of to be converted to a JSON string.
+\Lstrefr[2]{json_repr_parts.js} in \secref{state} shows the JSON communication format for sending models between client and server in a structured notation. This has the same tree like structure as is shown in \umlref{model}.
 
 
-\I{tools} offers access for advanced users and admins to tools for administering collaborative modeling, getting more detailed data ect.
+The access point \I{data} presents results of the simulation of a model.
+It answers to a HTTP GET request by parsing the rest of the URL to a integer and returning the according result number as a simple web page.
+It can be used from any web browser, visiting the page \splurl[<result-id>]\footnote{example: \splurl[1337]}.
+The result of this request is a simple HTML page, offering an overview of all the data of this particular model.
+
+\I{tools} offers access for advanced users and scientists to tools for administering collaborative modeling, getting more detailed data and so on.
 At the moment, only one tool is implemented: \I{tools/ResultDataTable}.
 This tool creates an overview table over all parameters for a set of result ids.
 The resulting table can be downloaded as a Excel file (\T{csv}) or directly shown in a browser (\T{HTML-table}).
 The query to the data base is directly composed of the HTTP GET parameters:
 \splurl[tools/ResultDataTable?6696,6904-7000\&type=html].
 For a full documentation visit the tool without any argument\footnote{\splurl[tools/ResultDataTable]}.
-Further tools will be developed and implemented in cooperation with the volunteers and their demands.
+Further tools will be developed and implemented in cooperation with volunteers and scientists.
 
-
-\uml[width=1\textwidth]{interface_c_s}{An overview over the interface client -- server. Shows the origin of requests with green background. The caching proxy with blue background. Entry points / controller definitions with yellow background. (no valid UML notation)}
-
-
-All requests to the API are supposed to return instantly.
-The problem of bidirectional communication and long running queries on the server side is taken care of using traditional polling.
-If the client expects data from the server, it does a request every few seconds whether the data is ready.
-As soon it's ready, a new connection is established, that is used to get the data from the server.
-Newer techniques like long-polling (the client starts a request, the server doesn't send a response until it has data ready), COMET (the client starts a request, the server sends an answer, but doesn't close the connection and resues it for additional data packes) or HTML5 websocket API (definition of a persistent connection between server and client) are either non standard hacks and require major modification and configuration of web server (the former two) or not (yet) supported by server and browser software.
 
 

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram>
+<source><![CDATA[user:Actor[p] "User"
+browser:Browser[a] "Client (Browser)"
+views:Views[a] "Server (views.py)"
+ds-sw:Thread[a] "Server (datasources/spacewarps.py)"
+db0:Database "Database (MySQL)"
+db_sw:Database "SpaceWarps"
+
+user:browser.Select datasource
+browser:dialogHTML=views.POST('/api/, {action:'selectSource', id:3})
+views:html=ds-sw.getDialog()
+browser:user.Show datasource dialog
+browser:stop
+
+user:browser.Enter swid
+browser:resp=views.GET('/api/', {'datasourceApi', 'fetch', *args})
+views:resp=ds-sw.api({'fetch', swid='ASW000XXX'})
+ds-sw:resp={status='ok', list=lenses}=ds-sw.spacewarps._fetch(swid)
+ds-sw:lenses=[{swid, metaid, img_urls}]=db_sw.parseSpaceWarpsPage()
+browser:user.Show lens data
+browser:stop
+
+user:browser.Confirm and continue
+browser:List<ModelId>=views.GET('/api/', {'datasourceApi', 'createObj', [swid,]})
+views:ds-sw.api({'createObj', [swid,]})
+ds-sw:List<ModelID>=ds-sw.spacewarps._createObj(lenses)
+[c:LOOP for each <swid> in <lenses>]
+  #server:model_id=db0.LensData.getOrCreateEntry(swid)
+  ds-sw:model_id=db0.LensData.getEntry('spacewarps', swid)
+  [c:IF entryNotFound]
+    ds-sw:lenses=[{swid, metaid, img_urls}]=db_sw.*getData(swid)
+    ds-sw:model_id=db0.LensData.createEntry(swid)
+  [/c]
+[/c]
+browser:modelData={model_id, url, *args}=views.POST('/get_modeldata/', {'init', [<model_id>,]})
+views:model=db0.LensData.getEntry(model_id)
+browser:image=db_sw.GET(<image(s)>)
+browser:user.Show main UI]]></source>
+<configuration>
+<property name="activationBarBorderThickness" value="3"/>
+<property name="actorWidth" value="30"/>
+<property name="arrowColor" value="-14803256"/>
+<property name="arrowSize" value="6"/>
+<property name="arrowThickness" value="3"/>
+<property name="colorizeThreads" value="true"/>
+<property name="destructorWidth" value="30"/>
+<property name="explicitReturns" value="false"/>
+<property family="DejaVu Serif Condensed" name="font" size="12" style="0"/>
+<property name="fragmentBorderThickness" value="2"/>
+<property name="fragmentEdgeColor" value="-16751616"/>
+<property name="fragmentLabelBgColor" value="-36"/>
+<property name="fragmentMargin" value="8"/>
+<property name="fragmentPadding" value="10"/>
+<property name="fragmentTextPadding" value="3"/>
+<property name="glue" value="0"/>
+<property name="headHeight" value="40"/>
+<property name="headLabelPadding" value="10"/>
+<property name="headWidth" value="70"/>
+<property name="initialSpace" value="10"/>
+<property name="labeledBoxBgColor" value="-76"/>
+<property name="leftMargin" value="5"/>
+<property name="lifelineThickness" value="3"/>
+<property name="lineWrap" value="true"/>
+<property name="lowerMargin" value="5"/>
+<property name="mainLifelineWidth" value="10"/>
+<property name="messageLabelSpace" value="3"/>
+<property name="messagePadding" value="4"/>
+<property name="noteBgColor" value="-76"/>
+<property name="noteBorderThickness" value="1"/>
+<property name="noteMargin" value="6"/>
+<property name="notePadding" value="8"/>
+<property name="opaqueMessageText" value="false"/>
+<property name="returnArrowVisible" value="true"/>
+<property name="rightMargin" value="5"/>
+<property name="selfMessageHorizontalSpace" value="10"/>
+<property name="separatorBottomMargin" value="8"/>
+<property name="separatorTopMargin" value="15"/>
+<property name="shouldShadowParticipants" value="true"/>
+<property name="slackMode" value="false"/>
+<property name="spaceBeforeActivation" value="8"/>
+<property name="spaceBeforeAnswerToSelf" value="10"/>
+<property name="spaceBeforeConstruction" value="5"/>
+<property name="spaceBeforeSelfMessage" value="8"/>
+<property name="subLifelineWidth" value="10"/>
+<property name="tc0" value="-10027264"/>
+<property name="tc1" value="-256"/>
+<property name="tc2" value="-65536"/>
+<property name="tc3" value="-3342337"/>
+<property name="tc4" value="-6750004"/>
+<property name="tc5" value="-16711681"/>
+<property name="tc6" value="-65281"/>
+<property name="tc7" value="-14336"/>
+<property name="tc8" value="-20561"/>
+<property name="tc9" value="-6711040"/>
+<property name="threadNumbersVisible" value="false"/>
+<property name="threaded" value="true"/>
+<property name="upperMargin" value="5"/>
+<property name="verticallySplit" value="true"/>
+</configuration>
+</diagram>

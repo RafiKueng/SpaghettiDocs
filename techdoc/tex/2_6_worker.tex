@@ -26,7 +26,7 @@ Once a task is started by Django, Celery takes over.
 The task is sent to a message broker, that implements the task queue.
 The celery worker threads then consume the tasks from this queue, process it and save the result back in a result back end. The result backend keeps also track of the tasks states.
 
-All these processes communicate over tcp sockets and thus can run on different machines.
+All these processes communicate over TCP sockets and thus can run on different machines.
 
 \subsubsection{The tasks}
 

@@ -2,62 +2,67 @@
 <diagram>
 <source><![CDATA[user:Actor[p] "User"
 browser:Browser[a] "Client (Browser)"
-server:Thread[a] "Server [Proxy, urls.py, views.py, ...]"
-worker:Worker[a] "Worker [Broker, GLASS]"
+proxy:Server[a] "Proxy (ngineX)"
+urls:Thread[a] "Server (urls.py)"
+views:Views[a] "Server (views.py)"
+utils:Views[a] "Server (utils.py)"
+ds-sw:Thread[a] "Server (datasources/spacewarps.py)"
+tasks:Tasks "Server (tasks.py)"
+broker:Tasks "Broker (RabbitMQ)"
+worker:Worker[a] "Worker (GLASS)"
 db0:Database "Database (MySQL)"
 db_sw:Database "SpaceWarps"
 disk:HDD "Filesystem"
-#db_ml:Database "MasterLens"
-#dbR:Database "Database Celery Results"
 
 
 user:browser.Visit "mite.phsyik.uzh.ch"
-browser:<webapp>=server.GET('/index.html', ...)
-server:<webapp>=disk.read(*.html, *.js, *.css)
+browser:<webapp>=proxy.GET('/index.html', ...)
+proxy:<webapp>=disk.read(*.html, *.js, *.css)
 
-browser:listOfSources=server.POST('/api/', {action='getSrcList'})
-server:server.Proxy -> Django (urls.py)
+browser:listOfSources=proxy.POST('/api/', {action='getSrcList'})
+proxy:listOfSources=urls.
 
 #browser:listOfSources=proxy.POST('/api/', {action='getSrcList'})
 #proxy:listOfSources=server.POST('/api/', {action='getSrcList'})
 
 
-server:listOfSources=server.views.api({action='getSrcList'})
-server:listOfSources=[..., {id=3, name='spacewarps',...}, ...]=server.views._getSrcList()
+urls:listOfSources=views.api({action='getSrcList'})
+views:listOfSources=[..., {id=3, name='spacewarps',...}, ...]=views._getSrcList()
 browser:user.Show list of datasources
 browser:stop
 
 user:browser.Select datasource
-browser:dialogHTML=server.POST('/api/, {action:'selectSource', id:3})
-server:server.Proxy -> Django (urls.py)
-server:dialogHTML=server.views.api({action:'selectSource', id:3})
-server:html=server.datasources.spacewarps.getDialog()
+browser:dialogHTML=urls.POST('/api/, {action:'selectSource', id:3})
+urls:dialogHTML=views.api({action:'selectSource', id:3})
+views:html=ds-sw.spacewarps.getDialog()
 browser:user.Show datasource dialog
 browser:stop
 
 user:browser.Enter swid
-browser:resp=server.GET('/api/', {action='datasourceApi', src_id=3, do='fetch', *args})
-server:server.Proxy -> Django (urls.py)
-server:resp=server.views.api(action='datasourceApi', src_id=3, do='fetch', *args)
-server:resp=server.datasources.spacewarps.api({do='fetch', swid='ASW000XXX'})
-server:resp={status='ok', list=lenses}=server.datasources.spacewarps._fetch(swid)
-server:lenses=[{swid, metaid, img_urls}]=db_sw.parseSpaceWarpsPage()
+browser:resp=urls.GET('/api/', {action='datasourceApi', src_id=3, do='fetch', *args})
+urls:resp=views.api(action='datasourceApi', src_id=3, do='fetch', *args)
+views:resp=ds-sw.spacewarps.api({do='fetch', swid='ASW000XXX'})
+ds-sw:resp={status='ok', list=lenses}=ds-sw.spacewarps._fetch(swid)
+ds-sw:lenses=[{swid, metaid, img_urls}]=db_sw.parseSpaceWarpsPage()
 browser:user.Show lens data
 browser:stop
 
 user:browser.Confirm and continue
-browser:List<ModelId>=server.GET('/api/', {action='datasourceApi', do='createObj', data=[swid,]})
-server:server.Proxy -> Django (urls.py)
-server:List<ModelId>=server.views.api(action='datasourceApi', do='createObj', data=[swid,])
-server:server.datasources.spacewarps.api({do='createObj', lenses=[swid,]})
-server:List<ModelID>=server.datasources.spacewarps._createObj(lenses)
+browser:List<ModelId>=urls.GET('/api/', {action='datasourceApi', do='createObj', data=[swid,]})
+urls:List<ModelId>=views.api(action='datasourceApi', do='createObj', data=[swid,])
+views:ds-sw.spacewarps.api({do='createObj', lenses=[swid,]})
+ds-sw:List<ModelID>=ds-sw.spacewarps._createObj(lenses)
 [c:LOOP for each <swid> in <lenses>]
-  server:model_id=db0.LensData.getOrCreateEntry(swid)
+  #server:model_id=db0.LensData.getOrCreateEntry(swid)
+  ds-sw:model_id=db0.LensData.getEntry(datasource=spacewarps, datasource_id=swid)
+  [c:IF entryNotFound]
+    ds-sw:lenses=[{swid, metaid, img_urls}]=db_sw.*getData(swid)
+    ds-sw:model_id=db0.LensData.createEntry(datasource=spacewarps, datasource_id=swid)
+  [/c]
 [/c]
-browser:modelData={model_id, url, *args}=server.POST('/get_modeldata/', {action='init', models=[<model_id>,]})
-server:server.Proxy -> Django (urls.py)
-server:modelData={model_id, url, *args}=server.views.getModelData({action='init', models=[<model_id>,]})
-server:model=db0.LensData.getEntry(model_id)
+browser:modelData={model_id, url, *args}=urls.POST('/get_modeldata/', {action='init', models=[<model_id>,]})
+urls:modelData={model_id, url, *args}=views.getModelData({action='init', models=[<model_id>,]})
+views:model=db0.LensData.getEntry(model_id)
 browser:image=db_sw.GET(<image(s)>)
 browser:user.Show main UI
 browser:stop
@@ -67,22 +72,20 @@ user:browser.Create model
 browser:stop
 
 user:browser.Simulate model
-browser:resp=server.POST('/save_model/', {model_id, model_str})
-server:server.Proxy -> Django (urls.py)
-server:resp={status='ok', result_id}=server.views.saveModel({model_id, model_str})
-server:resultObject=server[u0].utils.EvalAndSaveJSON()
-server:self.jsonObj=server[u01].evalModelString()
-server[u0]:(self.points, self.ext_masses)=server[u02].utils.orderPoints2()
-server[u0]:server[u02].utils.createModellingResult()
-server[u02]:self.result_id=db0.ModellingResult.create(*data)
-server[u0]:server[u02].utils.createConfigfile()
-server[u02]:disk.write('<result_id>/config.gls') [LOCAL]
+browser:resp=urls.POST('/save_model/', {model_id, model_str})
+urls:resp={status='ok', result_id}=views.saveModel({model_id, model_str})
+views:resultObject=utils[u0].EvalAndSaveJSON()
+utils:self.jsonObj=utils[u01].evalModelString()
+utils[u0]:(self.points, self.ext_masses)=utils[u02].orderPoints2()
+utils[u0]:utils[u02].createModellingResult()
+utils[u02]:self.result_id=db0.ModellingResult.create(*data)
+utils[u0]:utils[u02].createConfigfile()
+utils[u02]:disk.write('<result_id>/config.gls') [LOCAL]
 
-browser:{result_id, status='STARTED' }=server.GET('/result/<result_id>.json')
-server:server.Proxy -> Django (urls.py)
-server:server.views.getSimulationJSON(result_id)
-server:task=server.tasks.calculateModel.apply_async(result_id)
-server:worker[b0].createTask()
+browser:{result_id, status='STARTED' }=urls.GET('/result/<result_id>.json')
+urls:views.getSimulationJSON(result_id)
+views:task=tasks.calculateModel.apply_async(result_id)
+tasks:worker[b0].createTask()
 worker[b0]:>worker[b1].broker.addToQueue(task)
 
 server:db0.ModellingResults.modifyEntry(result_id, {task_id\=task.task_id})&

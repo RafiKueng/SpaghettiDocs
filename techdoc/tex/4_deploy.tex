@@ -1,4 +1,90 @@
-\section{Deployment}
+\section{Configuration and Deployment}
 \label{sec:deployment}
 
-the deployment
+This section gives an overview of the possible setups and configuration of \spl.
+
+\subsection{Configuration Files}
+
+All relevant config files can be found in the \path{./backend/settings} directory.
+
+\begin{itemize}
+  \fbul{base_settings.py}{This file contains the basic configuration of Django and internal Django setup. This should stay the same for all possible configurations.}
+  \fbul{gunicorn.py}{This is the configuration file for the WSGI server running Django. Only used for the full server setup.}
+  \fbul{machine.py}{This file sets up machine specific paths, the database connection and URLS. The \T{ROLE} parameter defines what kind of installation this setup is and which modules should be used.}
+  \fbul{secrets.py}{This file contains information that should be kept secret like user credentials for the database.}
+  \fbul{settings.py}{This is the master settings file, that import all others. There are no parts to be changed by the user. It defines all possible roles.}
+  \fbul{version.py}{Keeps track of version numbers. Is automatically updated by the install scripts.}
+\end{itemize}
+
+
+
+
+\subsection{Full Server -- Installation}
+\label{sec:serverinstall}
+
+The full server installation installs all components on one machine, that is supposed to serve as web server.
+Worker threads can additionally be run on different machines, see \secref{workerinstall}.
+
+Due to the complicated setup, this process is automated with a interactive installation script.
+The installation script is tested on a fresh install of Ubuntu server edition, but should work with all Debian based systems.
+It needs a lot of packages, modules and configuration files to be setup and will create and change some system configuration files.
+A full install on a fresh installed OS will need about 1GB\footnote{Due to the many packages that need to be installed. Most systems already have most available.}.
+
+Warning: The install script will write and change configuration files for MySQL, nginX and RabbitMQ.
+If you have any of those running, please don't use the install script.
+
+Requirements for the install scripts are a installed Python 2.7 with packet manager PiP and the packages numpy, scipy, matplotlib and fabric.
+Additionally, you have to get a copy of GLASS.
+
+The script is started by running the following command in the base directory:
+\cmd{fab install}
+
+All components should start up automatically on restart and \spl should be available.
+
+
+\subsection{Full Server -- Update}
+
+To update the server, first change to the source directory and make sure to have the latest version.
+The update scripts will copy the new files to the according locations and minify the HTML, CSS and JS files into single files.
+\cmd{fab update\_backend:install\_dir='/path/to/install'}
+\cmd{fab update\_html:install\_dir='/path/to/install'}
+
+If there were updates to the database design, the new schema will have to be manually applied.
+\spl uses the Python module south to help with schema migrations.
+
+
+\subsection{Worker Installation}
+\label{sec:workerinstall}
+
+Additional worker nodes can easily be spawned on any machine that has access to the file system of the server using SSH and can access the database.
+No root access is needed on the local machine.
+A step-by-step documentation of the installation is available in the file \file{./install/roles/production_worker.py}
+
+
+
+\subsection{Desktop Application}
+
+This section gives an outline, how \spl could be used as a desktop application.
+There is no install script yet, and the setup is not complete nor widely tested.
+
+Change the settings file \file{machine.py}:
+
+\begin{itemize}
+  \fbul{DATABASE_NAME = '/path/to/sqlite.db'}{Any path to a to be created sqlite3 database file.}
+  \fbul{STATIC_ROOT = '/path/for/static/files/'}{Any path where Django will collect static files.}
+  \fbul{ROLE = 'standalone_app'}{set up the use of proper modules.}
+\end{itemize}
+
+Make sure to meet the requirements stated in the full server setup.
+Additionally the following python packages are needed: ``django'',''django-lazysignup'', ``south''.
+
+Initialise Django:
+\cmd{cd backend}
+\cmd{python manage.py syncdb}
+\cmd{python manage.py collectstatic}
+
+Start the server:
+\cmd{python manage.py runserver}
+
+\spl is now available under \url{http://localhost:8000}.
+

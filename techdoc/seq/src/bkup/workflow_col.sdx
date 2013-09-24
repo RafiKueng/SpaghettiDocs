@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram>
+<source><![CDATA[user:Actor[p] "User"
+browser:Browser[a] "Client (Browser)"
+server:Thread[a] "Server [Proxy, urls.py, views.py, ...]"
+worker:Worker[a] "Worker [Broker, GLASS]"
+db0:Database "Database (MySQL)"
+db_sw:Database "SpaceWarps"
+disk:HDD "Filesystem"
+#db_ml:Database "MasterLens"
+#dbR:Database "Database Celery Results"
+
+
+user:browser.Visit "mite.phsyik.uzh.ch"
+browser:<webapp>=server.GET('/index.html', ...)
+server:<webapp>=disk.read(*.html, *.js, *.css)
+
+browser:listOfSources=server.POST('/api/', {action='getSrcList'})
+server:server.Proxy -> Django (urls.py)
+
+#browser:listOfSources=proxy.POST('/api/', {action='getSrcList'})
+#proxy:listOfSources=server.POST('/api/', {action='getSrcList'})
+
+
+server:listOfSources=server.views.api({action='getSrcList'})
+server:listOfSources=[..., {id=3, name='spacewarps',...}, ...]=server.views._getSrcList()
+browser:user.Show list of datasources
+browser:stop
+
+user:browser.Select datasource
+browser:dialogHTML=server.POST('/api/, {action:'selectSource', id:3})
+server:server.Proxy -> Django (urls.py)
+server:dialogHTML=server.views.api({action:'selectSource', id:3})
+server:html=server.datasources.spacewarps.getDialog()
+browser:user.Show datasource dialog
+browser:stop
+
+user:browser.Enter swid
+browser:resp=server.GET('/api/', {action='datasourceApi', src_id=3, do='fetch', *args})
+server:server.Proxy -> Django (urls.py)
+server:resp=server.views.api(action='datasourceApi', src_id=3, do='fetch', *args)
+server:resp=server.datasources.spacewarps.api({do='fetch', swid='ASW000XXX'})
+server:resp={status='ok', list=lenses}=server.datasources.spacewarps._fetch(swid)
+server:lenses=[{swid, metaid, img_urls}]=db_sw.parseSpaceWarpsPage()
+browser:user.Show lens data
+browser:stop
+
+user:browser.Confirm and continue
+browser:List<ModelId>=server.GET('/api/', {action='datasourceApi', do='createObj', data=[swid,]})
+server:server.Proxy -> Django (urls.py)
+server:List<ModelId>=server.views.api(action='datasourceApi', do='createObj', data=[swid,])
+server:server.datasources.spacewarps.api({do='createObj', lenses=[swid,]})
+server:List<ModelID>=server.datasources.spacewarps._createObj(lenses)
+[c:LOOP for each <swid> in <lenses>]
+  #server:model_id=db0.LensData.getOrCreateEntry(swid)
+  server:model_id=db0.LensData.getEntry(datasource=spacewarps, datasource_id=swid)
+  [c:IF entryNotFound]
+    server:lenses=[{swid, metaid, img_urls}]=db_sw.*getData(swid)
+    server:model_id=db0.LensData.createEntry(datasource=spacewarps, datasource_id=swid)
+  [/c]
+[/c]
+browser:modelData={model_id, url, *args}=server.POST('/get_modeldata/', {action='init', models=[<model_id>,]})
+server:server.Proxy -> Django (urls.py)
+server:modelData={model_id, url, *args}=server.views.getModelData({action='init', models=[<model_id>,]})
+server:model=db0.LensData.getEntry(model_id)
+browser:image=db_sw.GET(<image(s)>)
+browser:user.Show main UI
+browser:stop
+
+
+user:browser.Create model
+browser:stop
+
+user:browser.Simulate model
+browser:resp=server.POST('/save_model/', {model_id, model_str})
+server:server.Proxy -> Django (urls.py)
+server:resp={status='ok', result_id}=server.views.saveModel({model_id, model_str})
+server:resultObject=server[u0].utils.EvalAndSaveJSON()
+server:self.jsonObj=server[u01].evalModelString()
+server[u0]:(self.points, self.ext_masses)=server[u02].utils.orderPoints2()
+server[u0]:server[u02].utils.createModellingResult()
+server[u02]:self.result_id=db0.ModellingResult.create(*data)
+server[u0]:server[u02].utils.createConfigfile()
+server[u02]:disk.write('<result_id>/config.gls') [LOCAL]
+
+browser:{result_id, status='STARTED' }=server.GET('/result/<result_id>.json')
+server:server.Proxy -> Django (urls.py)
+server:server.views.getSimulationJSON(result_id)
+server:task=server.tasks.calculateModel.apply_async(result_id)
+server:worker[b0].createTask()
+worker[b0]:>worker[b1].broker.addToQueue(task)
+
+server:db0.ModellingResults.modifyEntry(result_id, {task_id\=task.task_id})&
+server:_
+server:_
+browser:_
+
+
+worker[b1]:>worker[w0].worker.consumeTaskFromQueue(task_id)
+worker[b1]:stop
+worker[w0]:db0.Tasks.modifyEntry(taskid, {status\='started'})
+worker[w0]:file=disk.read(<result_id>/config.gls) [SSH]
+worker[w0]:worker[w1].call_glass()
+
+[c:UNTIL status='READY' or TIMEOUT]
+  browser:{result_id, status='PENDING' }=server.GET('/result/<result_id>.json')
+  server:server.Proxy -> Django (urls.py)
+  server:{result_id, status='PENDING' }=server.views.getSimulationJSON(<result_id>)
+  server:task_id=db0.ModellingResults.getEntry(result_id).task_id&
+  server:task_status='PENDING'=db0.Tasks.getEntry(task_id).task_status&
+  server:_
+  browser:_
+[/c]
+
+# finish task
+worker[w0]:disk.write(<output_files>) [SSH]
+worker[w0]:db0.Tasks.modifyEntry(taskid, {status\='finished'})
+worker[w0]:stop
+
+#check a thrid time
+browser:{result_id, status='READY', imgs=[<url1>, <url2>...] }=server.GET('/result/<result_id>.json')
+server:server.Proxy -> Django (urls.py)
+server:{result_id, status='READY', imgs=[<url1>, <url2>...] }=server.views.getSimulationJSON(<result_id>)
+server:task_id=db0.ModellingResult.getEntry(result_id).task_id&
+server:task=task_status='finished'=db0.Tasks.getEntry(task_id).task_status&
+server:result.task_id=db0.ModellingResults.modifyEntry(result_id, {isRendered\=True})&
+
+browser:image=server.GET('/result/<result_id>/<image>')
+server:image=disk.PROXY: read('/result/<result_id>/<image>') [LOCAL]
+browser:user.Display results images
+browser:stop
+
+user:browser.Save result
+browser:server.POST('/save_model_final/', *args)
+server:server.Proxy -> Django (urls.py)
+server:server.views.saveModelFinal()
+server:result_id=db0.ModellingResult.modifyEntry(result_id, {is_final\=True})&
+browser:user.Display link to result page
+browser:stop
+
+user:browser.Visit results page
+browser:<resultpage>=server.GET('/data/<result_id>')
+server:server.Proxy -> Django (urls.py)
+server:server.views.getData(result_id)
+server:result=db0.ModellingResult.getEntry(result_id)&
+server:<resultpage>=server.renderUsingTemplate(result)
+browser:user.Show result page
+browser:stop
+
+user:browser.Revisit results page
+browser:<resultpage>=server.GET('/data/<result_id>')
+server:server.PROXY: cachehit
+browser:user.Show result page
+browser:stop
+
+]]></source>
+<configuration>
+<property name="activationBarBorderThickness" value="3"/>
+<property name="actorWidth" value="30"/>
+<property name="arrowColor" value="-14803256"/>
+<property name="arrowSize" value="6"/>
+<property name="arrowThickness" value="3"/>
+<property name="colorizeThreads" value="true"/>
+<property name="destructorWidth" value="30"/>
+<property name="explicitReturns" value="false"/>
+<property family="DejaVu Serif Condensed" name="font" size="12" style="0"/>
+<property name="fragmentBorderThickness" value="2"/>
+<property name="fragmentEdgeColor" value="-16751616"/>
+<property name="fragmentLabelBgColor" value="-36"/>
+<property name="fragmentMargin" value="8"/>
+<property name="fragmentPadding" value="10"/>
+<property name="fragmentTextPadding" value="3"/>
+<property name="glue" value="0"/>
+<property name="headHeight" value="40"/>
+<property name="headLabelPadding" value="10"/>
+<property name="headWidth" value="70"/>
+<property name="initialSpace" value="10"/>
+<property name="labeledBoxBgColor" value="-76"/>
+<property name="leftMargin" value="5"/>
+<property name="lifelineThickness" value="3"/>
+<property name="lineWrap" value="true"/>
+<property name="lowerMargin" value="5"/>
+<property name="mainLifelineWidth" value="10"/>
+<property name="messageLabelSpace" value="3"/>
+<property name="messagePadding" value="4"/>
+<property name="noteBgColor" value="-76"/>
+<property name="noteBorderThickness" value="1"/>
+<property name="noteMargin" value="6"/>
+<property name="notePadding" value="8"/>
+<property name="opaqueMessageText" value="false"/>
+<property name="returnArrowVisible" value="true"/>
+<property name="rightMargin" value="5"/>
+<property name="selfMessageHorizontalSpace" value="10"/>
+<property name="separatorBottomMargin" value="8"/>
+<property name="separatorTopMargin" value="15"/>
+<property name="shouldShadowParticipants" value="true"/>
+<property name="slackMode" value="false"/>
+<property name="spaceBeforeActivation" value="8"/>
+<property name="spaceBeforeAnswerToSelf" value="10"/>
+<property name="spaceBeforeConstruction" value="5"/>
+<property name="spaceBeforeSelfMessage" value="8"/>
+<property name="subLifelineWidth" value="10"/>
+<property name="tc0" value="-10027264"/>
+<property name="tc1" value="-256"/>
+<property name="tc2" value="-65536"/>
+<property name="tc3" value="-3342337"/>
+<property name="tc4" value="-6750004"/>
+<property name="tc5" value="-16711681"/>
+<property name="tc6" value="-65281"/>
+<property name="tc7" value="-14336"/>
+<property name="tc8" value="-20561"/>
+<property name="tc9" value="-6711040"/>
+<property name="threadNumbersVisible" value="false"/>
+<property name="threaded" value="true"/>
+<property name="upperMargin" value="5"/>
+<property name="verticallySplit" value="true"/>
+</configuration>
+</diagram>

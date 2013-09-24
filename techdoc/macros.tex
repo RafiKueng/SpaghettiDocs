@@ -1,6 +1,7 @@
 
 \newcommand{\spl}{SpaghettiLens\xspace}
 \newcommand{\sw}{SpaceWarps\xspace}
+\newcommand{\ml}{MasterLens\xspace}
 
 % shortcut for einstein radius (Text Greek Full Math)
 \newcommand{\ER}{Einstein radius\xspace} % text
@@ -22,7 +23,7 @@
 \newcommand{\figref}[1]{Figure~\ref{fig:#1}}
 \newcommand{\secref}[1]{Section~\ref{sec:#1}}
 \newcommand{\tabref}[1]{Table~\ref{tab:#1}}
-\newcommand{\lstref}[1]{Listings~\ref{lst:#1}}
+\newcommand{\lstref}[1]{Listing~\ref{lst:#1}}
 \newcommand{\umlref}[1]{UML~Diagram~\ref{uml:#1}}
 \newcommand{\Figref}[1]{Figure~\ref{fig:#1}}
 \newcommand{\Secref}[1]{Section~\ref{sec:#1}}
@@ -82,6 +83,14 @@
 \end{figure}%
 }
 
+\newcommand{\seq}[3][width=\textwidth]{%
+\begin{figure}[!ht]%
+  \centering%
+  \includegraphics[#1]{seq/#2.pdf}%
+  \caption{#3}%
+  \label{seq:#2}%
+\end{figure}%
+}
 
 % small code fragments
 
@@ -119,7 +128,17 @@
 \newcommand{\lmto}[1]{\C{LMT.objects.#1}\xspace}
 
 % file names
-\newcommand{\fjs}[1]{\protect\path{lmt.#1.js}\xspace}
+\newcommand{\fjs}[1]{\textit{\protect\path{lmt.#1.js}}\xspace}
+
+% file names
+\newcommand{\file}[1]{\protect\path{#1}\xspace}
+
+% file name bullet
+\newcommand{\fbul}[2]{\item\textbf{\protect\path{#1}}\\#2}
+
+% shell command
+\newcommand{\cmd}[1]{{\\\ttfamily\$\xspace#1\xspace}}
+
 
 \DeclareUrlCommand\path{\urlstyle{tt}}
 
@@ -130,7 +149,7 @@
 % backend stuff
 
 %backend filename
-\newcommand{\befn}[1]{\protect\path{/backend/#1}\xspace}
+\newcommand{\befn}[1]{\textit{\protect\path{/backend/#1}}\xspace}
 
 %database table
 \newcommand{\dbtable}[1]{{\ttfamily #1}\xspace}
