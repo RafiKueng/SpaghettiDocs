@@ -41,6 +41,15 @@
   timestamp = {2013.09.22}
 }
 
+@UNPUBLISHED{glass-jc,
+  author = {Jonathan Coles},
+  title = {Gravitational Lens Recovery with Glass: How to measure the mass profile
+	and shape of a lens},
+  note = {to be published},
+  owner = {RafiK},
+  timestamp = {2013.09.24}
+}
+
 @ONLINE{caniuse_css,
   author = {Alexis Deveria},
   title = {Can I use...},
@@ -141,6 +150,39 @@
   location = {Beijing, China},
   numpages = {10},
   url = {http://doi.acm.org/10.1145/1367497.1367606}
+}
+
+@ARTICLE{Saha2004,
+  author = {{Saha}, P. and {Williams}, L.~L.~R.},
+  title = {{A Portable Modeler of Lensed Quasars}},
+  journal = {\aj},
+  year = {2004},
+  volume = {127},
+  month = may,
+  pages = {2604-2616},
+  doi = {10.1086/383544},
+  eprint = {arXiv:astro-ph/0402135},
+  abstract = {We introduce and implement two novel ideas for modeling lensed quasars.
+	The first is to require different lenses to agree about H0. This
+	means that some models for one lens can be ruled out by data on a
+	different lens. We explain using two worked examples. One example
+	models 1115+080 and 1608+656 (time-delay quadruple systems) and 1933+503
+	(a prospective time-delay system) all together, yielding time-delay
+	predictions for the third lens and a 90% confidence estimate of H-10=14.6+9.4-1.7
+	Gyr (H0=67+9-26 km s-1 Mpc-1) assuming ΩM=0.3 and ΩΛ=0.7. The other
+	example models the time-delay doubles 1520+530, 1600+434, 1830-211,
+	and 2149-275, which gives H-10=14.5+3.3-1.5 Gyr (H0=67+8-13 km s-1
+	Mpc-1). Our second idea is to write the modeling software as a highly
+	interactive Java applet, which can be used both for coarse-grained
+	results inside a browser and for fine-grained results on a workstation.
+	Several obstacles come up in trying to implement a numerically intensive
+	method thus, but we overcome them.},
+  adsnote = {Provided by the SAO/NASA Astrophysics Data System},
+  adsurl = {http://adsabs.harvard.edu/abs/2004AJ....127.2604S},
+  file = {:Saha2004.pdf:PDF},
+  keywords = {Cosmology: Gravitational Lensing},
+  owner = {RafiK},
+  timestamp = {2013.09.01}
 }
 
 @ONLINE{dbranking,
