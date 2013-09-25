@@ -1,0 +1,140 @@
+
+\documentclass{beamer}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage{lmodern}
+\usepackage{amsmath,amsfonts,amssymb}
+
+\usepackage{graphicx}
+\usepackage{pgf}
+
+
+
+\usepackage[backend=biber, citestyle=authortitle-comp, bibstyle=authortitle]{biblatex}
+\usepackage{csquotes}
+\renewcommand{\bibliography}[1]{} % make noop. stillincl this cmd for
+\bibliography{../techdoc/bib/bibi}           % texnicenter to display the library
+\addbibresource{../techdoc/bib/bibi.bib}
+%\bibhang1.5em 
+
+
+%\usepackage[pdftex]{hyperref} %import last!
+%\hypersetup{pdftex}
+\usepackage{pgf}
+%\usepackage{pgfmath}
+\usepackage{pgffor}
+\usepackage{ifthen}
+\newcommand{\ani}[3]{
+  \foreach \i [count=\ni] in {#2, ..., #3} {%
+    \ifthenelse{\i=#2}{%
+      \imgframe{\i}{#1}%
+    }{\ifthenelse{\i=#3} {
+      \imgframe{\i}{#1}%
+    }{
+      \imgframe[\transduration{0.1}]{\i}{#1}%
+    }}%
+  }%
+}
+
+\newcommand{\imgframe}[3][]{
+  \begin{frame}
+    #1
+    \frametitle{Frame #2}
+     \includegraphics[width=\textwidth]{#3#2}
+  \end{frame}
+}
+
+
+
+
+\usepackage{appendixnumberbeamer}
+
+\usetheme{Antibes}
+\usecolortheme{lily}
+%\usefonttheme{professionalfonts}
+\useinnertheme{default}
+\useoutertheme{default}
+
+\setbeamercovered{transparent}
+
+% switch of nav
+\beamertemplatenavigationsymbolsempty
+
+%frame number
+\setbeamertemplate{footline}[frame number]
+
+\mode<presentation>
+
+\title{SpagthettiLens}
+\subtitle{Gravitational Lens Modeling}
+\author[R. Küng]{Rafael Küng}
+\institute[ITP -- UZH]{Institute for Theoretical Physics\\ University Zurich}
+\date[26.09.13]{26. Sept 2013}
+\logo{\pgfimage[width=3cm]{imgs/uzh}}
+\titlegraphic{\includegraphics[width=4cm]{imgs/uzh}}
+\subject{Modeling}
+\keywords{ART, Gravitational Lens, Model, Modeling}
+
+
+\begin{document}
+{
+\setbeamertemplate{logo}{}
+\begin{frame}
+	\titlepage
+\end{frame}
+}
+
+\section*{Outline}
+
+\begin{frame}
+  %\frametitle{Inhaltsverzeichnis}
+  \tableofcontents%[pausesections]
+\end{frame}
+
+\ani{ani/1/n_runb0}{2}{9}
+
+\section*{Motivation}
+
+\section{Theory}
+\subsection{}
+
+\section{SpaghettiLens}
+\subsection{Demonstration}
+\subsection{Implementation}
+
+\section{Involving Volunteers}
+\subsection{Modeling Challenge}
+\subsection{Collaborative Modeling}
+
+\section*{End}
+\subsection*{Questions?}
+
+
+
+
+
+\begin{frame}
+  \frametitle{ttest}
+  bla?\footcite{glass-jc}
+  \transduration{1}
+\end{frame}
+
+\begin{frame}
+  \frametitle{ttest}
+  bla1\footcite{glass-jc}
+\end{frame}
+
+\appendix
+
+\begin{frame}
+  \frametitle{Appendix}
+\end{frame}
+
+\begin{frame}
+\end{frame}
+
+
+\end{document}
