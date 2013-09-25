@@ -25,18 +25,18 @@ There are a few versions and variants of standardized HTML around. The actual st
 
 The new version, HTML5 is not yet finalized.
 The first working draft was published 2008\cite{html5_draft}.
-It offers many new features, including the Canvas element (discussed in \secref{canvas}) element and the integration of \T{SVG} (\secref{svg}).
+It offers many new features, including the Canvas element (discussed in \secref{canvas}) and the integration of SVG (\secref{svg}).
 
 
 \subsection{Cascading Style Sheets (CSS)}
 \label{sec:css}
 
 Cascading Style Sheets (CSS) is a language to describe the layout of structured semantic documents, like HTML.
-It allows the identification of elements of a document by tag name, id, class name, or (relative) position in the document and apply key / value pairs to define the optics and layout of the selection.
+It allows the identification of elements of a document by tag name, id, class name, or (relative) position in the document by implementing CSS selector syntax and apply key / value pairs to define the optics and layout of the selection.
 
 \code{doc.css}{Example CSS file. Operating on \lstref{doc.html}}
 
-The current version is CSS 2.1\cite{css_spec}, defined in June 2011. While the work on CSS 3 is advanced\cite{css_stat} and many features of CSS 3 can already be used\cite{caniuse_css}, no browser correctly implements even version 2.1.
+The current version is CSS 2.1\cite{css_spec}, defined in June 2011. While the work on CSS 3 is advanced\cite{css_stat} and many features of CSS 3 can already be used\cite{caniuse_css}, browser is not guaranteed.
 
 
 \subsection{ECMAScript (aka JavaScript JS)}
@@ -45,7 +45,7 @@ JavaScript (JS) is an interpreted, prototype based multi-paradigm scripting lang
 It usually runs client side in the browser and allows to alter the DOM, react to the user and interact with a server.
 
 JS has no concept of classes, even though it offers object oriented programming by using prototype based programming.
-JS is dynamically typed and allows duck typing.
+JS is dynamically typed and allows duck typing\footnote{Variables have no fixed data type assigned}.
 JS objects are a collection of key / value pairs and thus comparable to Python \T{dict} and C++ \T{map}.
 
 
@@ -59,7 +59,7 @@ jQuery is an open source library, that simplifies the access to and manipulation
 It allows the use of CSS selectors to easily select and modify a extended set of DOM elements, an extended event system, animations and effects and Ajax functions, among others.
 It simplifies the writing of JavaScript code by offering shorter syntax and browser-independent high level functions.
 Compare \lstref{doc.js} to \lstref{jdoc.js}.
-It is used by about two third of the top 10'000 internet sites\cite{jquery_usage}.
+jQuery is used by about two third of the top 10'000 internet sites\cite{jquery_usage}.
 
 \code{jdoc.js}{The same functionality as in \lstref{doc.js}, using jQuery JavaScript library.}
 
@@ -68,7 +68,7 @@ JavaScript code can potentially be harmful to a user.
 To prevent exploits, JS is usually run encapsulated in a sand box by the browser.
 This sand box prevents access to all local resources, including the file system\footnote{Except for cookies, where a few bytes can be saved}, and other open web pages.
 That implies, that users manipulating data in an web app can't save states on their local machine easily.
-Web browser further impose strict security restriction on content that gets loaded by JS from sites that don't have the same origin as the currently displayed web site.
+Web browser further impose strict security restriction on content that gets loaded by JS from sites that don't have the same origin as the currently displayed web site (``same-origin policy'').
 
 
 \subsection{Dynamic web based applications (web apps)}
@@ -210,7 +210,7 @@ By design, SVG is slower as canvas, because it first needs to rasterized by the 
 Additionally, there was put a lot of effort in Canvas optimization and hardware acceleration lately, whereas SVG hardware support is only minimal.
 Due to the lack of hardware optimization, pixel based operations like filters operate slowly.
 
-SVG graphics can be rendered to a canvas using the external JS library \T{canvg.js}\footnote{Developped by Gabe Lerner with contributions to the CSS engine by Rafael Küng.}.
+SVG graphics can be rendered to a canvas using the external JS library \T{canvg.js}\footnote{Developped by Gabe Lerner with contributions to the CSS engine by Rafael Küng and others.}.
 
 
 
