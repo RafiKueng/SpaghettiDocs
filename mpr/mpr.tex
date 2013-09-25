@@ -1,5 +1,5 @@
 
-\documentclass{beamer}
+\documentclass[aspectratio=1610]{beamer}
 
 \usepackage[english]{babel}
 \usepackage[utf8]{inputenc}
@@ -42,8 +42,11 @@
 \newcommand{\imgframe}[3][]{
   \begin{frame}
     #1
-    \frametitle{Frame #2}
-     \includegraphics[width=\paperwidth]{#3#2}
+    \makebox[\linewidth]{\parbox{17cm}{
+    %\frametitle{Frame #2}
+      %\includegraphics[width=\paperwidth]{#3#2}
+      \includegraphics[width=17cm]{#3#2}
+    }}
   \end{frame}
 }
 
@@ -53,7 +56,7 @@
 \usepackage{appendixnumberbeamer}
 
 \usetheme{Antibes}
-\usecolortheme{lily}
+%\usecolortheme{lily}
 %\usefonttheme{professionalfonts}
 \useinnertheme{default}
 \useoutertheme{default}
@@ -61,7 +64,7 @@
 \setbeamercovered{transparent}
 
 % switch of nav
-\beamertemplatenavigationsymbolsempty
+%\beamertemplatenavigationsymbolsempty
 
 %frame number
 \setbeamertemplate{footline}[frame number]
@@ -73,7 +76,7 @@
 \author[R. Küng]{Rafael Küng}
 \institute[ITP -- UZH]{Institute for Theoretical Physics\\ University Zurich}
 \date[26.09.13]{26. Sept 2013}
-\logo{\pgfimage[width=3cm]{imgs/uzh}}
+%\logo{\pgfimage[width=3cm]{imgs/uzh}}
 \titlegraphic{\includegraphics[width=4cm]{imgs/uzh}}
 \subject{Modeling}
 \keywords{ART, Gravitational Lens, Model, Modeling}
@@ -98,25 +101,157 @@
 \section*{Motivation}
 
 \section{Theory}
-\subsection{Fermats Principle}
+
+\subsection{Fermat’s Principle}
+
+\begin{frame}
+  \frametitle{Fermat’s Principle}
+  \begin{block}{Fermat’s Principle}
+    Time $t$ for path $X$:
+    $$t\left[X\right] = \frac{1}{c}\int_{t_1}^{t_2}n\left(\vec{x}\left(t\right)\right)\sqrt{1+\left(\frac{\text{d}\vec{x}\left(t'\right)}{\text{d}t'}\right)^2}\text{d}t'$$
+    Path $X$ where $t$ stationary.
+  \end{block}
+\end{frame}
 
 \ani{ani/1/n1-}{1}{45}
 \ani{ani/1/n2-}{45}{50}
 
+\subsection{ART}
 
 \ani{ani/2/n1-}{1}{42}
 \ani{ani/2/n2-}{41}{47}
 \ani{ani/2/n3-}{46}{50}
 
-\subsection{ART}
+\begin{frame}
+  \frametitle{ART}
+  \begin{block}{Field Equations}
+    $$R_{\mu\nu} - \frac{R}{2}\, g_{\mu\nu} + \Lambda\, g_{\mu\nu} = \frac{8 \pi G}{c^4}\, T_{\mu\nu}$$
+  \end{block}
+\end{frame}
+
+
 \subsection{Arrival Time Surface}
+
+{\setbeamertemplate{tree}{}
+\begin{frame}
+  
+  \hspace{-1.2cm}\includegraphics[width=\textwidth]{imgs/fig0}
+\end{frame}
+
+\begin{frame}
+  \includegraphics[width=\textwidth]{imgs/fig3}
+\end{frame}}
+
+%\begin{frame}
+  %\includegraphics[width=\textwidth]{imgs/sl-3}
+%\end{frame}
+%
+%\begin{frame}
+  %\includegraphics[width=\textwidth]{imgs/real3}
+%\end{frame}
+
+\begin{frame}
+  \begin{columns}[T]
+    \begin{column}{5.5cm}
+      \includegraphics[width=\textwidth]{imgs/sl-3}
+    \end{column}
+    \begin{column}{5.5cm}
+      \includegraphics[width=\textwidth]{imgs/real3}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}
+  \includegraphics[width=\textwidth]{imgs/fig1}
+\end{frame}
+
+%\begin{frame}
+  %\includegraphics[width=\textwidth]{imgs/sl-1}
+%\end{frame}
+%
+%\begin{frame}
+  %\includegraphics[width=\textwidth]{imgs/real1}
+%\end{frame}
+
+\begin{frame}
+  \begin{columns}[T]
+    \begin{column}{5.5cm}
+      \includegraphics[width=\textwidth]{imgs/sl-1}
+    \end{column}
+    \begin{column}{5.5cm}
+      \includegraphics[width=\textwidth]{imgs/real1}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+
+\begin{frame}
+  \includegraphics[width=\textwidth]{imgs/fig2}
+\end{frame}
+
+\begin{frame}
+  \includegraphics[width=\textwidth]{imgs/einsteinring}
+\end{frame}
 
 \section{SpaghettiLens}
 \subsection{Demonstration}
+
+\begin{frame}
+  \frametitle{SpaghettiLens}
+
+  \begin{columns}[c]\begin{column}{0.55\textwidth}
+    \begin{itemize}
+    \item Extremal Points (Images)
+    \item Self Intersecting Contour Lines
+    \end{itemize}
+    \url{http://mite.physik.uzh.ch/}
+
+  \end{column}\begin{column}{0.44\textwidth}
+    \includegraphics[width=\textwidth]{imgs/sled-1}
+  \end{column}\end{columns}
+
+
+\end{frame}
+
 \subsection{Implementation}
+
+\begin{frame}
+  \frametitle{Implementation - Modules}
+  \includegraphics[height=\textheight]{imgs/whole_setup}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Implementation - Data Flow}
+  \includegraphics[width=\textwidth]{imgs/dataflow}
+\end{frame}
+
 
 \section{Involving Volunteers}
 \subsection{Modeling Challenge}
+
+\begin{frame}
+  \frametitle{Modeling Challenge - Tests}
+  \begin{itemize}
+    \item some facts
+    \item and the tests
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Results T1}
+  \input{tab/stats}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Results T2}
+  \begin{columns}[c]\begin{column}{0.66\textwidth}
+    \includegraphics[height=0.9\textheight]{imgs/eR_4}
+  \end{column}\begin{column}{0.33\textwidth}
+    {\color{red}XXX}
+  \end{column}\end{columns}
+\end{frame}
+
+
 \subsection{Collaborative Modeling}
 
 \section*{End}
