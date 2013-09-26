@@ -147,7 +147,12 @@
 
 \section*{Motivation}
 \begin{frame}
-  dfg
+  \frametitle{Motivation}
+  \begin{itemize}
+    \item Gravitational Lenses (GL) hard to find
+    \item Let volunteers help find them: SpaceWarps
+    \item But post processing? SpaghettiLens
+  \end{itemize}
 \end{frame}
 
 
@@ -162,15 +167,6 @@
 \section{Theory}
 
 \subsection{Fermat’s Principle}
-
-%\begin{frame}
-  %\frametitle{Fermat’s Principle}
-  %\begin{block}{Fermat’s Principle}
-    %Time $t$ for path $X$:
-    %$$t\left[X\right] = \frac{1}{c}\int_{t_1}^{t_2}n\left(\vec{x}\left(t\right)\right)\sqrt{1+\left(\frac{\text{d}\vec{x}\left(t'\right)}{\text{d}t'}\right)^2}\text{d}t'$$
-    %Path $X$ where $t$ stationary.
-  %\end{block}
-%\end{frame}
 
 
 \begin{frame}
@@ -202,6 +198,9 @@
 \ani{ani/2/n2-}{41}{47}
 \ani{ani/2/n3-}{46}{50}
 
+\begin{frame}
+  \footnote{Animations: C. Huwyler; gravlens2}
+\end{frame}
 
 \subsection{Arrival Time Surface}
 
@@ -430,10 +429,6 @@
 
 
 
-\subsection{Collaborative Modelling}
-\begin{frame}
-  \frametitle{Collaborative Modelling}
-\end{frame}
 
 \section*{Conclusions}
 
@@ -441,8 +436,9 @@
   \frametitle{Conclusions}
   \begin{itemize}
     \item Volunteers can model lenses
-    \item They do it comparably well to an scientist, if instructed
+    \item They do it comparably well to a scientist
     \item They like doing it
+    \item Collaborative Modelling
   \end{itemize}
 \end{frame}
 
@@ -461,6 +457,82 @@
 \begin{frame}
   \frametitle{Appendix}
 \end{frame}
+
+\begin{frame}
+  \begin{align}
+    A_t &= A_\text{geom} + A_\text{grav}\\
+    A_\text{geom} &= \frac{1}{2}\left(x^2+y^2\right)\\
+    \nabla^2 A_\text{grav}\left(x,y\right) &= -2\kappa\left(x,y\right)\\
+    A           &= \frac{cD_L}{(1+z_L)^2} \frac{D_{LS}}{D_S} \times t \\
+    \kappa(x,y) &= \frac{4\pi G}{c^2} \frac{D_L}{1+z_L} \frac{D_{LS}}{D_S} \times \Sigma(x,y)\\
+  \end{align}
+  
+\end{frame}
+
+\begin{frame}
+  \frametitle{Fermat’s Principle}
+  \begin{block}{Fermat’s Principle}
+    Time $t$ for path $X$:
+    $$t\left[X\right] = \frac{1}{c}\int_{t_1}^{t_2}n\left(\vec{x}\left(t\right)\right)\sqrt{1+\left(\frac{\text{d}\vec{x}\left(t'\right)}{\text{d}t'}\right)^2}\text{d}t'$$
+    Path $X$ where $t$ stationary.
+  \end{block}
+\end{frame}
+
+
+
+\begin{frame}
+  \includegraphics[width=\textwidth]{../techdoc/fig/client}
+\end{frame}
+
+\begin{frame}
+  \includegraphics[height=\textheight]{../techdoc/fig/whole_setup_com}
+\end{frame}
+\begin{frame}
+  \includegraphics[height=\textheight]{../techdoc/seq/dsinit}
+\end{frame}
+\begin{frame}
+  \includegraphics[width=\textwidth]{../techdoc/seq/init}
+\end{frame}
+\begin{frame}
+  \includegraphics[height=\textheight]{../techdoc/seq/simulate}
+\end{frame}
+
+
+
+\begin{frame}
+  \includegraphics[width=\textwidth]{../techdoc/uml/db}
+\end{frame}
+\begin{frame}
+  \includegraphics[width=\textwidth]{../techdoc/uml/interface_c_s}
+\end{frame}
+\begin{frame}
+  \includegraphics[width=\textwidth]{../techdoc/uml/model}
+\end{frame}
+\begin{frame}
+  \includegraphics[height=\textheight]{../techdoc/uml/serverapi_full}
+\end{frame}
+
+
+\begin{frame}
+  \includegraphics[width=\textwidth]{../../SimAnalysis/text/fig/arriv1}
+\end{frame}
+\begin{frame}
+  \includegraphics[width=\textwidth]{../../SimAnalysis/text/fig/arriv2}
+\end{frame}
+\begin{frame}
+  \includegraphics[width=\textwidth]{../../SimAnalysis/text/fig/arriv3}
+\end{frame}
+
+
+\begin{frame}
+  \includegraphics[height=\textheight]{../../SimAnalysis/text/fig/sims/eR_1.pdf}
+\end{frame}\begin{frame}
+  \includegraphics[height=\textheight]{../../SimAnalysis/text/fig/sims/eR_2.pdf}
+\end{frame}\begin{frame}
+  \includegraphics[height=\textheight]{../../SimAnalysis/text/fig/sims/eR_3.pdf}
+\end{frame}
+
+
 
 
 \end{document}
