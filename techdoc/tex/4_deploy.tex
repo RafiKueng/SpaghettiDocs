@@ -17,8 +17,6 @@ All relevant config files can be found in the \path{./backend/settings} director
 \end{itemize}
 
 
-
-
 \subsection{Full Server -- Installation}
 \label{sec:serverinstall}
 
@@ -62,28 +60,11 @@ A step-by-step documentation of the installation is available in the file \file{
 
 
 
-\subsection{Desktop Application}
+\subsection{Other Installations}
+If requested, the installation script can be modified to allow further installation types.
+The installation script lets the user select, what type of install is desired.
+Depending on the selection, it installs and configures the depended software.
 
-This section gives an outline, how \spl could be used as a desktop application.
-There is no install script yet, and the setup is not complete nor widely tested.
+This could easily be extended to support an installation on a local machine for private use.
+Refer to the files in \path{./install/} for further information.
 
-Change the settings file \file{machine.py}:
-
-\begin{itemize}
-  \fbul{DATABASE_NAME = '/path/to/sqlite.db'}{Any path to a to be created sqlite3 database file.}
-  \fbul{STATIC_ROOT = '/path/for/static/files/'}{Any path where Django will collect static files.}
-  \fbul{ROLE = 'standalone_app'}{set up the use of proper modules.}
-\end{itemize}
-
-Make sure to meet the requirements stated in the full server setup.
-Additionally the following python packages are needed: ``django'',''django-lazysignup'', ``south''.
-
-Initialise Django:
-\cmd{cd backend}
-\cmd{python manage.py syncdb}
-\cmd{python manage.py collectstatic}
-
-Start the server:
-\cmd{python manage.py runserver}
-
-\spl is now available under \url{http://localhost:8000}.

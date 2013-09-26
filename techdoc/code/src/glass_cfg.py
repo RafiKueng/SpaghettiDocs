@@ -38,13 +38,15 @@ source(1.000,
 model(200)
 savestate('../tmp_media/009719/state.txt')
 env().make_ensemble_average()
-env().arrival_plot(env().ensemble_average, only_contours=True, colors='magenta', clevels=40)
+env().arrival_plot(env().ensemble_average, only_contours=True,
+                   colors='magenta', clevels=40)
 env().overlay_input_points(env().ensemble_average)
 pl.gca().axes.get_xaxis().set_visible(False)
 pl.gca().axes.get_yaxis().set_visible(False)
 pl.savefig('../tmp_media/009719/img1.png')
 pl.close()
-env().kappa_plot(env().ensemble_average, 0, with_contours=True, clevels=20, vmax=1, with_colorbar=False)
+env().kappa_plot(env().ensemble_average, 0, with_contours=True,
+                 clevels=20, vmax=1, with_colorbar=False)
 pl.gca().axes.get_xaxis().set_visible(False)
 pl.gca().axes.get_yaxis().set_visible(False)
 pl.savefig('../tmp_media/009719/img2.png')
@@ -57,7 +59,8 @@ pl.savefig('../tmp_media/009719/img3.png')
 pl.close()
 env().srcdiff_plot_adv(env().ensemble_average, night=True, upsample=8)
 env().overlay_input_points(env().ensemble_average)
-pl.savefig('../tmp_media/009719/img3_ipol.png', facecolor='black', edgecolor='none')
+pl.savefig('../tmp_media/009719/img3_ipol.png', facecolor='black',
+           edgecolor='none')
 pl.close()
 LMT={
  'svgViewport' : 500,

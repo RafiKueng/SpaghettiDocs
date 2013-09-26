@@ -24,7 +24,7 @@ The last step is to display the data source specific dialog that allows the user
 The functionality of this dialog is implemented by the data source module selected and can vary among data sources.
 The data source module generates the HTML markup used to generate the dialog in the client application.
 
-\seq{init}{The two step initialization of \spl. First step loads the data selection dialog, followed by the data source specific lens selection dialog.}
+\seq{init}{The two step initialization of \spl. The first step loads the data selection dialog, followed by the data source specific lens selection dialog.}
 
 
 \subsection{Selection of a Lens}
@@ -32,7 +32,7 @@ The data source module generates the HTML markup used to generate the dialog in 
 The second step at the start up of the application is the selection of a lens to work on.
 This process differs depending on the selected data source in detail, but the overall idea is the same for all sources.
 \seqref{dsinit} shows this process for the \sw module.
-Note that the proxy server is not shown in this dialog, because it passes all the request on to the server.
+Note that the proxy server is not shown in this dialog, because it passes all the requests on to the server.
 Further, the server modules \befn{urls.py} and \befn{views.py} are combined, to simplify the diagram.
 
 \seq{dsinit}{The selection and loading of a lens. First step (green) depicts the last action \seqref{init}; the selected id is validated in step two (yellow); validated lens data base entry is loaded or created if not available and the UI initialized (red).}

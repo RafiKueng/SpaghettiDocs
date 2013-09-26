@@ -74,7 +74,7 @@ JavaScript code can potentially be harmful to a user.
 To prevent exploits, JS is usually run encapsulated in a sand box by the browser.
 This sand box prevents access to all local resources, including the file system\footnote{Except for cookies, where a few bytes can be saved}, and other open web pages.
 This implies that users manipulating data in an web app can't save states on their local machine easily.
-Web browser further impose a strict security restriction on content loaded by JS from sites that don't have the same origin as the currently displayed web site (``same-origin policy'').
+Web browsers further impose a strict security restriction on content loaded by JS from sites that don't have the same origin as the currently displayed web site (``same-origin policy'').
 
 
 \subsection{Dynamic web based applications (web apps)}
@@ -193,15 +193,15 @@ If one element changes its position, the canvas needs to be deleted and all obje
 The canvas offers JS callbacks for user actions like click, returning the coordinates of the pixel that was clicked on.
 The programmer has to implement a scene graph himself if he wants to know what object / element was clicked on.
 
-A rendered canvas can be converted to a pixel image using the implemented \F{.toDataURL()} function, given the Canvas was not tainted.
+A rendered canvas can be converted to a pixel image using the implemented function \F{.toDataURL()}, given the Canvas was not tainted.
 A Canvas gets tainted if any external resource gets drawn in the Canvas, offending the same origin policy described in \secref{webapp_security}.
 
 \subsubsection{Scalable Vector Graphics (SVG)}
 \label{sec:svg}
 
 Scalable Vector Graphics (SVG) is a vector image format standard, using a markup language (similar to HTML, based on XML).
-SVG defines a continuous coordinate system, on which mathematical constructs are defined on.
-This mathematical constructs are objects like paths, basic shapes, test, raster graphics that are directly stored as a SVG tag in the SVG file.
+SVG defines a continuous coordinate system, on which mathematical constructs are defined.
+These mathematical constructs are objects like paths, basic shapes, test, raster graphics that are directly stored as a SVG tag in the SVG file.
 Since SVG is an XML language, it is comparable with HTML.
 CSS can be used to define styles for the SVG objects and JS can be used to manipulate properties.
 
@@ -212,7 +212,7 @@ JS events get fired like in regular HTML.
 For example each shape fires an \T{onClick} event if clicked on.
 
 
-By design, SVG is slower as canvas, because it first needs to rasterized by the browser in order to be drawn on the screen.
+By design, SVG is slower as canvas, because it first needs to be rasterized by the browser in order to be drawn on the screen.
 Additionally, there was put a lot of effort in Canvas optimization and hardware acceleration lately, whereas SVG hardware support is only minimal.
 Due to the lack of hardware optimization, pixel based operations like filters operate slowly.
 

@@ -7,13 +7,13 @@ The four main parts of the client application are the Engine Core (engine), the 
 
 \fig{client}{Modules of the client-side application and according JS namespaces}
 
-The object oriented paradigm states that all data and actions that affect similar structures should be grouped together to a functional unit, named an object.
+The object oriented paradigm states that all data and actions that affect similar structures should be grouped together to a functional unit, named object.
 Such an object has internal data representing the objects state.
-Further, it offers function called methods that allow other objects to get or change the internal state of the object.
+Further, it offers functions called ``methods'' that allow other objects to get or to change the internal state of the object.
 
 Event driven paradigm implies that the program flow is established using messages, called events.
-Those can be fired by any object, called the event source (the UI\footnote{click on button} or the com\footnote{received data}).
-Event handlers (also known as listener, receiver or observer) are objects that react to a certain event.
+Those can be fired by any object, called the ``event source'' (the ``UI''\footnote{click on button} or the ``Com''\footnote{received data}).
+Event handlers (also known as ``listener'', ``receiver'' or ``observer'') are objects that react to a certain event.
 The main loop of the program, the event engine, takes care of detecting events and calling assigned handlers.
 Any object can be event source and handler at the same time.
 
@@ -21,11 +21,11 @@ Any object can be event source and handler at the same time.
 \subsubsection{Engine}
 \label{sec:engine}
 
-Since JS running in a browser is by deafult event driven, the main loop and some rudimentary features are implemented by the browser.
+Since JS running in a browser is by default event driven, the main loop and some rudimentary features are implemented by the browser.
 jQuery enhances this capabilities and allows easy registration of event handlers and firing of events.
 
-The engine of \spl, the object \lmt{events}, defines all possible events the application reacts on by registering all event handlers at start up.
-It further initializes all data objects defining the state of the programm, see \secref{state}.
+The engine of \spl, the object \lmt{events}, defines all possible events on which the application reacts by registering all event handlers at start up.
+It further initializes all data objects defining the state of the program, see \secref{state}.
 \Lstref{js-lmt.events_part.js} shows an excerpt.
 
 \code{js-lmt.events_part.js}{The Engine \lmt{events}. An excerpt from \fjs{events}.}
@@ -60,32 +60,32 @@ The basic design idea for the User Interface (UI) was to provide a visual feedba
 \Figref{ui} shows a screenshot of the UI.
 It allows for easy comparison between the model parameters in the input area (on the left hand side, yellow dashed line) and several resulting images generated from the simulated model on the output screen (right hand side, orange dashed line).
 All tools needed to create and manipulate the input are arranged on top of it.
-Tools manipulating the simulation process and output view above the right hand side.
-A few general commands are arranged in a top bar. (all marked with green dottet line.)
+Tools for manipulating the simulation process and the output view are placed above the right hand side.
+A few general commands are arranged in a top bar (all marked with green dotted line).
 
 To assist the user, two helping systems are present (marked by magenta dash-dotted line).
-A exhaustive mouse over hoover tool-tip help, popping up any relevant information for tools / buttons under the cursor including links to a tutorial page where available.
+An exhaustive mouse over hoover tooltip help that is popping up any relevant information for tools / buttons under the cursor.
 To not distract the user while working on a model, the tool tips are disabled for elements in the input area.
 
 Additionally, there is a static help bar at the bottom, providing information about the element the cursor is currently pointing at.
 Advanced users can hide the static help using the toolbar.
 
 For clients with a small screen, like mobile devices, the layout changes to only display the input or the output.
-The user can slide between those to sides using a slider on the side\footnote{Note that mobile support is currently broken.}.
+The user can slide between those two sides using a slider on the side\footnote{Note that mobiles are currently not supported due to the lack of testing devices.}.
 
-The input area was designed to show a moveable and zoom able image from the survey (using click and drag and the mouse wheel).
-Besides the zoom functionality utilizing the mouse wheel, all other actions on the input area are triggered by simple click or click and drag, avoiding double clicks and any key combinations.
-This allows the input area to be easily used with devices featuring touch interface and allows for a more natural and easy to use UI \cite{ui-ms, ui-mac}.
+The input area was designed to show a moveable and zoomable image from the survey (using click and drag and the mouse wheel).
+Besides the zoom functionality which utilizes the mouse wheel, all other actions on the input area are triggered by simple click or click and drag, avoiding double clicks and any key combinations.
+This allows the input area to be easily used with devices featuring touch interface and allows for a more natural and easy-to-use UI \cite{ui-ms, ui-mac}.
 
 The user has to identify lensed images and order them in respect to arrival time.
-To assist the user in creating valid configurations, input is restricted.
-User have to start with one point and expand the existing figure if necessary by clicking on existing points.
-While this is counter intuitive and needs explanation\footnote{A tutorial is needed anyways}, trials show that users get the grip quickly.
+Input is restricted to assist the user in creating valid configurations.
+Users have to start with one point and expand the existing figure if necessary by clicking on existing points.
+While this seems counterintuitive and needs explanation\footnote{A tutorial is needed anyways}, trials show that users get the grip rather quickly.
 The advantage of always creating logically valid input that is consistent with the theoretical background of gravitational lenses enhances the understanding.
 
 The user has tree tools available, one is always active.
-The identification tool (i5) using to mark the lensed images.
-The point mass tool (i4) used to mark external point masses and the ruler tool (i6) that allows to quickly estimate distances.
+The identification tool (i5) is used to mark the lensed images.
+The point mass tool (i4) is used to mark external point masses and the ruler tool (i6) allows to quickly estimate distances.
 
 
 
@@ -100,16 +100,16 @@ The input area is implemented as a dynamic SVG image. This SVG image gets create
 The SVG DOM is organized as a tree of layers, where UI elements get painted on.
 The root layer containing all the others defines the visible area by setting the \T{transform} attribute.
 The root layer has four child layers, the first containing the background raster image.
-The second all the SVG elements representing the point masses.
+The second contains all the SVG elements representing the point masses.
 The third contains all elements representing the model, like extremal points, contour lines and so on.
-The last is used to draw the temporary UI elements for the rulers on.
+The last is used to draw the temporary UI elements for the rulers.
 
 The background image(s), once loaded by \lmt{com} during the start up, are handled by \lmt{ui.svg.bg}.
 They are first rendered onto an invisible HTML \T{canvas}.
 On this canvas, pixel based image operations can be applied to the input image.
 This step allows adjusting brightness, contrast and the composing of multiple input images (originating from multiple band filter) in the future.
 As soon as the canvas has finished rendering the images, the composed image data is extracted using the \M{.toDataURL()} function.
-The resulting object it then put in the SVG DOM, on the background layer as a \C{SVGimage}.
+The resulting object is then put in the SVG DOM, on the background layer as a \C{SVGimage}.
 
 All other layers are populated by their according JS object instances from the model, saved in \lmt{Model} (consult \secref{state}).
 Each existing instance creates, manages and destroys it's visual representation, the according SVG DOM elements, themselves and place it on the SVG layer.
@@ -125,21 +125,21 @@ If a simulated model was received, the event \E{ReceivedSimulation} gets fired.
 This calls the event handler \lmt{ui.out.load()} that renders each received image to a separate canvas.
 Image adjustments (like brightness and contrast) are applied.
 The canvases are hidden by default, using CSS properties.
-The event \E[Nr]{DisplayOutputSlide} tiggers \lmt{ui.out.show()}.
-The canvas to be shown is first hidden, then placed on top of all canvases using CSS \T{zIndex} property.
+The event \E[Nr]{DisplayOutputSlide} triggers \lmt{ui.out.show()}.
+The canvas to be shown is first hidden, then placed on top of all canvases using the CSS \T{zIndex} property.
 Finally, jQuery is used to fade in this canvas.
 
 
-General user interface actions like showing dialog screens or tooltips is handled by \lmt{ui.html}.
-Standard low level evens like \E{onClick} on buttons are listened for and the according high level event is fired.
-The module \lmt{ui.html} makes use of the features of jQuery\footnote{and it's plugin jQuery UI}, to show and style the elements in the HTML DOM that represent the dialog boxes, buttons and so on.
+General user interface actions, like showing dialog screens or tooltips, are handled by \lmt{ui.html}.
+Standard low level events like \E{onClick} on buttons trigger according high level events.
+The module \lmt{ui.html} makes use of the features of jQuery\footnote{and it's plugin jQuery UI}, in order to show and to style the elements in the HTML DOM that represent the dialog boxes, buttons and so on.
 
 
 
 \subsubsection{Data model and application state}
 \label{sec:state}
 
-The program is always in a certain state, defined through the attributes of all the objects used for data storage.
+The program is always in a state, defined through the attributes of all the objects used for data storage.
 In \spl, the data storage is distributed among several objects.
 The state of the application can be split up in the state of the model, and the state of the UI.
 
@@ -147,19 +147,19 @@ The state of the model is saved in \lmt{Model}, an instance of type \lmto{model}
 The model \lmt{Model} consists of an array of sources, an array of external masses (instances of \lmto{ExternalMass}) and a plain object \C{Parameters}.
 Each source is represented by a binary tree structure\footnote{Binary tree: each parent element can have two children} of instances of \C{ExtremalPoint} (\lmto{ExtremalPoint}).
 ExtremalPoints are of a certain type, minima (\str{min}), maxima (\str{max}) or saddle point (\str{sad}).
-They can be a leaf node of the tree (and thus be either represent a \str{min} or \str{max}) or be the parent of exactly two child nodes (and therefore be a \str{sad} by definition) and have two child ExtremalPoints.
+They can be a leaf node of the tree (and thus either represent a \str{min} or \str{max}) or they can be the parent of exactly two child nodes (and therefore be a \str{sad} by definition) and have two child ExtremalPoints.
 The root node of this tree is always a \str{min}.
 If two child nodes come close together, they and their parent represent a limaçon configuration, where the two child nodes are of opposite type.
 Otherwise it is a lemniscate configuration\footnote{figure of eight}, where the child nodes are of the same type.
 The angle that triggers the switching from limaçon to lemniscate is stored in \lmt{model.Parameters.MinMaxSwitchAngle}.
 
 This tree structure guarantees that the odd number theorem is satisfied.
-It allows iteratively refine a model by adding smaller order perturbations as you expand the tree structure downwards.
+It allows a iteratively refined by adding smaller order perturbations as you expand the tree structure downwards.
 
 \uml[width=1\textwidth]{model}{Class diagram of a model. Only important attributes and methods are shown.}
 
 For each \C{ExtremalPoint} (except the root node) only the inner most self intersecting, enclosing contour line is drawn on the UI.
-This contour line intersects itself at the parent saddle point and are one half of a limaçon or lemniscate curve.
+This contour line intersects itself at the parent saddle point and is one part of a limaçon or lemniscate curve.
 Contour lines are instances of \lmto{contour} and are implemented as a sequence of bézier curves.
 A contour consists of contour points (instances of \lmto{contourpoint}), a variable number of points that represent end points of the bézier curve segments.
 
@@ -168,7 +168,7 @@ A contour consists of contour points (instances of \lmto{contourpoint}), a varia
 The state of the model (and all it's dependencies) can be parsed to a JSON string using the models \M{getStateAsString()} method.
 Vice versa, such a string can be converted to a model using the abstract method \lmto{model.getModelFronJSONStr(str)}, followed by a call to \M{update()} and \M{paint()} to initialize the internal data structures and paint the model on the SVG interface.
 This mechanism is used to save model states in the action stack for undo and redo purposes, and to send them to the server side for simulation.
-The \lstref{json_repr_parts.js_1} and \ref{lst:json_repr_parts.js_2} show the elements that this JSON string is composed of, in a structured notation.
+The Listings \ref{lst:json_repr_parts.js_1} and \ref{lst:json_repr_parts.js_2} show the elements of which this JSON string is composed in a structured notation.
 
 \codep[2]{json_repr_parts.js}{The building blocks of a model in JSON notation} 
 
@@ -177,7 +177,7 @@ Besides the action stack, implemented in \lmt{actionstack} as an instance of \lm
 The object \lmt{datasource} keeps track of information related to the origin of the lens image.
 The object \lmt{modelData} saves the server side database entry for the current lens.
 The database entries for a simulated model (\C{ModellingResult}) are saved in \lmt{simulationResult}.
-General settings influencing the aappearance of the UI not connected to the modelling process are stored in \C{LMT.settings}.
+General settings influencing the appearance of the UI not connected to the modeling process are stored in \C{LMT.settings}.
 
 
 
@@ -185,7 +185,7 @@ General settings influencing the aappearance of the UI not connected to the mode
 \subsubsection{Communication Interface (COM)}
 The communication with the server is handled by the \lmt{com} object.
 This is a collection of event handler functions that send and get data to the server in the background using the interface described in \secref{iface_c_s}.
-Upon receiving data, it is stored and then the app is notified by firing the according event.
+Upon receiving data, it is stored and afterward the app is notified by firing the according event.
 
 If the client expects data from the server, a polling loop is started in the background, as described in \secref{webapp_security}.
 

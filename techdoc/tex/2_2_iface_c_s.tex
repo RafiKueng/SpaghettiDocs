@@ -6,7 +6,7 @@ Technically, this protocol uses HTTP to send JSON strings with defined content.
 All requests are supposed to return immediately, as the original HTTP specification requests.
 Server to client communication is achieved using polling.
 
-The server offers three points to exchange data: \I{api}, \I{tools} and \I{data}.
+The server offers three points for the exchange of data: \I{api}, \I{tools} and \I{data}.
 Since there is some legacy code still in the code base, there are additional, depreciated url access points to exchange data (\I{get\_initdata}, \I{get\_modeldata}, \I{save\_model}, \I{save\_model\_final}, \I{load\_model}, \I{result}).
 \umlref{interface_c_s} depicts an overview of all access points, their supported HTTP request types and the according client side functions that access this points.
 Whereas requests to \I{api} should never be cached, the other interfaces represent static URI to static content and should be aggressively cached, once available. This implements the idea of a RESTful API as proposed by \cite{Fielding:2002:PDM:514183.514185}.
@@ -21,16 +21,17 @@ The JSON object is required to have at least the parameter \str{action} set to t
 On the server side, the value of the action field is evaluated and the corresponding server side function is called, using the other fields as key value arguments for the function.
 The source code files \befn{ModellerApp/views.py}, \fjs{com} and \umlref{serverapi_full} provide further details about the implementation.
 
-A common task, to upload a model, requires the JS objects the model consists of to be converted to a JSON string.
-\Lstrefr[2]{json_repr_parts.js} in \secref{state} shows the JSON communication format for sending models between client and server in a structured notation. This has the same tree like structure as is shown in \umlref{model}.
+A common task, the upload of a model, requires the JS object ``model'' to be converted to a JSON string.
+\Lstrefr[2]{json_repr_parts.js} in \secref{state} shows the JSON communication format for sending models between client and server in a structured notation.
+This has the same tree--like structure, as is shown in \umlref{model}.
 
 
 The access point \I{data} presents results of the simulation of a model.
-It answers to a HTTP GET request by parsing the rest of the URL to a integer and returning the according result number as a simple web page.
+It answers to a HTTP GET request by parsing the rest of the URL to an integer and returning a web page containing all the results for that result number.
 It can be used from any web browser, visiting the page \splurl[<result-id>]\footnote{example: \splurl[1337]}.
 The result of this request is a simple HTML page, offering an overview of all the data of this particular model.
 
-\I{tools} offers access for advanced users and scientists to tools for administering collaborative modeling, getting more detailed data and so on.
+\I{tools} offers access for advanced users and scientists to tools used for administering collaborative modeling, getting more detailed data and so on.
 At the moment, only one tool is implemented: \I{tools/ResultDataTable}.
 This tool creates an overview table over all parameters for a set of result ids.
 The resulting table can be downloaded as a Excel file (\T{csv}) or directly shown in a browser (\T{HTML-table}).
