@@ -7,22 +7,26 @@ It introduces all the concept needed to develop an dynamic web application like 
 
 
 \subsection{HyperText Markup Language (HTML)}
-The HyperText Markup Language (HTML) is the standardized markup language used as a format to exchange semantically structured information on the internet using the HyperText transfer protocol (HTTP).
-It is a textual language describing the building blocks of a web site.
-Those building blocks are called tags and can have a set of key-value pairs, called attributes.
-They are enclosed in angle brackets and consist of opening tag, the attributes like \T{id}, \T{class} and additional depending on the tag type, and an closing tag.
-A tag can enclose any content, data to be displayed or other tags.
+The HyperText Markup Language (HTML) is the standardized markup language.
+It is used as a format to exchange semantically structured information on the internet using the HyperText transfer protocol (HTTP).
+It uses plain text to describe the building blocks of a web site in a tree like structure.
+Those building blocks are called \T{tag} and can have a set of attributes, expressed as key--value pairs.
+They are enclosed in angle brackets and usually consist of opening tag, the attribute set (for example \T{id}, \T{class}) and an closing tag.
+Tags can be nested or contain plain text data to be displayed.
+See \lstref{doc.html} for an example of a HTML document.
 
 \code{doc.html}{Example of a HTML5 document.}
 
 \subsubsection{The Document Object Model (DOM)}
-This results in an document tree, that can be accessed using the interface Document Object Model (DOM).
-Often, the document tree itself is called DOM\footnote{DOM describes actually an interface, not a model.}.
-See \lstref{doc.html} for an Example HTML document.
+The nested design of HTML results in a tree like structure, the document tree.
+It can be accessed using the interface definition Document Object Model (DOM).
+Often, the document tree itself is referred to as DOM.
+
 
 \subsubsection{HTML4 vs HTML5}
 
-There are a few versions and variants of standardized HTML around. The actual standard is ISO/IEC 15445:2000\cite{isohtml}, based on HTML 4.01, published by W3C in May, 2001.
+There are a few versions and variants of standardized HTML available.
+The actual standard is ISO/IEC 15445:2000\cite{isohtml}, based on HTML 4.01, published by W3C in May, 2001.
 
 The new version, HTML5 is not yet finalized.
 The first working draft was published 2008\cite{html5_draft}.
@@ -33,21 +37,22 @@ It offers many new features, including the Canvas element (discussed in \secref{
 \label{sec:css}
 
 Cascading Style Sheets (CSS) is a language to describe the layout of structured semantic documents, like HTML.
-It allows the identification of elements of a document by tag name, id, class name, or (relative) position in the document by implementing CSS selector syntax and apply key / value pairs to define the optics and layout of the selection.
+It allows the identification of elements of a document by tag name, id, class name, or (relative) position in the document by applying powerful CSS selector syntax.
+Selected elements are key -- value pairs applied to that define the optics and layout of the selection.
 
 \code{doc.css}{Example CSS file. Operating on \lstref{doc.html}}
 
-The current version is CSS 2.1\cite{css_spec}, defined in June 2011. While the work on CSS 3 is advanced\cite{css_stat} and many features of CSS 3 can already be used\cite{caniuse_css}, browser is not guaranteed.
+The current version is CSS 2.1\cite{css_spec}, defined in June 2011. The work on CSS 3 is on going and rather advanced\cite{css_stat}. Many features of CSS 3 can already be used\cite{caniuse_css}.
 
 
 \subsection{ECMAScript (aka JavaScript JS)}
 \label{sec:js}
 JavaScript (JS) is an interpreted, prototype based multi-paradigm scripting language.
-It usually runs client side in the browser and allows to alter the DOM, react to the user and interact with a server.
+It usually runs on the client side in the browser. It's purpose it to alter the DOM, to react to the user and to interact with a server.
 
 JS has no concept of classes, even though it offers object oriented programming by using prototype based programming.
 JS is dynamically typed and allows duck typing\footnote{Variables have no fixed data type assigned}.
-JS objects are a collection of key / value pairs and thus comparable to Python \T{dict} and C++ \T{map}.
+JS objects are a collection of key -- value pairs and thus comparable to Python \T{dict} and C++ \T{map}.
 
 
 The core components of JavaScript are standardized as ECMAScript (ECMA 262 \cite{js_std}), ISO/IEC 16262 \cite{js_iso}.
@@ -56,7 +61,7 @@ The core components of JavaScript are standardized as ECMAScript (ECMA 262 \cite
 
 \subsubsection{jQuery library}
 \label{sec:jquery}
-jQuery is an open source library, that simplifies the access to and manipulation of DOM elements.
+jQuery is an open source library that simplifies the access to and manipulation of DOM elements.
 It allows the use of CSS selectors to easily select and modify a extended set of DOM elements, an extended event system, animations and effects and Ajax functions, among others.
 It simplifies the writing of JavaScript code by offering shorter syntax and browser-independent high level functions.
 Compare \lstref{doc.js} to \lstref{jdoc.js}.
@@ -68,8 +73,8 @@ jQuery is used by about two third of the top 10'000 internet sites\cite{jquery_u
 JavaScript code can potentially be harmful to a user.
 To prevent exploits, JS is usually run encapsulated in a sand box by the browser.
 This sand box prevents access to all local resources, including the file system\footnote{Except for cookies, where a few bytes can be saved}, and other open web pages.
-That implies, that users manipulating data in an web app can't save states on their local machine easily.
-Web browser further impose strict security restriction on content that gets loaded by JS from sites that don't have the same origin as the currently displayed web site (``same-origin policy'').
+This implies that users manipulating data in an web app can't save states on their local machine easily.
+Web browser further impose a strict security restriction on content loaded by JS from sites that don't have the same origin as the currently displayed web site (``same-origin policy'').
 
 
 \subsection{Dynamic web based applications (web apps)}
@@ -77,28 +82,28 @@ Web browser further impose strict security restriction on content that gets load
 \subsubsection{Dynamic HTML (DHTML)}
 \label{DHTML}
 
-A regular, static HTML web page gets loaded by the browser from the server to displays data to the user and offer links, that lead to other web sites, triggering a new load-render-display cycle.
-The umbrella term DHTML describes web design techniques that allow a web page to modify its display based on user input, without a reload.
+A regular, static HTML web page gets loaded by the browser from the server in order to display data to the user and offer links that lead to other web sites, triggering a new load-render-display cycle.
+The umbrella term DHTML describes web design techniques that allow a web page to modify it's structure based on user input, without a reload.
 This requires JS to modify the DOM, if an user event happens.
-A change in the DOM triggers an re rendering of the page, but no reload.
+A change in the DOM triggers a refresh of the page, but not a reload.
 
-This techniques allow a web page to become a dynamic application, that maintains an internal state that can be changed by user applications.
+This techniques allow a web page to become a dynamic application, which maintains an internal state that can be changed by user applications.
 
 
 \subsubsection{Server Side Scripts}
 \label{sec:serverside}
 
 Using HTML a web server can only serve static data to any client.
-Usually, there is a need of a client to get dynamically data from a server side data source like a data base and to put manipulated data back in.
+Usually, there is a need of a client to get dynamically data from a server side data source, like a data base, and to put manipulated data back in.
 Server side scripts provide an interface to those data sources to client applications.
-When the user makes a request for a resource like an HTML file, this scripts are run on the server, produce the desired data on the fly, accessing the data sources needed and send back the rendered data.
+When the user makes a request for a resource like a HTML file, this scripts run on the server, produce the desired data on the fly by accessing the data sources needed and send back the rendered data.
 
-A server side script can be written in any programming or scripting language, that compiles and runs on the server operating system and can interact with the web server software.
+A server side script can be written in any programming or scripting language that compiles and runs on the server operating system and can interact with the web server software.
 There are many server side scripting languages available, proprietary and open source.
 Some of the most popular ones are Active Server Pages (ASP, proprietary), Java Server Pages (JSP), Perl, PHP: Hypertext Preprocessor (PHP), Python (using Framework Django) and Ruby on Rails (all open source).
 
 \Lstref{doc.php} shows a HTML document with embedded server side script code in PHP.
-A client calling this page will trigger the server side rendering of this page, resulting in \lstref{phpdoc.html}, that is then being sent to the client.
+A client calling this page will trigger the server side rendering of this page, resulting in \lstref{phpdoc.html} that is then being sent to the client.
 
 \code{doc.php}{Example server side script in PHP}
 \code{phpdoc.html}{Result of server side script \ref{lst:doc.php} if rendered on a Sunday.}
@@ -109,19 +114,19 @@ A client calling this page will trigger the server side rendering of this page, 
 
 Basic data transfer on the internet is handled using the HyperText Transfer Protocol (HTTP).
 A client (browser) always initiates a TCP connection, requesting a resource identified by an URI\footnote{Uniform Resource Identifier}.
-The server sends an answer using the same connection and closes it.
-If the request was successful, the client renders and displays the body of the answer, the HTML document. Not only HTML documents are transmitted. The same technique is used to transmit CSS, JS, image or any other type of file, text or data.
+The server sends an answer using the same connection and closes it afterwords.
+If the request was successful, the client renders and displays the body of the answer, the HTML document. Not only HTML documents are transmitted. The same technique is used to transmit CSS, JS, images or any other type of file, text or data.
 
-There are different types of requests possible, the most important ones are GET and POST.
+There are different types of requests possible, of which the most important ones are GET and POST.
 Basic GET requests are used to request resources from a server.
-They can also be used to send data to the server, attaching key / value pairs to the URI\footnote{\T{www.url.net/index.html?key1=value1&key2=value2}}. The amount of data that can be transferred with GET is restricted to about 255 bytes.
-A \T{POST} request message consists, in opposite to a GET request, of a header and a body.
-The message body contains the data to be sent and it thus of unrestricted size.
+They can also be used to send data to the server, attaching key -- value pairs to the URI\footnote{\T{www.url.net/index.html?key1=value1&key2=value2}}. The amount of data that can be transferred with GET is restricted to about 255 bytes.
+A \T{POST} request message consists, in opposite to a GET request, in a header and a body.
+The message body contains the data to be sent and is therefore of unrestricted size.
 
-To be able to combine server side scripts and DHTML, the web browser has to expose an API, that allows javascripts to send HTTP requests and get the response, without triggering an automatic rendering and update of the screen.
+In order to be able to combine server side scripts and DHTML, the web browser has to expose an API that allows JS to send HTTP requests and get the response, without triggering an automatic rendering and update of the screen.
 This API is called XMLHttpRequest (XHR). Despite the name, any text based data format can be sent and received with XHRs: JSON, HTML, XML, or plain text.
 
-JavaScript Object Notation (JSON) is a simple plain text data format used for easy exchange of data. It represents a JS objects key / value pair, written down using JS syntax. Refer to \lstref{json.js} for an example.
+JavaScript Object Notation (JSON) is a simple plain text data format used for easy exchange of data. It represents a JS objects key -- value pair, written down using JS syntax. Refer to \lstref{json.js} for an example.
 
 \code{json.js}{A simple JSON object.}
 
@@ -129,7 +134,7 @@ JavaScript Object Notation (JSON) is a simple plain text data format used for ea
 \subsubsection{Asynchronous Javascript And XML (AJAX)}
 \label{sec:ajax}
 
-Combining all the described techniques in \secref{webapps}, results in the concept of Asynchronous Javascript And XML (AJAX).
+The combination of all the described techniques in \secref{webapps} results in the concept of Asynchronous Javascript And XML (AJAX).
 AJAX applications feature a client side JS engine that decouples user interaction with the client side application (DOM manipulation) and the communication of the client and the server, which happens in the background.
 The resulting web app thus feels as fluent as a native desktop application.
 
@@ -140,17 +145,17 @@ The JS engine does most of the data processing on the client side, while asynchr
 \label{sec:webapp_security}
 
 Since web servers can not establish a connection to a client, the only way for a client to get asynchronous events from the server is by repeatedly sending requests to check for new server side events.
-This technique is called polling.
+This technique is called ``polling''.
 There are workarounds to implement a push functionality.
 One being long polling, where the client sends a request that the server does not answer instantaneously.
-Therefore the connection is kept open, to be used to send data when available.
-Such setups are possible, but are not standard compliant and often involve some modification / hacks of web servers.
-The coming HTML5 standard proposes mechanisms implementing push features, like Server Sent Events and the WebSocket API. These mechanisms are still experimental and not widely implemented.
+Therefore the connection is kept open, in order to send data when available.
+Such setups are possible, but they are not standard compliant and often involve some modification / hacks of web servers.
+The coming HTML5 standard proposes mechanisms which implement push features, like Server Sent Events and the WebSocket API. These mechanisms are still experimental and not widely implemented.
 
 A major restriction is the ``same-origin security policy''.
 The policy prohibits JS and XHR access to content that is not hosted on the same server.
 For example, a client application can not use XHR to load images from a web site other than the applications origin.
-There are workarounds for this issue. Set up a server side script that acts as proxy for access to external resources. This increases the load on the server.
+There are workarounds for this issue. Set up a server side script that acts as proxy for an access to external resources. This increases the load on the server.
 Using the standardized mechanism of Cross-Origin Resource Sharing (CORS), a web server admin can allow foreign XHR requests to his page.
 
 
@@ -166,24 +171,24 @@ Scalable Vector graphics (SVG) and HTML5 canvas offer more powerful techniques t
 \label{sec:htmlimg}
 
 All HTML DOM elements are rectangles and can be placed anywhere on the screen using CSS.
-This includes the image tag \T{<img>}, that allows a set of images to be composed to an interface.
-JS can be used to change the position of DOM elements, or change the image file they display.
-But HTML4 offers no abilities to change the contents of a particular image, meaning you have to create all the images that possibly could be displayed.
-This is fine for simple setup like a menu, but for an advanced user interface, this is not practical.
+This includes the image tag \T{<img>} that allows a set of images to be composed to an interface.
+JS can be used to change the position of DOM elements, or to change the image file they display.
+But HTML4 offers no abilities to change the contents of a particular image. This means you have to create all the images that possibly could be displayed.
+This is fine for simple situations like a menus, but is not practical for an advanced user interface.
 
 
 \subsubsection{HTML5 canvas}
 \label{sec:canvas}
 
-The HTML5 specification defines a new tag, called Canvas \T{<canvas>}.
+The HTML5 specification defines a new tag, called ``Canvas''.
 It allows pixel based image manipulation, by offering a canvas that consists of a discrete, rasterized 2D array of pixels.
 By using JS, each pixel of this image grid can be accessed and it's color can be changed dynamically.
-There are helper functions that allow the drawing of lines, shapes, paths and images.
+There are supportive functions that allow the drawing of lines, shapes, paths and images.
 
 Canvas offers fast, low level pixel wise image manipulation.
 It is ideal for image manipulation on a per pixel basis like blending.
 
-It offers no scene graph, that keeps track of which structures and shapes were used to draw on the canvas.
+It offers no scene graph that keeps track of which structures and shapes were used to draw on the canvas.
 If one element changes its position, the canvas needs to be deleted and all objects need to be painted again.
 The canvas offers JS callbacks for user actions like click, returning the coordinates of the pixel that was clicked on.
 The programmer has to implement a scene graph himself if he wants to know what object / element was clicked on.
@@ -196,7 +201,7 @@ A Canvas gets tainted if any external resource gets drawn in the Canvas, offendi
 
 Scalable Vector Graphics (SVG) is a vector image format standard, using a markup language (similar to HTML, based on XML).
 SVG defines a continuous coordinate system, on which mathematical constructs are defined on.
-This mathematical constructs are objects like paths, basic shapes, test, raster graphics, that are directly stored as a SVG tag in the SVG file.
+This mathematical constructs are objects like paths, basic shapes, test, raster graphics that are directly stored as a SVG tag in the SVG file.
 Since SVG is an XML language, it is comparable with HTML.
 CSS can be used to define styles for the SVG objects and JS can be used to manipulate properties.
 

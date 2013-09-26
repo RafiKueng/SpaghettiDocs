@@ -85,7 +85,7 @@ The advantage of always creating logically valid input that is consistent with t
 
 The user has tree tools available, one is always active.
 The identification tool (i5) using to mark the lensed images.
-The point mass tool (i4) used to mark external point masses and the ruler tool (i6), that allows to quickly estimate distances.
+The point mass tool (i4) used to mark external point masses and the ruler tool (i6) that allows to quickly estimate distances.
 
 
 
@@ -122,7 +122,7 @@ The function \lmt{ui.svg.ConvertToPNG()} triggers a rendering pass of the canvas
 
 The output pane \lmt{ui.out} consists of a set of HTML5 canvases lying on top of each other.
 If a simulated model was received, the event \E{ReceivedSimulation} gets fired.
-This calls the event handler \lmt{ui.out.load()}, that renders each received image to a separate canvas.
+This calls the event handler \lmt{ui.out.load()} that renders each received image to a separate canvas.
 Image adjustments (like brightness and contrast) are applied.
 The canvases are hidden by default, using CSS properties.
 The event \E[Nr]{DisplayOutputSlide} tiggers \lmt{ui.out.show()}.
@@ -168,7 +168,7 @@ A contour consists of contour points (instances of \lmto{contourpoint}), a varia
 The state of the model (and all it's dependencies) can be parsed to a JSON string using the models \M{getStateAsString()} method.
 Vice versa, such a string can be converted to a model using the abstract method \lmto{model.getModelFronJSONStr(str)}, followed by a call to \M{update()} and \M{paint()} to initialize the internal data structures and paint the model on the SVG interface.
 This mechanism is used to save model states in the action stack for undo and redo purposes, and to send them to the server side for simulation.
-The \lstref{json_repr_parts.js_1} and \ref{lst:json_repr_parts.js_2} show the elements, that this JSON string is composed of, in a structured notation.
+The \lstref{json_repr_parts.js_1} and \ref{lst:json_repr_parts.js_2} show the elements that this JSON string is composed of, in a structured notation.
 
 \codep[2]{json_repr_parts.js}{The building blocks of a model in JSON notation} 
 
@@ -184,7 +184,7 @@ General settings influencing the aappearance of the UI not connected to the mode
 
 \subsubsection{Communication Interface (COM)}
 The communication with the server is handled by the \lmt{com} object.
-This is a collection of event handler functions, that send and get data to the server in the background using the interface described in \secref{iface_c_s}.
+This is a collection of event handler functions that send and get data to the server in the background using the interface described in \secref{iface_c_s}.
 Upon receiving data, it is stored and then the app is notified by firing the according event.
 
 If the client expects data from the server, a polling loop is started in the background, as described in \secref{webapp_security}.
@@ -196,7 +196,7 @@ If the client expects data from the server, a polling loop is started in the bac
 Those data sources are implemented as member objects of the object \lmt{datasources}.
 Each data source object has a corresponding server side class.
 Data source objects are initialized if selected in the initial dialog.
-They are supposed to populate \lmt{datasource} with their data and can make use of \lmt{ui.html.GenericDatasourceDialog}, that gets designed by the server side template.
+They are supposed to populate \lmt{datasource} with their data and can make use of \lmt{ui.html.GenericDatasourceDialog} that gets designed by the server side template.
 
 They have to register an event handler for \E{LensesSelected}.
 This event gets fired, when the user clicks on OK in the custom \C{GenericDatasourceDialog}.
@@ -205,7 +205,7 @@ Once the id of the model to be loaded is determined, the data source module is e
 
 Alternatively, this process can be skipped by starting up the web application with a known, existing model id using \T{GET} parameter \T{mid}\footnote{\splurl[?mid=42]} or by loading an existing result using the result id \T{GET} parameter \T{rid}\footnote{\splurl[?rid=1337]}.
 
-This rather complicated setup of client and server side data source modules allows to circumvent any ``same origin policy'' issues, that can not be solved using CORS, as explained in \secref{webapp_security}.
+This rather complicated setup of client and server side data source modules allows to circumvent any ``same origin policy'' issues that can not be solved using CORS, as explained in \secref{webapp_security}.
 
 
 

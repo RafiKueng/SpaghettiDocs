@@ -20,7 +20,7 @@ Internally, the client application now starts the initialization routines, as so
 
 In a next step, the client application needs to know, what data sources are implemented on the server, to display a dialog to the user to select from.
 
-The last step is to display the data source specific dialog, that allows the user to browse and select lenses, that are in the data sources data base.
+The last step is to display the data source specific dialog that allows the user to browse and select lenses that are in the data sources data base.
 The functionality of this dialog is implemented by the data source module selected and can vary among data sources.
 The data source module generates the HTML markup used to generate the dialog in the client application.
 
@@ -56,7 +56,7 @@ It first needs to check if the selected lens(es) already exist in the database.
 If it does, this id is returned. Otherwise a new entry is creating and returned.
 
 In the second part, the main part of the client application now queries the data base for the lens to be shown next.
-The response includes at least one URL to the actual image, that gets loaded in the third part and then rendered to the screen.
+The response includes at least one URL to the actual image that gets loaded in the third part and then rendered to the screen.
 
 This concludes the start up procedure and hides all dialog pop ups, allowing the user to begin modeling.
 
@@ -78,15 +78,15 @@ It is saved to the data base as a new entry and the resulting id is returned to 
 Additionally, a configuration file for the simulation back end is written to disk. 
 
 Then the client asks for the location of the results of this model.
-Since there are no results yet, the server creates a new simulation task and hands it over to the broker, that puts it in the task queue (\seqref{simulate}, yellow).
-A reference to this task and the fact, that the simulation has started is saved in the data base and sent to the client.
+Since there are no results yet, the server creates a new simulation task and hands it over to the broker that puts it in the task queue (\seqref{simulate}, yellow).
+A reference to this task and the fact that the simulation has started is saved in the data base and sent to the client.
 
 As soon as a worker is idle, it consumes the next task in the queue and executes it (\seqref{simulate}, red).
 A task consist of getting the configuration file, running GLASS, producing the output figures and uploading those back to the server file system.
 The worker keeps track of the state of the task in the database.
 
 Meanwhile, the client repeatedly checks with the server, whether the task has been completed.
-If so, the server sends back links to the generated figures, that the client then loads and displays to the user.
+If so, the server sends back links to the generated figures that the client then loads and displays to the user.
 
 
 

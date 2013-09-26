@@ -12,7 +12,7 @@ All relevant config files can be found in the \path{./backend/settings} director
   \fbul{gunicorn.py}{This is the configuration file for the WSGI server running Django. Only used for the full server setup.}
   \fbul{machine.py}{This file sets up machine specific paths, the database connection and URLS. The \T{ROLE} parameter defines what kind of installation this setup is and which modules should be used.}
   \fbul{secrets.py}{This file contains information that should be kept secret like user credentials for the database.}
-  \fbul{settings.py}{This is the master settings file, that import all others. There are no parts to be changed by the user. It defines all possible roles.}
+  \fbul{settings.py}{This is the master settings file that import all others. There are no parts to be changed by the user. It defines all possible roles.}
   \fbul{version.py}{Keeps track of version numbers. Is automatically updated by the install scripts.}
 \end{itemize}
 
@@ -22,7 +22,7 @@ All relevant config files can be found in the \path{./backend/settings} director
 \subsection{Full Server -- Installation}
 \label{sec:serverinstall}
 
-The full server installation installs all components on one machine, that is supposed to serve as web server.
+The full server installation installs all components on one machine that is supposed to serve as web server.
 Worker threads can additionally be run on different machines, see \secref{workerinstall}.
 
 Due to the complicated setup, this process is automated with a interactive installation script.
