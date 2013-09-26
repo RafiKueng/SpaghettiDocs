@@ -34,7 +34,7 @@ for i in doplot:
 
   print "figure", i
 
-  fig = figure(figsize=(10.24, 7.2)) #go for 1200x720 with 100dpi
+  fig = figure(figsize=(12.00, 7.)) #go for 1200x720 with 100dpi
   fig.patch.set_facecolor('black')
   ax = fig.gca(projection='3d')
   ax.patch.set_facecolor('black')
