@@ -1,0 +1,22 @@
+\begin{Verbatim}[commandchars=\\\{\},numbers=left,stepnumber=1,codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8}]
+\PYG{k+kn}{import} \PYG{n+nn}{time}\PYG{o}{,} \PYG{n+nn}{os}\PYG{o}{,} \PYG{n+nn}{subprocess}
+\PYG{k+kn}{from} \PYG{n+nn}{django.conf} \PYG{k+kn}{import} \PYG{n}{settings} \PYG{k}{as} \PYG{n}{s}
+\PYG{k+kn}{from} \PYG{n+nn}{celery} \PYG{k+kn}{import} \PYG{n}{task}\PYG{p}{,} \PYG{n}{current\PYGZus{}task}
+
+\PYG{k}{if} \PYG{n}{s}\PYG{o}{.}\PYG{n}{ROLE} \PYG{o}{==} \PYG{l+s}{"}\PYG{l+s}{production\PYGZus{}worker}\PYG{l+s}{"}\PYG{p}{:} \PYG{c}{\PYGZsh{}standalone worker?}
+  \PYG{n+nd}{@task}\PYG{p}{(}\PYG{p}{)}
+  \PYG{k}{def} \PYG{n+nf}{calculateModel}\PYG{p}{(}\PYG{n}{result\PYGZus{}id}\PYG{p}{)}\PYG{p}{:}
+    \PYG{n}{rq} \PYG{o}{=} \PYG{n}{current\PYGZus{}task}\PYG{o}{.}\PYG{n}{request}
+    \PYG{n}{retval} \PYG{o}{=} \PYG{n}{subprocess}\PYG{o}{.}\PYG{n}{call}\PYG{p}{(}\PYG{p}{[}\PYG{l+s}{'}\PYG{l+s}{../run\PYGZus{}worker\PYGZus{}glass}\PYG{l+s}{'}\PYG{p}{,}
+                              \PYG{l+s}{'}\PYG{l+s+si}{\PYGZpc{}06i}\PYG{l+s}{'} \PYG{o}{\PYGZpc{}} \PYG{n}{result\PYGZus{}id}\PYG{p}{]}\PYG{p}{)}
+    \PYG{k}{return}
+    
+\PYG{k}{else}\PYG{p}{:}  \PYG{c}{\PYGZsh{}worker running on server machine}
+  \PYG{n+nd}{@task}\PYG{p}{(}\PYG{p}{)}
+  \PYG{k}{def} \PYG{n+nf}{calculateModel}\PYG{p}{(}\PYG{n}{result\PYGZus{}id}\PYG{p}{)}\PYG{p}{:}
+    \PYG{n}{rq} \PYG{o}{=} \PYG{n}{current\PYGZus{}task}\PYG{o}{.}\PYG{n}{request}
+    \PYG{n}{os}\PYG{o}{.}\PYG{n}{chdir}\PYG{p}{(}\PYG{n}{s}\PYG{o}{.}\PYG{n}{WORKER\PYGZus{}DIR\PYGZus{}FULL}\PYG{p}{)}
+    \PYG{n}{retval} \PYG{o}{=} \PYG{n}{subprocess}\PYG{o}{.}\PYG{n}{call}\PYG{p}{(}\PYG{p}{[}\PYG{l+s}{'}\PYG{l+s+si}{\PYGZpc{}s}\PYG{l+s}{/run\PYGZus{}glass}\PYG{l+s}{'} \PYG{o}{\PYGZpc{}} \PYG{n}{s}\PYG{o}{.}\PYG{n}{WORKER\PYGZus{}DIR\PYGZus{}FULL}\PYG{p}{,}
+                              \PYG{l+s}{'}\PYG{l+s}{../tmp\PYGZus{}media/}\PYG{l+s+si}{\PYGZpc{}06i}\PYG{l+s}{/cfg.gls}\PYG{l+s}{'} \PYG{o}{\PYGZpc{}} \PYG{n}{result\PYGZus{}id}\PYG{p}{]}\PYG{p}{)}
+    \PYG{k}{return}
+\end{Verbatim}

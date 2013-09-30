@@ -1,0 +1,13 @@
+\begin{Verbatim}[commandchars=\\\{\},numbers=left,stepnumber=1,codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8}]
+\PYG{c}{\PYGZsh{}!/bin/sh}
+\PYG{c}{\PYGZsh{} this is run under /lmt/backend}
+\PYG{n+nb}{cd} ..
+mkdir -p tmp\PYGZus{}media/\PYG{n+nv}{\PYGZdl{}1}
+wget -P tmp\PYGZus{}media/\PYG{n+nv}{\PYGZdl{}1} mite/result/\PYG{n+nv}{\PYGZdl{}1}/cfg.gls
+\PYG{n+nb}{cd }worker
+./run\PYGZus{}glass -t 4 ../tmp\PYGZus{}media/\PYG{n+nv}{\PYGZdl{}1}/cfg.gls
+\PYG{n+nb}{cd} ..
+\PYG{c}{\PYGZsh{} upload files to server}
+scp tmp\PYGZus{}media/\PYG{n+nv}{\PYGZdl{}1}/* lmt@mite:/srv/lmt/tmp\PYGZus{}media/\PYG{n+nv}{\PYGZdl{}1}/
+rm tmp\PYGZus{}media/\PYG{n+nv}{\PYGZdl{}1}/*
+\end{Verbatim}

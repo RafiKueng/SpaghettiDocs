@@ -1,0 +1,19 @@
+\begin{Verbatim}[commandchars=\\\{\},numbers=left,stepnumber=1,codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8}]
+\PYG{c+cp}{<?php}
+  \PYG{k}{function} \PYG{n+nf}{getDayOfWeek}\PYG{p}{()} \PYG{p}{\PYGZob{}}
+    \PYG{k}{return} \PYG{n+nb}{date}\PYG{p}{(}\PYG{l+s+s1}{'l'}\PYG{p}{);}
+  \PYG{p}{\PYGZcb{}}
+\PYG{c+cp}{?>}
+
+\PYG{x}{<}\PYG{x}{!DOCTYPE html>}
+\PYG{x}{<}\PYG{x}{html>}
+\PYG{x}{  }\PYG{x}{<}\PYG{x}{head>}
+\PYG{x}{    }\PYG{x}{<}\PYG{x}{title>Title of the document}\PYG{x}{<}\PYG{x}{/title>}
+\PYG{x}{  }\PYG{x}{<}\PYG{x}{/head>}
+\PYG{x}{  }\PYG{x}{<}\PYG{x}{body>}
+\PYG{x}{    }\PYG{c+cp}{<?php}
+      \PYG{k}{echo} \PYG{l+s+s2}{"}\PYG{l+s+s2}{<p>Today is: }\PYG{l+s+s2}{"} \PYG{o}{.} \PYG{n+nx}{getDayOfWeek}\PYG{p}{()} \PYG{o}{.} \PYG{l+s+s2}{"}\PYG{l+s+s2}{</p>}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{"}\PYG{p}{;}
+    \PYG{c+cp}{?>}
+\PYG{x}{  }\PYG{x}{<}\PYG{x}{/body>}
+\PYG{x}{<}\PYG{x}{/html>}
+\end{Verbatim}

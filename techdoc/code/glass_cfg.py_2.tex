@@ -1,0 +1,34 @@
+\begin{Verbatim}[commandchars=\\\{\},numbers=left,firstnumber=41,stepnumber=1,codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8}]
+\PYG{n}{env}\PYG{p}{(}\PYG{p}{)}\PYG{o}{.}\PYG{n}{arrival\PYGZus{}plot}\PYG{p}{(}\PYG{n}{env}\PYG{p}{(}\PYG{p}{)}\PYG{o}{.}\PYG{n}{ensemble\PYGZus{}average}\PYG{p}{,} \PYG{n}{only\PYGZus{}contours}\PYG{o}{=}\PYG{n+nb+bp}{True}\PYG{p}{,}
+                   \PYG{n}{colors}\PYG{o}{=}\PYG{l+s}{'}\PYG{l+s}{magenta}\PYG{l+s}{'}\PYG{p}{,} \PYG{n}{clevels}\PYG{o}{=}\PYG{l+m+mi}{40}\PYG{p}{)}
+\PYG{n}{env}\PYG{p}{(}\PYG{p}{)}\PYG{o}{.}\PYG{n}{overlay\PYGZus{}input\PYGZus{}points}\PYG{p}{(}\PYG{n}{env}\PYG{p}{(}\PYG{p}{)}\PYG{o}{.}\PYG{n}{ensemble\PYGZus{}average}\PYG{p}{)}
+\PYG{n}{pl}\PYG{o}{.}\PYG{n}{gca}\PYG{p}{(}\PYG{p}{)}\PYG{o}{.}\PYG{n}{axes}\PYG{o}{.}\PYG{n}{get\PYGZus{}xaxis}\PYG{p}{(}\PYG{p}{)}\PYG{o}{.}\PYG{n}{set\PYGZus{}visible}\PYG{p}{(}\PYG{n+nb+bp}{False}\PYG{p}{)}
+\PYG{n}{pl}\PYG{o}{.}\PYG{n}{gca}\PYG{p}{(}\PYG{p}{)}\PYG{o}{.}\PYG{n}{axes}\PYG{o}{.}\PYG{n}{get\PYGZus{}yaxis}\PYG{p}{(}\PYG{p}{)}\PYG{o}{.}\PYG{n}{set\PYGZus{}visible}\PYG{p}{(}\PYG{n+nb+bp}{False}\PYG{p}{)}
+\PYG{n}{pl}\PYG{o}{.}\PYG{n}{savefig}\PYG{p}{(}\PYG{l+s}{'}\PYG{l+s}{../tmp\PYGZus{}media/009719/img1.png}\PYG{l+s}{'}\PYG{p}{)}
+\PYG{n}{pl}\PYG{o}{.}\PYG{n}{close}\PYG{p}{(}\PYG{p}{)}
+\PYG{n}{env}\PYG{p}{(}\PYG{p}{)}\PYG{o}{.}\PYG{n}{kappa\PYGZus{}plot}\PYG{p}{(}\PYG{n}{env}\PYG{p}{(}\PYG{p}{)}\PYG{o}{.}\PYG{n}{ensemble\PYGZus{}average}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{with\PYGZus{}contours}\PYG{o}{=}\PYG{n+nb+bp}{True}\PYG{p}{,}
+                 \PYG{n}{clevels}\PYG{o}{=}\PYG{l+m+mi}{20}\PYG{p}{,} \PYG{n}{vmax}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{with\PYGZus{}colorbar}\PYG{o}{=}\PYG{n+nb+bp}{False}\PYG{p}{)}
+\PYG{n}{pl}\PYG{o}{.}\PYG{n}{gca}\PYG{p}{(}\PYG{p}{)}\PYG{o}{.}\PYG{n}{axes}\PYG{o}{.}\PYG{n}{get\PYGZus{}xaxis}\PYG{p}{(}\PYG{p}{)}\PYG{o}{.}\PYG{n}{set\PYGZus{}visible}\PYG{p}{(}\PYG{n+nb+bp}{False}\PYG{p}{)}
+\PYG{n}{pl}\PYG{o}{.}\PYG{n}{gca}\PYG{p}{(}\PYG{p}{)}\PYG{o}{.}\PYG{n}{axes}\PYG{o}{.}\PYG{n}{get\PYGZus{}yaxis}\PYG{p}{(}\PYG{p}{)}\PYG{o}{.}\PYG{n}{set\PYGZus{}visible}\PYG{p}{(}\PYG{n+nb+bp}{False}\PYG{p}{)}
+\PYG{n}{pl}\PYG{o}{.}\PYG{n}{savefig}\PYG{p}{(}\PYG{l+s}{'}\PYG{l+s}{../tmp\PYGZus{}media/009719/img2.png}\PYG{l+s}{'}\PYG{p}{)}
+\PYG{n}{pl}\PYG{o}{.}\PYG{n}{close}\PYG{p}{(}\PYG{p}{)}
+\PYG{n}{env}\PYG{p}{(}\PYG{p}{)}\PYG{o}{.}\PYG{n}{srcdiff\PYGZus{}plot}\PYG{p}{(}\PYG{n}{env}\PYG{p}{(}\PYG{p}{)}\PYG{o}{.}\PYG{n}{ensemble\PYGZus{}average}\PYG{p}{)}
+\PYG{n}{env}\PYG{p}{(}\PYG{p}{)}\PYG{o}{.}\PYG{n}{overlay\PYGZus{}input\PYGZus{}points}\PYG{p}{(}\PYG{n}{env}\PYG{p}{(}\PYG{p}{)}\PYG{o}{.}\PYG{n}{ensemble\PYGZus{}average}\PYG{p}{)}
+\PYG{n}{pl}\PYG{o}{.}\PYG{n}{gca}\PYG{p}{(}\PYG{p}{)}\PYG{o}{.}\PYG{n}{axes}\PYG{o}{.}\PYG{n}{get\PYGZus{}xaxis}\PYG{p}{(}\PYG{p}{)}\PYG{o}{.}\PYG{n}{set\PYGZus{}visible}\PYG{p}{(}\PYG{n+nb+bp}{False}\PYG{p}{)}
+\PYG{n}{pl}\PYG{o}{.}\PYG{n}{gca}\PYG{p}{(}\PYG{p}{)}\PYG{o}{.}\PYG{n}{axes}\PYG{o}{.}\PYG{n}{get\PYGZus{}yaxis}\PYG{p}{(}\PYG{p}{)}\PYG{o}{.}\PYG{n}{set\PYGZus{}visible}\PYG{p}{(}\PYG{n+nb+bp}{False}\PYG{p}{)}
+\PYG{n}{pl}\PYG{o}{.}\PYG{n}{savefig}\PYG{p}{(}\PYG{l+s}{'}\PYG{l+s}{../tmp\PYGZus{}media/009719/img3.png}\PYG{l+s}{'}\PYG{p}{)}
+\PYG{n}{pl}\PYG{o}{.}\PYG{n}{close}\PYG{p}{(}\PYG{p}{)}
+\PYG{n}{env}\PYG{p}{(}\PYG{p}{)}\PYG{o}{.}\PYG{n}{srcdiff\PYGZus{}plot\PYGZus{}adv}\PYG{p}{(}\PYG{n}{env}\PYG{p}{(}\PYG{p}{)}\PYG{o}{.}\PYG{n}{ensemble\PYGZus{}average}\PYG{p}{,} \PYG{n}{night}\PYG{o}{=}\PYG{n+nb+bp}{True}\PYG{p}{,} \PYG{n}{upsample}\PYG{o}{=}\PYG{l+m+mi}{8}\PYG{p}{)}
+\PYG{n}{env}\PYG{p}{(}\PYG{p}{)}\PYG{o}{.}\PYG{n}{overlay\PYGZus{}input\PYGZus{}points}\PYG{p}{(}\PYG{n}{env}\PYG{p}{(}\PYG{p}{)}\PYG{o}{.}\PYG{n}{ensemble\PYGZus{}average}\PYG{p}{)}
+\PYG{n}{pl}\PYG{o}{.}\PYG{n}{savefig}\PYG{p}{(}\PYG{l+s}{'}\PYG{l+s}{../tmp\PYGZus{}media/009719/img3\PYGZus{}ipol.png}\PYG{l+s}{'}\PYG{p}{,} \PYG{n}{facecolor}\PYG{o}{=}\PYG{l+s}{'}\PYG{l+s}{black}\PYG{l+s}{'}\PYG{p}{,}
+           \PYG{n}{edgecolor}\PYG{o}{=}\PYG{l+s}{'}\PYG{l+s}{none}\PYG{l+s}{'}\PYG{p}{)}
+\PYG{n}{pl}\PYG{o}{.}\PYG{n}{close}\PYG{p}{(}\PYG{p}{)}
+\PYG{n}{LMT}\PYG{o}{=}\PYG{p}{\PYGZob{}}
+ \PYG{l+s}{'}\PYG{l+s}{svgViewport}\PYG{l+s}{'} \PYG{p}{:} \PYG{l+m+mi}{500}\PYG{p}{,}
+ \PYG{l+s}{'}\PYG{l+s}{orgImgSize}\PYG{l+s}{'}  \PYG{p}{:} \PYG{l+m+mi}{440}\PYG{p}{,}
+ \PYG{l+s}{'}\PYG{l+s}{pxScale}\PYG{l+s}{'}     \PYG{p}{:} \PYG{l+m+mf}{0.16456}\PYG{p}{,}
+ \PYG{l+s}{'}\PYG{l+s}{orgPxScale}\PYG{l+s}{'}  \PYG{p}{:} \PYG{l+m+mf}{0.18700}\PYG{p}{,}
+ \PYG{l+s}{'}\PYG{l+s}{gls\PYGZus{}version}\PYG{l+s}{'} \PYG{p}{:} \PYG{l+s}{'}\PYG{l+s}{v4}\PYG{l+s}{'}\PYG{p}{,}
+ \PYG{l+s}{'}\PYG{l+s}{lmt\PYGZus{}version}\PYG{l+s}{'} \PYG{p}{:} \PYG{l+s}{'}\PYG{l+s}{v1.6.3}\PYG{l+s}{'}\PYG{p}{,}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}
