@@ -74,7 +74,7 @@ After the user created a model, it can be sent to the server to get simulated an
 
 In a first step, the model JSON string is parsed, validated and evaluated.
 It is saved to the data base as a new entry and the resulting id is returned to the client.
-Additionally, a configuration file for the simulation back end is written to disk. 
+Additionally, a configuration file for the simulation backend is written to disk. 
 
 Then the client asks for the location of the results of this model.
 Since there are no results yet, the server creates a new simulation task and hands it over to the broker that puts it in the task queue (\seqref{simulate}, yellow).

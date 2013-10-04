@@ -20,12 +20,12 @@ The server is implemented in Python language, using the Django framework.
 The framework is served using gunicorn, a WSGI HTTP server implemented in Python.
 
 The Django framework follows a ``model-view-controller'' architecture.
-It defines a data model which is represented in a back end database.
+It defines a data model which is represented in a backend database.
 A ``view'' is a representation of a subset of this data presented to a user (the client app in this case).
 The ``controller'' allows to modify the data.
 
 The data model is created by defining Python classes in \befn{ModellerApp/models.py}.
-Django uses a relational database in the back end, to keep track of all the created instances of those models.
+Django uses a relational database in the backend, to keep track of all the created instances of those models.
 For the actual storage of the data, Django relies on a external relational database.
 For \spl, MySQL, the most popular\cite{dbranking} open source database, was chosen.
 
@@ -93,11 +93,11 @@ GLASS parameters used to generate the model are stored in the according fields.
 
 \subsubsection{The parsing of a model JSON string}
 
-In order to save a received model from the client app, the server parses the JSON string received and converts it to a temporarily python data structure.
+In order to save a received model from the client app, the server parses the JSON string received and converts it to a temporarily Python data structure.
 This is done in \befn{ModellerApp/utils.py}, using the class \C{EvalAndSaveJSON}.
 
 \F{EvalAndSaveJSON.__init__()} first sets all the default values for glass and then calls \F{EvalAndSaveJSON.evalModelString()}.
-This function parses the JSON model string to a python dict containing Python objects.
+This function parses the JSON model string to a Python dict containing Python objects.
 The parameters of the uploaded model are then, after a sanity check, written over the default values.
 
 In a second step, \F{EvalAndSaveJSON.orderPoints2()} reorders the tree-like structure of extremal points provided by the client to a list of images ordered by their expected arrival time. It determines the center of the lensing galaxy (assumed to be the maximum). This also converts all the measurements from \spl pixels to actual arcsec and makes them relative to the center of the lens.

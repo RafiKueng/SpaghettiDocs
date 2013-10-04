@@ -17,7 +17,7 @@ This makes it easy to set up a distributed task system with Django and Celery.
 
 \code{start_task.py}{Example of how to call a task from Django. Simplified version of \F{getSimulationJSON()} from \befn{ModellerApp/views.py}}
 
-Possible units of work, called tasks, can be defined as python functions on the server side in Django using the file \befn{/lmt/tasks.py}.
+Possible units of work, called tasks, can be defined as Python functions on the server side in Django using the file \befn{/lmt/tasks.py}.
 This tasks can be started by Django asynchronously by a call to the task as shown in \lstref{start_task.py} and they return a \C{AsyncResult} instance that allows one to check the state of the task or it's return value in a next step.
 
 Once a task is started by Django, Celery takes over.
