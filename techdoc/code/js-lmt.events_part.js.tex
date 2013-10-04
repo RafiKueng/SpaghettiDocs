@@ -1,0 +1,27 @@
+\begin{Verbatim}[commandchars=\\\{\},numbers=left,stepnumber=1,codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8}]
+\PYG{n+nx}{LMT}\PYG{p}{.}\PYG{n+nx}{events} \PYG{o}{=} \PYG{p}{\PYGZob{}}
+  \PYG{n+nx}{startUp}\PYG{o}{:} \PYG{k+kd}{function}\PYG{p}{(}\PYG{p}{)}\PYG{p}{\PYGZob{}}
+    \PYG{c+c1}{//...}
+    \PYG{n+nx}{LMT}\PYG{p}{.}\PYG{n+nx}{model} \PYG{o}{=} \PYG{k}{new} \PYG{n+nx}{LMT}\PYG{p}{.}\PYG{n+nx}{objects}\PYG{p}{.}\PYG{n+nx}{Model}\PYG{p}{(}\PYG{p}{)}\PYG{p}{;}
+    \PYG{n+nx}{LMT}\PYG{p}{.}\PYG{n+nx}{model}\PYG{p}{.}\PYG{n+nx}{init}\PYG{p}{(}\PYG{p}{)}\PYG{p}{;}
+    \PYG{n+nx}{LMT}\PYG{p}{.}\PYG{n+nx}{events}\PYG{p}{.}\PYG{n+nx}{assignHandlers}\PYG{p}{(}\PYG{p}{)}\PYG{p}{;}
+    \PYG{c+c1}{//...}
+  \PYG{p}{\PYGZcb{}}\PYG{p}{,}
+  
+  \PYG{n+nx}{assignHandlers}\PYG{o}{:} \PYG{k+kd}{function}\PYG{p}{(}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{c+c1}{// ...}
+    \PYG{n+nx}{\PYGZdl{}}\PYG{p}{(}\PYG{n+nb}{document}\PYG{p}{)}\PYG{p}{.}\PYG{n+nx}{on}\PYG{p}{(}\PYG{l+s+s1}{'ShowSelectDatasourceDialog'}\PYG{p}{,}
+      \PYG{n+nx}{LMT}\PYG{p}{.}\PYG{n+nx}{ui}\PYG{p}{.}\PYG{n+nx}{html}\PYG{p}{.}\PYG{n+nx}{SelectDatasourceDialog}\PYG{p}{.}\PYG{n+nx}{show}\PYG{p}{)}\PYG{p}{;}    
+
+    \PYG{n+nx}{\PYGZdl{}}\PYG{p}{(}\PYG{n+nb}{document}\PYG{p}{)}\PYG{p}{.}\PYG{n+nx}{on}\PYG{p}{(}\PYG{l+s+s1}{'RepaintModel'}\PYG{p}{,} \PYG{n+nx}{LMT}\PYG{p}{.}\PYG{n+nx}{objects}\PYG{p}{.}\PYG{n+nx}{Model}\PYG{p}{.}\PYG{n+nx}{Repaint}\PYG{p}{)}\PYG{p}{;}
+
+    \PYG{n+nx}{\PYGZdl{}}\PYG{p}{(}\PYG{n+nb}{document}\PYG{p}{)}\PYG{p}{.}\PYG{n+nx}{on}\PYG{p}{(}\PYG{l+s+s1}{'UploadModel'}\PYG{p}{,} \PYG{n+nx}{LMT}\PYG{p}{.}\PYG{n+nx}{com}\PYG{p}{.}\PYG{n+nx}{UploadModel}\PYG{p}{)}\PYG{p}{;}
+    \PYG{n+nx}{\PYGZdl{}}\PYG{p}{(}\PYG{n+nb}{document}\PYG{p}{)}\PYG{p}{.}\PYG{n+nx}{on}\PYG{p}{(}\PYG{l+s+s1}{'SimulateModel'}\PYG{p}{,} \PYG{n+nx}{LMT}\PYG{p}{.}\PYG{n+nx}{events}\PYG{p}{.}\PYG{n+nx}{SimulateModel}\PYG{p}{)}\PYG{p}{;}
+
+    \PYG{n+nx}{\PYGZdl{}}\PYG{p}{(}\PYG{n+nb}{document}\PYG{p}{)}\PYG{p}{.}\PYG{n+nx}{on}\PYG{p}{(}\PYG{l+s+s1}{'ReceivedSimulation'}\PYG{p}{,} \PYG{n+nx}{LMT}\PYG{p}{.}\PYG{n+nx}{ui}\PYG{p}{.}\PYG{n+nx}{out}\PYG{p}{.}\PYG{n+nx}{load}\PYG{p}{)}\PYG{p}{;}
+    \PYG{n+nx}{\PYGZdl{}}\PYG{p}{(}\PYG{n+nb}{document}\PYG{p}{)}\PYG{p}{.}\PYG{n+nx}{on}\PYG{p}{(}\PYG{l+s+s1}{'ReceivedSimulation'}\PYG{p}{,} \PYG{n+nx}{LMT}\PYG{p}{.}\PYG{n+nx}{ui}\PYG{p}{.}\PYG{n+nx}{html}\PYG{p}{.}\PYG{n+nx}{Toolbar}\PYG{p}{.}\PYG{n+nx}{updateTop}\PYG{p}{)}\PYG{p}{;}
+    \PYG{c+c1}{// ...}
+  \PYG{p}{\PYGZcb{}}\PYG{p}{,}
+\PYG{p}{\PYGZcb{}}  
+\PYG{c+c1}{//...}
+\end{Verbatim}

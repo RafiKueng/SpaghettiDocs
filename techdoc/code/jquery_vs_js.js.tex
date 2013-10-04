@@ -1,0 +1,32 @@
+\begin{Verbatim}[commandchars=\\\{\},numbers=left,stepnumber=1,codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8}]
+\PYG{c+c1}{// jQuery code}
+\PYG{n+nx}{\PYGZdl{}}\PYG{p}{(}\PYG{l+s+s1}{'div.blue, span.red'}\PYG{p}{)}\PYG{p}{.}\PYG{n+nx}{addClass}\PYG{p}{(}\PYG{l+s+s1}{'bold'}\PYG{p}{)}\PYG{p}{.}\PYG{n+nx}{fadeIn}\PYG{p}{(}\PYG{l+m+mi}{500}\PYG{p}{)}\PYG{p}{;}
+
+\PYG{c+c1}{// basically equivalent pure javascript code}
+\PYG{k+kd}{var} \PYG{n+nx}{tags} \PYG{o}{=} \PYG{p}{[}\PYG{l+s+s1}{'div'}\PYG{p}{,} \PYG{l+s+s1}{'span'}\PYG{p}{]}\PYG{p}{;}
+\PYG{k+kd}{var} \PYG{n+nx}{classes} \PYG{o}{=} \PYG{p}{[}\PYG{l+s+s1}{'blue'}\PYG{p}{,} \PYG{l+s+s1}{'red'}\PYG{p}{]}\PYG{p}{;}
+\PYG{k+kd}{var} \PYG{n+nx}{all\PYGZus{}sel\PYGZus{}elements} \PYG{o}{=} \PYG{p}{[}\PYG{p}{]}\PYG{p}{;}
+\PYG{k}{for} \PYG{p}{(}\PYG{k+kd}{var} \PYG{n+nx}{i}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n+nx}{i}\PYG{o}{<}\PYG{n+nx}{tags}\PYG{p}{.}\PYG{n+nx}{length}\PYG{p}{;} \PYG{n+nx}{i}\PYG{o}{++}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{k+kd}{var} \PYG{n+nx}{elements} \PYG{o}{=} \PYG{n+nb}{document}\PYG{p}{.}\PYG{n+nx}{getElementsByTagName}\PYG{p}{(}\PYG{n+nx}{tags}\PYG{p}{[}\PYG{n+nx}{i}\PYG{p}{]}\PYG{p}{)}\PYG{p}{;}
+    \PYG{k}{for}\PYG{p}{(}\PYG{k+kd}{var} \PYG{n+nx}{j}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n+nx}{j}\PYG{o}{<}\PYG{n+nx}{elements}\PYG{p}{.}\PYG{n+nx}{length}\PYG{p}{;} \PYG{n+nx}{j}\PYG{o}{++}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+        \PYG{k+kd}{var} \PYG{n+nx}{element} \PYG{o}{=} \PYG{n+nx}{elements}\PYG{p}{[}\PYG{n+nx}{j}\PYG{p}{]}\PYG{p}{;}
+        \PYG{k}{if} \PYG{p}{(}\PYG{p}{(}\PYG{l+s+s1}{' '} \PYG{o}{+} \PYG{n+nx}{element}\PYG{p}{.}\PYG{n+nx}{className} \PYG{o}{+} \PYG{l+s+s1}{' '}\PYG{p}{)}\PYG{p}{.}\PYG{n+nx}{indexOf}\PYG{p}{(}\PYG{l+s+s1}{' '} \PYG{o}{+}
+            \PYG{n+nx}{classes}\PYG{p}{[}\PYG{n+nx}{i}\PYG{p}{]} \PYG{o}{+} \PYG{l+s+s1}{' '}\PYG{p}{)} \PYG{o}{>} \PYG{o}{-}\PYG{l+m+mi}{1}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+            \PYG{n+nx}{all\PYGZus{}sel\PYGZus{}elements}\PYG{p}{.}\PYG{n+nx}{push}\PYG{p}{(}\PYG{n+nx}{element}\PYG{p}{)}\PYG{p}{;}
+            \PYG{n+nx}{element}\PYG{p}{.}\PYG{n+nx}{className} \PYG{o}{+=} \PYG{l+s+s1}{' bold'}\PYG{p}{;}
+        \PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{k+kd}{var} \PYG{n+nx}{n}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{k+kd}{var} \PYG{n+nx}{steps}\PYG{o}{=}\PYG{l+m+mi}{100}\PYG{p}{;}
+\PYG{k+kd}{var} \PYG{n+nx}{duration} \PYG{o}{=} \PYG{l+m+mi}{500}\PYG{p}{.}\PYG{p}{;}
+\PYG{k+kd}{var} \PYG{n+nx}{fader} \PYG{o}{=} \PYG{k+kd}{function}\PYG{p}{(}\PYG{p}{)}\PYG{p}{\PYGZob{}}
+    \PYG{k}{for} \PYG{p}{(}\PYG{k+kd}{var} \PYG{n+nx}{i}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n+nx}{i}\PYG{o}{<}\PYG{n+nx}{all\PYGZus{}sel\PYGZus{}elements}\PYG{p}{.}\PYG{n+nx}{length}\PYG{p}{;} \PYG{n+nx}{i}\PYG{o}{++}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+        \PYG{n+nx}{all\PYGZus{}sel\PYGZus{}elements}\PYG{p}{[}\PYG{n+nx}{i}\PYG{p}{]}\PYG{p}{.}\PYG{n+nx}{style}\PYG{p}{.}\PYG{n+nx}{opacity} \PYG{o}{+=} \PYG{l+m+mi}{1}\PYG{p}{.}\PYG{o}{/}\PYG{n+nx}{steps}\PYG{p}{;}
+    \PYG{p}{\PYGZcb{}}
+    \PYG{k}{if} \PYG{p}{(}\PYG{n+nx}{n}\PYG{o}{++}\PYG{o}{<}\PYG{n+nx}{steps}\PYG{p}{)}\PYG{p}{\PYGZob{}}
+        \PYG{n+nb}{window}\PYG{p}{.}\PYG{n+nx}{setTimeout}\PYG{p}{(}\PYG{n+nx}{fader}\PYG{p}{,} \PYG{n+nx}{duration}\PYG{o}{/}\PYG{n+nx}{steps}\PYG{p}{)}\PYG{p}{;}
+    \PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{}}
+\PYG{n+nb}{window}\PYG{p}{.}\PYG{n+nx}{setTimeout}\PYG{p}{(}\PYG{n+nx}{fader}\PYG{p}{,} \PYG{n+nx}{duration}\PYG{o}{/}\PYG{n+nx}{steps}\PYG{p}{)}\PYG{p}{;}
+\end{Verbatim}

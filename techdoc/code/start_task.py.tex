@@ -1,0 +1,21 @@
+\begin{Verbatim}[commandchars=\\\{\},numbers=left,stepnumber=1,codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8}]
+\PYG{k+kn}{from} \PYG{n+nn}{lmt.tasks} \PYG{k+kn}{import} \PYG{n}{calculateModel}
+\PYG{k+kn}{from} \PYG{n+nn}{celery.result} \PYG{k+kn}{import} \PYG{n}{AsyncResult}
+
+\PYG{n+nd}{@csrf\PYGZus{}exempt}
+\PYG{k}{def} \PYG{n+nf}{getSimulationJSON}\PYG{p}{(}\PYG{n}{request}\PYG{p}{,} \PYG{n}{result\PYGZus{}id}\PYG{p}{)}\PYG{p}{:}
+  \PYG{c}{\PYGZsh{} ...}
+  \PYG{n}{res} \PYG{o}{=} \PYG{n}{ModellingResult}\PYG{o}{.}\PYG{n}{objects}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{n+nb}{id}\PYG{o}{=}\PYG{n}{result\PYGZus{}id}\PYG{p}{)}
+  \PYG{c}{\PYGZsh{} ...}
+
+  \PYG{c}{\PYGZsh{} set time limits}
+  \PYG{n}{dt} \PYG{o}{=} \PYG{l+m+mi}{60}\PYG{o}{*}\PYG{l+m+mi}{30} \PYG{c}{\PYGZsh{} task has 30min till it gets revoked}
+  \PYG{n}{expire} \PYG{o}{=} \PYG{l+m+mi}{60} \PYG{c}{\PYGZsh{} task gets canceled after 60s in queue}
+  
+  \PYG{n}{task} \PYG{o}{=} \PYG{n}{calculateModel}\PYG{o}{.}\PYG{n}{apply\PYGZus{}async}\PYG{p}{(}\PYG{n}{args}\PYG{o}{=}\PYG{p}{(}\PYG{n}{result\PYGZus{}id}\PYG{p}{,}\PYG{p}{)}\PYG{p}{,} \PYG{n}{timeout}\PYG{o}{=}\PYG{n}{dt}\PYG{p}{,}
+                                    \PYG{n}{expires}\PYG{o}{=}\PYG{n}{expire}\PYG{p}{)}
+  \PYG{n}{res}\PYG{o}{.}\PYG{n}{is\PYGZus{}rendered} \PYG{o}{=} \PYG{n+nb+bp}{False}
+  \PYG{n}{res}\PYG{o}{.}\PYG{n}{task\PYGZus{}id} \PYG{o}{=} \PYG{n}{task}\PYG{o}{.}\PYG{n}{task\PYGZus{}id}
+  \PYG{n}{res}\PYG{o}{.}\PYG{n}{rendered\PYGZus{}last} \PYG{o}{=} \PYG{n}{now}\PYG{p}{(}\PYG{p}{)}\PYG{p}{;}
+  \PYG{n}{res}\PYG{o}{.}\PYG{n}{save}\PYG{p}{(}\PYG{p}{)}
+\end{Verbatim}

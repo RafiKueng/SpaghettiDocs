@@ -1,0 +1,42 @@
+\begin{Verbatim}[commandchars=\\\{\},numbers=left,stepnumber=1,codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8}]
+\PYG{p}{\PYGZob{}}
+  \PYG{l+s+s2}{"\PYGZus{}\PYGZus{}type"}\PYG{o}{:}\PYG{l+s+s2}{"model"}\PYG{p}{,}
+  \PYG{l+s+s2}{"NrOf"}\PYG{o}{:} \PYG{n+nx}{NrOfObj}\PYG{p}{,}
+  \PYG{l+s+s2}{"Sources"}\PYG{o}{:} \PYG{n+nx}{SourcesArray}\PYG{p}{,}
+  \PYG{l+s+s2}{"ExternalMasses"}\PYG{o}{:} \PYG{n+nx}{ExternalMassesArray}
+  \PYG{l+s+s2}{"Rulers"}\PYG{o}{:}\PYG{p}{[}\PYG{p}{]}\PYG{p}{,}
+  \PYG{l+s+s2}{"MinMmaxSwitchAngle"}\PYG{o}{:} \PYG{o}{<}\PYG{k+kr}{float}\PYG{o}{>}\PYG{p}{,}
+  \PYG{l+s+s2}{"Parameters"}\PYG{o}{:} \PYG{n+nx}{ParametersObj}
+\PYG{p}{\PYGZcb{}}
+\PYG{c+c1}{//------------------------------------------------}
+\PYG{n+nx}{NrOfObj}\PYG{o}{:} \PYG{p}{\PYGZob{}}
+  \PYG{l+s+s2}{"\PYGZus{}\PYGZus{}type"}\PYG{o}{:}\PYG{l+s+s2}{"counters"}\PYG{p}{,}
+  \PYG{l+s+s2}{"Sources"}\PYG{o}{:} \PYG{o}{<}\PYG{k+kr}{int}\PYG{o}{>}\PYG{p}{,}
+  \PYG{l+s+s2}{"ExtremalPoints"}\PYG{o}{:} \PYG{o}{<}\PYG{k+kr}{int}\PYG{o}{>}\PYG{p}{,}
+  \PYG{l+s+s2}{"Contours"}\PYG{o}{:} \PYG{o}{<}\PYG{k+kr}{int}\PYG{o}{>}\PYG{p}{,}
+  \PYG{l+s+s2}{"ContourPoints"}\PYG{o}{:} \PYG{o}{<}\PYG{k+kr}{int}\PYG{o}{>}
+\PYG{p}{\PYGZcb{}}
+\PYG{c+c1}{//------------------------------------------------}
+\PYG{l+s+s2}{"Parameters"}\PYG{o}{:} \PYG{p}{\PYGZob{}}
+  \PYG{l+s+s2}{"pixrad"}\PYG{o}{:} \PYG{o}{<}\PYG{k+kr}{int}\PYG{o}{>}\PYG{p}{,}
+  \PYG{l+s+s2}{"n\PYGZus{}models"}\PYG{o}{:} \PYG{o}{<}\PYG{k+kr}{int}\PYG{o}{>}\PYG{p}{,}
+  \PYG{l+s+s2}{"isSym"}\PYG{o}{:} \PYG{o}{<}\PYG{n+nb}{Boolean}\PYG{o}{>}\PYG{p}{,}
+  \PYG{l+s+s2}{"z\PYGZus{}src"}\PYG{o}{:} \PYG{o}{<}\PYG{k+kr}{int}\PYG{o}{>}\PYG{p}{,}
+  \PYG{l+s+s2}{"z\PYGZus{}lens"}\PYG{o}{:} \PYG{o}{<}\PYG{k+kr}{float}\PYG{o}{>}\PYG{p}{,}
+  \PYG{l+s+s2}{"orgPxScale"}\PYG{o}{:} \PYG{o}{<}\PYG{k+kr}{float}\PYG{o}{>}\PYG{p}{,}
+  \PYG{l+s+s2}{"orgImgSize"}\PYG{o}{:} \PYG{o}{<}\PYG{k+kr}{int}\PYG{o}{>}\PYG{p}{,}
+  \PYG{l+s+s2}{"svgViewportSize"}\PYG{o}{:} \PYG{o}{<}\PYG{k+kr}{int}\PYG{o}{>}\PYG{p}{,}
+  \PYG{l+s+s2}{"pxScale"}\PYG{o}{:} \PYG{o}{<}\PYG{k+kr}{float}\PYG{o}{>}
+\PYG{p}{\PYGZcb{}}
+\PYG{c+c1}{//------------------------------------------------}
+\PYG{n+nx}{ExternalMassesArray}\PYG{o}{:} \PYG{p}{[} \PYG{n+nx}{ExtMass1}\PYG{p}{,} \PYG{n+nx}{ExtMass2}\PYG{p}{,} \PYG{p}{.}\PYG{p}{.}\PYG{p}{.}\PYG{p}{]}
+\PYG{n+nx}{ExtMassX}\PYG{o}{:} \PYG{p}{\PYGZob{}}
+  \PYG{l+s+s2}{"\PYGZus{}\PYGZus{}type"}\PYG{o}{:}\PYG{l+s+s2}{"ext\PYGZus{}mass"}\PYG{p}{,}
+  \PYG{l+s+s2}{"idnr"}\PYG{o}{:} \PYG{o}{<}\PYG{k+kr}{int}\PYG{o}{>}\PYG{p}{,}
+  \PYG{l+s+s2}{"x"}\PYG{o}{:} \PYG{o}{<}\PYG{k+kr}{float}\PYG{o}{>}\PYG{p}{,}
+  \PYG{l+s+s2}{"y"}\PYG{o}{:} \PYG{o}{<}\PYG{k+kr}{float}\PYG{o}{>}\PYG{p}{,}
+  \PYG{l+s+s2}{"r"}\PYG{o}{:} \PYG{o}{<}\PYG{k+kr}{float}\PYG{o}{>}\PYG{p}{,}
+  \PYG{l+s+s2}{"phi"}\PYG{o}{:} \PYG{o}{<}\PYG{k+kr}{float}\PYG{o}{>}\PYG{p}{,}
+\PYG{p}{\PYGZcb{}}
+\PYG{c+c1}{//------------------------------------------------}
+\end{Verbatim}

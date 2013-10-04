@@ -1,0 +1,42 @@
+\begin{Verbatim}[commandchars=\\\{\},numbers=left,stepnumber=1,codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8}]
+\PYG{c}{\PYGZsh{} LMT\_GLS\_v4}
+\PYG{c}{\PYGZsh{} LMT\_v1.6.3}
+\PYG{k+kn}{import} \PYG{n+nn}{matplotlib} \PYG{k+kn}{as} \PYG{n+nn}{mpl}
+\PYG{k+kn}{import} \PYG{n+nn}{pylab} \PYG{k+kn}{as} \PYG{n+nn}{pl}
+\PYG{n}{glass\PYGZus{}basis}\PYG{p}{(}\PYG{l+s}{'}\PYG{l+s}{glass.basis.pixels}\PYG{l+s}{'}\PYG{p}{,} \PYG{n}{solver}\PYG{o}{=}\PYG{l+s}{'}\PYG{l+s}{rwalk}\PYG{l+s}{'}\PYG{p}{)}
+\PYG{n}{meta}\PYG{p}{(}\PYG{n}{author}\PYG{o}{=}\PYG{l+s}{'}\PYG{l+s}{c\PYGZus{}cld}\PYG{l+s}{'}\PYG{p}{,} \PYG{n}{notes}\PYG{o}{=}\PYG{l+s}{'}\PYG{l+s}{using LensModellingTools}\PYG{l+s}{'}\PYG{p}{)}
+\PYG{n}{setup\PYGZus{}log}\PYG{p}{(}\PYG{l+s}{'}\PYG{l+s}{../tmp\PYGZus{}media/009719/log.txt}\PYG{l+s}{'}\PYG{p}{)}
+\PYG{n}{samplex\PYGZus{}random\PYGZus{}seed}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{)}
+\PYG{n}{samplex\PYGZus{}acceptance}\PYG{p}{(}\PYG{n}{rate}\PYG{o}{=}\PYG{l+m+mf}{0.25}\PYG{p}{,} \PYG{n}{tol}\PYG{o}{=}\PYG{l+m+mf}{0.15}\PYG{p}{)}
+\PYG{n}{exclude\PYGZus{}all\PYGZus{}priors}\PYG{p}{(}\PYG{p}{)}
+\PYG{n}{include\PYGZus{}prior}\PYG{p}{(}
+  \PYG{l+s}{'}\PYG{l+s}{lens\PYGZus{}eq}\PYG{l+s}{'}\PYG{p}{,}
+  \PYG{l+s}{'}\PYG{l+s}{time\PYGZus{}delay}\PYG{l+s}{'}\PYG{p}{,}
+  \PYG{l+s}{'}\PYG{l+s}{profile\PYGZus{}steepness}\PYG{l+s}{'}\PYG{p}{,}
+  \PYG{l+s}{'}\PYG{l+s}{J3gradient}\PYG{l+s}{'}\PYG{p}{,}
+  \PYG{l+s}{'}\PYG{l+s}{magnification}\PYG{l+s}{'}\PYG{p}{,}
+  \PYG{l+s}{'}\PYG{l+s}{hubble\PYGZus{}constant}\PYG{l+s}{'}\PYG{p}{,}
+  \PYG{l+s}{'}\PYG{l+s}{PLsmoothness3}\PYG{l+s}{'}\PYG{p}{,}
+  \PYG{l+s}{'}\PYG{l+s}{shared\PYGZus{}h}\PYG{l+s}{'}\PYG{p}{,}
+  \PYG{l+s}{'}\PYG{l+s}{external\PYGZus{}shear}\PYG{l+s}{'}\PYG{p}{,}
+\PYG{p}{)}
+\PYG{n}{hubble\PYGZus{}time}\PYG{p}{(}\PYG{l+m+mf}{13.700000}\PYG{p}{)}
+\PYG{n}{globject}\PYG{p}{(}\PYG{l+s}{'}\PYG{l+s}{9719\PYGZus{}\PYGZus{}ASW0007j6j}\PYG{l+s}{'}\PYG{p}{)}
+\PYG{n}{zlens}\PYG{p}{(}\PYG{l+m+mf}{0.500}\PYG{p}{)}
+\PYG{n}{pixrad}\PYG{p}{(}\PYG{l+m+mi}{8}\PYG{p}{)}
+\PYG{n}{steepness}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{n+nb+bp}{None}\PYG{p}{)}
+\PYG{n}{smooth}\PYG{p}{(}\PYG{l+m+mf}{2.00}\PYG{p}{,}\PYG{n}{include\PYGZus{}central\PYGZus{}pixel}\PYG{o}{=}\PYG{n+nb+bp}{False}\PYG{p}{)}
+\PYG{n}{local\PYGZus{}gradient}\PYG{p}{(}\PYG{l+m+mf}{45.00}\PYG{p}{)}
+\PYG{n}{symm}\PYG{p}{(}\PYG{p}{)}
+
+\PYG{n}{shear}\PYG{p}{(}\PYG{l+m+mf}{0.01}\PYG{p}{)}
+
+\PYG{n}{A} \PYG{o}{=} \PYG{l+m+mf}{1.833}\PYG{p}{,} \PYG{l+m+mf}{0.733}
+\PYG{n}{B} \PYG{o}{=} \PYG{o}{-}\PYG{l+m+mf}{0.197}\PYG{p}{,} \PYG{o}{-}\PYG{l+m+mf}{1.805}
+\PYG{n}{source}\PYG{p}{(}\PYG{l+m+mf}{1.000}\PYG{p}{,}
+  \PYG{n}{A}\PYG{p}{,} \PYG{l+s}{'}\PYG{l+s}{min}\PYG{l+s}{'}\PYG{p}{,} 
+  \PYG{n}{B}\PYG{p}{,} \PYG{l+s}{'}\PYG{l+s}{sad}\PYG{l+s}{'}\PYG{p}{,} \PYG{n+nb+bp}{None}\PYG{p}{)}
+\PYG{n}{model}\PYG{p}{(}\PYG{l+m+mi}{200}\PYG{p}{)}
+\PYG{n}{savestate}\PYG{p}{(}\PYG{l+s}{'}\PYG{l+s}{../tmp\PYGZus{}media/009719/state.txt}\PYG{l+s}{'}\PYG{p}{)}
+\PYG{n}{env}\PYG{p}{(}\PYG{p}{)}\PYG{o}{.}\PYG{n}{make\PYGZus{}ensemble\PYGZus{}average}\PYG{p}{(}\PYG{p}{)}
+\end{Verbatim}
