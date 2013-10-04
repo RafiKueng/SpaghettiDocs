@@ -39,7 +39,7 @@ Django offers a powerful template system that allows to render the data in any p
 Usually it's used to render HTML pages, but this setup uses it to return JSON data obejcts to the client app.
 The template system is used to render the result views\footnote{\splurl[data/<result_id>]}, which can be accessed directly by a browser to display generated models.
 
-To simulate the models, the server needs to connect to the simulation software (GLASS), tell it what to do and fire it up.
+To simulate the models, the server needs to connect to GLASS, the simulation software, tell it what to do and fire it up.
 The server creates a config file for GLASS for each request, and then starts an instance of GLASS running this file.
 Since the simulation takes in the order of minutes, the server worker process should not be blocked during simulation.
 Additionally, this part should be easily scalable, since it creates the biggest server load and needs to be up scaled linearly with the amount of users that use \spl concurrently.
