@@ -6,9 +6,9 @@ It introduces all the concept needed to develop an dynamic web application like 
 
 
 
-\subsection{HyperText Markup Language (HTML)}
-The HyperText Markup Language (HTML) is the standardized markup language.
-It is used as a format to exchange semantically structured information on the internet using the HyperText transfer protocol (HTTP).
+\subsection{Hyper Text Markup Language (HTML)}
+The Hyper Text Markup Language (HTML) is the standardized markup language.
+It is used as a format to exchange semantically structured information on the internet using the Hyper Text transfer protocol (HTTP).
 It uses plain text to describe the building blocks of a web site in a tree like structure.
 Those building blocks are called \T{tag} and can have a set of attributes, expressed as key--value pairs.
 They are enclosed in angle brackets and usually consist of opening tag, the attribute set (for example \T{id}, \T{class}) and an closing tag.
@@ -57,7 +57,7 @@ JS objects are a collection of key -- value pairs and thus comparable to Python 
 
 The core components of JavaScript are standardized as ECMAScript (ECMA 262 \cite{js_std}), ISO/IEC 16262 \cite{js_iso}.
 
-\code{doc.js}{JS code modifying the above HTML file \lstref{doc.html}. Makes the first element clickable. If the user clicks on the first element, the third elements text is changed to ``Don't leave yet!'' and made green.}
+\code{doc.js}{JS code modifying the above HTML file \lstref{doc.html}. Makes the first element click able. If the user clicks on the first element, the third elements text is changed to ``Don't leave yet!'' and made green.}
 
 \subsubsection{jQuery library}
 \label{sec:jquery}
@@ -112,7 +112,7 @@ A client calling this page will trigger the server side rendering of this page, 
 \subsubsection{Client to Server communication}
 \label{sec:servercom}
 
-Basic data transfer on the internet is handled using the HyperText Transfer Protocol (HTTP).
+Basic data transfer on the internet is handled using the Hyper Text Transfer Protocol (HTTP).
 A client (browser) always initiates a TCP connection, requesting a resource identified by an URI\footnote{Uniform Resource Identifier}.
 The server sends an answer using the same connection and closes it afterwords.
 If the request was successful, the client renders and displays the body of the answer, the HTML document. Not only HTML documents are transmitted. The same technique is used to transmit CSS, JS, images or any other type of file, text or data.
@@ -216,7 +216,7 @@ By design, SVG is slower as canvas, because it first needs to be rasterized by t
 Additionally, there was put a lot of effort in Canvas optimization and hardware acceleration lately, whereas SVG hardware support is only minimal.
 Due to the lack of hardware optimization, pixel based operations like filters operate slowly.
 
-SVG graphics can be rendered to a canvas using the external JS library \T{canvg.js}\footnote{Developped by Gabe Lerner with contributions to the CSS engine by Rafael Küng and others.}.
+SVG graphics can be rendered to a canvas using the external JS library \T{canvg.js}\footnote{Developed by Gabe Lerner with contributions to the CSS engine by Rafael Kueng and others.}.
 
 
 

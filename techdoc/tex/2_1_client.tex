@@ -3,9 +3,9 @@
 
 The client-side application (client) was programmed using a modular, strict object oriented, event driven approach.
 The four main parts of the client application are the Engine Core (engine), the User Interface (UI), the Application State (state) and the Communication Interface (com).
-\Figref{client} shows the clients modules and according JS object namespaces.
+\Figref{client} shows the clients modules and according JS object name spaces.
 
-\fig{client}{Modules of the client-side application and according JS namespaces}
+\fig{client}{Modules of the client-side application and according JS name spaces}
 
 The object oriented paradigm states that all data and actions that affect similar structures should be grouped together to a functional unit, named object.
 Such an object has internal data representing the objects state.
@@ -64,7 +64,7 @@ Tools for manipulating the simulation process and the output view are placed abo
 A few general commands are arranged in a top bar (all marked with green dotted line).
 
 To assist the user, two helping systems are present (marked by magenta dash-dotted line).
-An exhaustive mouse over hoover tooltip help that is popping up any relevant information for tools / buttons under the cursor.
+An exhaustive mouse over hoover tool tip help that is popping up any relevant information for tools / buttons under the cursor.
 To not distract the user while working on a model, the tool tips are disabled for elements in the input area.
 
 Additionally, there is a static help bar at the bottom, providing information about the element the cursor is currently pointing at.
@@ -73,14 +73,14 @@ Advanced users can hide the static help using the toolbar.
 For clients with a small screen, like mobile devices, the layout changes to only display the input or the output.
 The user can slide between those two sides using a slider on the side\footnote{Note that mobiles are currently not supported due to the lack of testing devices.}.
 
-The input area was designed to show a moveable and zoomable image from the survey (using click and drag and the mouse wheel).
+The input area was designed to show a moveable and zoom able image from the survey (using click and drag and the mouse wheel).
 Besides the zoom functionality which utilizes the mouse wheel, all other actions on the input area are triggered by simple click or click and drag, avoiding double clicks and any key combinations.
 This allows the input area to be easily used with devices featuring touch interface and allows for a more natural and easy-to-use UI \cite{ui-ms, ui-mac}.
 
 The user has to identify lensed images and order them in respect to arrival time.
 Input is restricted to assist the user in creating valid configurations.
 Users have to start with one point and expand the existing figure if necessary by clicking on existing points.
-While this seems counterintuitive and needs explanation\footnote{A tutorial is needed anyways}, trials show that users get the grip rather quickly.
+While this seems counter intuitive and needs explanation\footnote{A tutorial is needed anyways}, trials show that users get the grip rather quickly.
 The advantage of always creating logically valid input that is consistent with the theoretical background of gravitational lenses enhances the understanding.
 
 The user has tree tools available, one is always active.
@@ -130,9 +130,9 @@ The canvas to be shown is first hidden, then placed on top of all canvases using
 Finally, jQuery is used to fade in this canvas.
 
 
-General user interface actions, like showing dialog screens or tooltips, are handled by \lmt{ui.html}.
+General user interface actions, like showing dialog screens or tool tips, are handled by \lmt{ui.html}.
 Standard low level events like \E{onClick} on buttons trigger according high level events.
-The module \lmt{ui.html} makes use of the features of jQuery\footnote{and it's plugin jQuery UI}, in order to show and to style the elements in the HTML DOM that represent the dialog boxes, buttons and so on.
+The module \lmt{ui.html} makes use of the features of jQuery\footnote{and it's plug in jQuery UI}, in order to show and to style the elements in the HTML DOM that represent the dialog boxes, buttons and so on.
 
 
 
@@ -146,7 +146,7 @@ The state of the application can be split up in the state of the model, and the 
 The state of the model is saved in \lmt{Model}, an instance of type \lmto{model}.
 The model \lmt{Model} consists of an array of sources, an array of external masses (instances of \lmto{ExternalMass}) and a plain object \C{Parameters}.
 Each source is represented by a binary tree structure\footnote{Binary tree: each parent element can have two children} of instances of \C{ExtremalPoint} (\lmto{ExtremalPoint}).
-ExtremalPoints are of a certain type, minima (\str{min}), maxima (\str{max}) or saddle point (\str{sad}).
+ExtremalPoints are of a certain type, minimal (\str{min}), maximal (\str{max}) or saddle point (\str{sad}).
 They can be a leaf node of the tree (and thus either represent a \str{min} or \str{max}) or they can be the parent of exactly two child nodes (and therefore be a \str{sad} by definition) and have two child ExtremalPoints.
 The root node of this tree is always a \str{min}.
 If two child nodes come close together, they and their parent represent a limaçon configuration, where the two child nodes are of opposite type.
@@ -200,7 +200,7 @@ They are supposed to populate \lmt{datasource} with their data and can make use 
 
 They have to register an event handler for \E{LensesSelected}.
 This event gets fired, when the user clicks on OK in the custom \C{GenericDatasourceDialog}.
-The event handler can be used to determine the database model id in combination with the server side part of the data source module (by either creating a new database entry or returning an existing one). This communication bypasses the \lmt{com} object and uses its own api \T{datasourceApi}.
+The event handler can be used to determine the database model id in combination with the server side part of the data source module (by either creating a new database entry or returning an existing one). This communication bypasses the \lmt{com} object and uses its own API \T{datasourceApi}.
 Once the id of the model to be loaded is determined, the data source module is expected to return control to the main app by firing \E[models]{GetModelData}, where \str{models} is an array of model ids to load.
 
 Alternatively, this process can be skipped by starting up the web application with a known, existing model id using \T{GET} parameter \T{mid}\footnote{\splurl[?mid=42]} or by loading an existing result using the result id \T{GET} parameter \T{rid}\footnote{\splurl[?rid=1337]}.

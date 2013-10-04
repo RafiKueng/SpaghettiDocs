@@ -79,7 +79,7 @@ The first is the table of all lenses that have been modeled: \dbtable{LensData}.
 It stores all the objects from all different data sources, as soon as they have been requested once.
 It keeps track of the origin of the image in the field \dbfield{datasource}.
 The location of the image files is stored in \dbfield{img\_data}, as a JSON string.
-This JSON object needs at least a key \T{url}, pointing to a publically available image.
+This JSON object needs at least a key \T{url}, pointing to a publicly available image.
 If a lens consists of multiple images (multiple filters / bands...), those can be stored in this JSON object too.\footnote{to be implemented in the client side.}
 Arbitrary additional data (to be used in the corresponding datasource modules client and server side) can be stored as JSON strings in \dbfield{add\_data}.
 
